@@ -10,20 +10,27 @@
 class AssignmentGUIBuilder : AssignmentBuilder
 {
 private:
-    QSharedPointer<QLayout> layout;
+    QLayout* layout_;
+    QWidget* widget_;
 public:
     AssignmentGUIBuilder();
     ~AssignmentGUIBuilder();
     void ProduceHeader(const std::string& header_text) const override;
     void ProduceTestAssignment(const TestAssignment& test_assignment) const override;
-    /// creates new instance of Qlayout
+    /// cleares references to pointers
     void Reset();
     /*!
-     * \brief returns pointer to built QLayout and forget about it, now client is responsible for this memmory
-     *
-     * (overrides pointer with new instance of QLayout)
+     * \brief set
+     * \param input_layout QLayout where content will be placed
+     * \param input_widget QWidget responsible for deleting created widgets
      */
-    QSharedPointer<QLayout> GetLayout();
+    void Set(QLayout* input_layout, QWidget* input_widget);
+    /*!
+     * \brief returns pointer to built QLayout and forget about it and about QWidget, now client is responsible for this memmory
+     *
+     * (pointers = nullptr)
+     */
+    //QSharedPointer<QLayout> get_layout();
 };
 
 #endif // ASSIGNMENTGUIBUILDER_H
