@@ -1,0 +1,25 @@
+{
+	"Assignment" : [
+		{
+			"type" : "Header",
+			"content" : "Simple math"
+		},
+		{
+			"type" : "TestAssignment",
+			"content" : 
+			{
+				"question": "What is 2+2 ?",
+				"answers": [
+					{
+						"answer_text" : "4",
+						"is_correct" : "1"
+					}
+					{
+						"answer_text" : "3",
+						"is_correct" : "-"
+					}
+				] 
+			}
+		}
+	]
+}

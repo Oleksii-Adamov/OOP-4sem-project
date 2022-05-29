@@ -1,0 +1,43 @@
+{
+	"Assignment" : [
+		{
+			"type" : "Header",
+			"content" : "Simple math"
+		},
+		{
+			"type" : "TestAssignment",
+			"content" : 
+			{
+				"question": "What is 2+2 ?",
+				"answers": [
+					{
+						"answer_text" : "4"
+					}
+					{
+						"answer_text" : "3"
+					}
+				] 
+			}
+		}
+	]
+}
+// or
+{
+	"Assignment" : [
+		{
+			"type" : "Header",
+			"content" : "Simple math"
+		},
+		{
+			"type" : "TestAssignment",
+			"content" : 
+			{
+				"question": "What is 2+2 ?",
+				"answers": [
+					"4",
+					"3"
+				] 
+			}
+		}
+	]
+}
