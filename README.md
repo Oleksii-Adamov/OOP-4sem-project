@@ -1,4 +1,6 @@
 # OOP-4sem-project
+## Naming convensions: https://google.github.io/styleguide/cppguide.html#Naming
+
 ## TO DO (General):
 ### 1. Клієнт-серверна архітектура.
 ### 2. Графічний інтерфейс для учня.
