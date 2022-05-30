@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     assignment_GUI_builder.ProduceHeader("Header2");
     assignment_GUI_builder.ProduceHeader("Header2");
     assignment_GUI_builder.ProduceHeader("Header2");
+    assignment_GUI_builder.ProduceHeader("Header2");
     assignment_GUI_builder.Reset();
 }
 
