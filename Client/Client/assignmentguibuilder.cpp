@@ -38,8 +38,10 @@ void AssignmentGUIBuilder::ProduceHeader(const std::string& header_text) const
 
 void AssignmentGUIBuilder::ProduceTestAssignment(const TestAssignment& test_assignment) const
 {
+
     if (test_assignment.get_test_type() == TestType::one_choice) {
         QGroupBox* group_box = new QGroupBox(QString::fromStdString(test_assignment.get_question()), widget_);
+        group_box->setObjectName("test_assignment");
         QFont question_font;
         question_font.setPointSize(20);
         group_box->setFont(question_font);

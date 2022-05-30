@@ -2,12 +2,12 @@
 #define SUBMITASSIGNMENT_H
 
 #include<QObject>
-
-class SubmitAssignment
+// maybe Singelton
+class SubmitAssignment : public QObject
 {
     Q_OBJECT
 public:
-    SubmitAssignment() = delete;
+    SubmitAssignment();
 
 public slots:
 

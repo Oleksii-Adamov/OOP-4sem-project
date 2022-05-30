@@ -29,22 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     TestAssignment test_assignment2("What is 2+2 ?", test_answers1, TestType::one_choice);
     assignment_GUI_builder.ProduceTestAssignment(test_assignment2);
     assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header3");
-    assignment_GUI_builder.ProduceHeader("Header4");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceHeader("Header2");
+    assignment_GUI_builder.ProduceSubmitButton();
     assignment_GUI_builder.Reset();
 }
 
