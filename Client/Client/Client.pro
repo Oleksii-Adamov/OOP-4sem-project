@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     assignmentguibuilder.cpp \
+    assignmentguidirector.cpp \
+    jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
     submitassignment.cpp \
@@ -19,6 +21,8 @@ SOURCES += \
 HEADERS += \
     assignmentbuilder.h \
     assignmentguibuilder.h \
+    assignmentguidirector.h \
+    jsonfile.h \
     mainwindow.h \
     submitassignment.h \
     testanswer.h \

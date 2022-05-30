@@ -13,7 +13,7 @@
 				"answers": [
 					{
 						"answer_text" : "4"
-					}
+					},
 					{
 						"answer_text" : "3"
 					}
@@ -29,10 +29,10 @@
 				"answers": [
 					{
 						"answer_text" : "2 + 2 = 4"
-					}
+					},
 					{
 						"answer_text" : "1 + 3 = 5"
-					}
+					},
 					{
 						"answer_text" : "3 + 7 = 10"	
 					}
