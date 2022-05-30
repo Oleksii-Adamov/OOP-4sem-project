@@ -30,7 +30,6 @@ public:
      *
      * (pointers = nullptr)
      */
-    //QSharedPointer<QLayout> get_layout();
 };
 
 #endif // ASSIGNMENTGUIBUILDER_H
