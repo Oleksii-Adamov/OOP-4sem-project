@@ -12,6 +12,7 @@ SOURCES += \
     assignmentguibuilder.cpp \
     main.cpp \
     mainwindow.cpp \
+    submitassignment.cpp \
     testanswer.cpp \
     testassignment.cpp
 
@@ -19,6 +20,7 @@ HEADERS += \
     assignmentbuilder.h \
     assignmentguibuilder.h \
     mainwindow.h \
+    submitassignment.h \
     testanswer.h \
     testassignment.h
 

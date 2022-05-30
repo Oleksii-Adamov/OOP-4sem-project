@@ -2,6 +2,7 @@
 #include <QLabel>
 #include <QGroupBox>
 #include <QRadioButton>
+#include "submitassignment.h"
 
 AssignmentGUIBuilder::AssignmentGUIBuilder()
 {
@@ -55,6 +56,18 @@ void AssignmentGUIBuilder::ProduceTestAssignment(const TestAssignment& test_assi
     }
 }
 
-
+void AssignmentGUIBuilder::ProduceSubmitButton() const
+{
+    QPushButton* submit_button = new QPushButton("Відправити", widget_);
+    QFont submit_button_font;
+    submit_button_font.setPointSize(20);
+    submit_button->setFont(submit_button_font);
+    SubmitAssignment* submit_assignment = new SubmitAssignment;
+    QAbstractButton::connect(
+        submit_button, &QPushButton::clicked,
+        submit_assignment, &SubmitAssignment::OnSubmitButtonClicked
+    );
+    layout_->addWidget(submit_button);
+}
 
 
