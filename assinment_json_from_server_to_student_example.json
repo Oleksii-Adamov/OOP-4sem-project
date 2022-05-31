@@ -6,37 +6,37 @@
 		},
 		{
 			"type" : "TestAssignment",
-			"content" : 
-			{
-				"type" : "one choice",
+			"content": {
+				"id": 1,
+				"type": "one choice",
 				"question": "What is 2 + 2 ?",
 				"answers": [
 					{
-						"answer_text" : "4"
+						"answer_text": "4"
 					},
 					{
-						"answer_text" : "3"
+						"answer_text": "3"
 					}
-				] 
+				]
 			}
 		},
 		{
 			"type" : "TestAssignment",
-			"content" : 
-			{
-				"type" : "multiple choice",
+			"content": {
+				"id": 2,
+				"type": "multiple choice",
 				"question": "What is correct ?",
 				"answers": [
 					{
-						"answer_text" : "2 + 2 = 4"
+						"answer_text": "2 + 2 = 4"
 					},
 					{
-						"answer_text" : "1 + 3 = 5"
+						"answer_text": "1 + 3 = 5"
 					},
 					{
-						"answer_text" : "3 + 7 = 10"	
+						"answer_text": "3 + 7 = 10"
 					}
-				] 
+				]
 			}
 		}
 	]

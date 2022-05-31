@@ -41,7 +41,7 @@ void AssignmentGUIBuilder::ProduceTestAssignment(const TestAssignment& test_assi
 {
     QGroupBox* group_box = new QGroupBox(QString::fromStdString(test_assignment.get_question()), widget_);
     //group_box->setFlat(true);
-    group_box->setObjectName("test_assignment");
+    group_box->setObjectName("test_assignment" + QString::number(test_assignment.get_id()));
     QFont question_font;
     question_font.setPointSize(20);
     group_box->setFont(question_font);

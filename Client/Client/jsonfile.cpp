@@ -25,3 +25,14 @@ QJsonDocument QJsonDocumentFromJsonFile(const std::string& file_path)
 
     return json_doc;
 }
+
+void writeJsonFile(const QJsonDocument& json_doc, const std::string& file_path)
+{
+    QString json_string = json_doc.toJson();
+    QFile save_file(QString::fromStdString(file_path));
+    if (!save_file.open(QIODevice::WriteOnly)) {
+        throw std::runtime_error(std::string("failed to open save file") + file_path);
+    }
+    save_file.write(json_string.toLocal8Bit());
+    save_file.close();
+}

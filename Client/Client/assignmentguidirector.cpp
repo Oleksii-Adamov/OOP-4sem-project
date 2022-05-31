@@ -27,8 +27,11 @@ void AssignmentGUIDirector::BuildFromJSON(const QJsonDocument& json_document)
         else if (type == "TestAssignment")
         {
             QJsonObject test_assignment_obj = cur_object.take("content").toObject();
-            TestAssignment test_assignment(test_assignment_obj.take("question").toString().toStdString());
+            long long id = (long long) test_assignment_obj.take("id").toDouble();
+            std::string question = test_assignment_obj.take("question").toString().toStdString();
+            TestAssignment test_assignment(question, id);
             QString type = test_assignment_obj.take("type").toString();
+
             TestType test_type = TestType::one_choice;
             if (type == "one choice")
             {
@@ -47,4 +50,5 @@ void AssignmentGUIDirector::BuildFromJSON(const QJsonDocument& json_document)
             builder_->ProduceTestAssignment(test_assignment);
         }
     }
+    builder_->ProduceSubmitButton();
 }
