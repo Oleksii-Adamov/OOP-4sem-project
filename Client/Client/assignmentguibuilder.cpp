@@ -2,6 +2,8 @@
 #include <QLabel>
 #include <QGroupBox>
 #include <QRadioButton>
+#include <QCheckBox>
+#include "submitassignment.h"
 
 AssignmentGUIBuilder::AssignmentGUIBuilder()
 {
@@ -37,24 +39,39 @@ void AssignmentGUIBuilder::ProduceHeader(const std::string& header_text) const
 
 void AssignmentGUIBuilder::ProduceTestAssignment(const TestAssignment& test_assignment) const
 {
-    if (test_assignment.get_test_type() == TestType::one_choice) {
-        QGroupBox* group_box = new QGroupBox(QString::fromStdString(test_assignment.get_question()), widget_);
-        QFont question_font;
-        question_font.setPointSize(20);
-        group_box->setFont(question_font);
-        QVBoxLayout* v_layout = new QVBoxLayout(group_box);
-        std::vector<TestAnswer> answers = test_assignment.get_answers();
-        for (std::size_t i = 0; i < answers.size(); i++) {
-            QRadioButton* radio_button = new QRadioButton(QString::fromStdString(answers[i].get_answer_text()), widget_);
-            v_layout->addWidget(radio_button);
+    QGroupBox* group_box = new QGroupBox(QString::fromStdString(test_assignment.get_question()), widget_);
+    //group_box->setFlat(true);
+    group_box->setObjectName("test_assignment" + QString::number(test_assignment.get_id()));
+    QFont question_font;
+    question_font.setPointSize(20);
+    group_box->setFont(question_font);
+    QVBoxLayout* v_layout = new QVBoxLayout(group_box);
+    std::vector<TestAnswer> answers = test_assignment.get_answers();
+    for (std::size_t i = 0; i < answers.size(); i++) {
+        QWidget* option = nullptr;
+        if (test_assignment.get_test_type() == TestType::one_choice) {
+            option = new QRadioButton(QString::fromStdString(answers[i].get_answer_text()), widget_);
         }
-        layout_->addWidget(group_box);
+        else if (test_assignment.get_test_type() == TestType::multiple_choice) {
+            option = new QCheckBox(QString::fromStdString(answers[i].get_answer_text()), widget_);
+        }
+        v_layout->addWidget(option);
     }
-    else if (test_assignment.get_test_type() == TestType::multiple_choice) {
-
-    }
+    layout_->addWidget(group_box);
 }
 
-
+void AssignmentGUIBuilder::ProduceSubmitButton() const
+{
+    QPushButton* submit_button = new QPushButton("Відправити", widget_);
+    QFont submit_button_font;
+    submit_button_font.setPointSize(20);
+    submit_button->setFont(submit_button_font);
+    SubmitAssignment* submit_assignment = new SubmitAssignment;
+    QAbstractButton::connect(
+        submit_button, &QPushButton::clicked,
+        submit_assignment, &SubmitAssignment::OnSubmitButtonClicked
+    );
+    layout_->addWidget(submit_button);
+}
 
 

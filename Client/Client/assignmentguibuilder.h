@@ -3,11 +3,12 @@
 #include "assignmentbuilder.h"
 #include <QLayout>
 #include <QSharedPointer>
+#include <QPushButton>
 
 /*!
  * \brief Adds GUI assignment elements to layout (Builder pattern - Concrete builder)
  */
-class AssignmentGUIBuilder : AssignmentBuilder
+class AssignmentGUIBuilder : public AssignmentBuilder
 {
 private:
     QLayout* layout_;
@@ -17,6 +18,7 @@ public:
     ~AssignmentGUIBuilder();
     void ProduceHeader(const std::string& header_text) const override;
     void ProduceTestAssignment(const TestAssignment& test_assignment) const override;
+    void ProduceSubmitButton() const;
     /// cleares references to pointers
     void Reset();
     /*!
