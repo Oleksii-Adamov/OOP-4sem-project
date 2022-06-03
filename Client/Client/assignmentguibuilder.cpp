@@ -66,10 +66,9 @@ void AssignmentGUIBuilder::ProduceSubmitButton() const
     QFont submit_button_font;
     submit_button_font.setPointSize(20);
     submit_button->setFont(submit_button_font);
-    SubmitAssignment* submit_assignment = new SubmitAssignment;
     QAbstractButton::connect(
         submit_button, &QPushButton::clicked,
-        submit_assignment, &SubmitAssignment::OnSubmitButtonClicked
+        SubmitAssignment::GetInstance(), &SubmitAssignment::OnSubmitButtonClicked
     );
     layout_->addWidget(submit_button);
 }
