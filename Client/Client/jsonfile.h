@@ -1,3 +1,6 @@
+/*! \file jsonfile.h
+    \brief Functions that parse JSON.
+*/
 #ifndef JSONFILE_H
 #define JSONFILE_H
 
