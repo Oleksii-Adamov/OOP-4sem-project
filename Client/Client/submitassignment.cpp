@@ -12,6 +12,13 @@ SubmitAssignment::SubmitAssignment()
 
 }
 
+SubmitAssignment* SubmitAssignment::GetInstance()
+{
+    // first time it will be instancieted, than referenced
+    static SubmitAssignment instance;
+    return &instance;
+}
+
 void SubmitAssignment::OnSubmitButtonClicked()
 {
     QWidget* sender_widget = qobject_cast<QWidget*>(sender());
