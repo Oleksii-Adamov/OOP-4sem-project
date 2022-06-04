@@ -1,0 +1,11 @@
+#ifndef ASSIGNMENTCREATIONWINDOWADDHEADERCOMMAND_H
+#define ASSIGNMENTCREATIONWINDOWADDHEADERCOMMAND_H
+
+
+class AssignmentCreationWindowAddHeaderCommand
+{
+public:
+    AssignmentCreationWindowAddHeaderCommand();
+};
+
+#endif // ASSIGNMENTCREATIONWINDOWADDHEADERCOMMAND_H
