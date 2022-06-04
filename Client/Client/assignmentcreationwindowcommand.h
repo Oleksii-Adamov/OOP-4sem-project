@@ -10,7 +10,7 @@ protected:
 public:
     AssignmentCreationWindowCommand() {}
     virtual ~AssignmentCreationWindowCommand(){}
-    virtual void execute() = 0;
+    virtual bool execute() = 0;
     virtual void undo() {}
 };
 

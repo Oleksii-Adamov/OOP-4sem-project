@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 #include <QJsonDocument>
-#include "assignmentcreationwindowmemento.h"
+//#include "assignmentcreationwindowmemento.h"
+#include "commandhistory.h"
+#include <QVBoxLayout>
+
 namespace Ui {
 class AssignmentCreationWindow;
 }
@@ -18,11 +21,22 @@ public:
 
 private:
     Ui::AssignmentCreationWindow *ui;
+    CommandHistory history_;
+    QVBoxLayout* assignment_layout_;
+    QWidget* assignment_container_;
+
+    void execute_command(Command* command);
+    void undo();
+    void AddHeader(const QString& text);
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);
-    AssignmentCreationWindowMemento save();
-    void restore(const AssignmentCreationWindowMemento& memento);
+
+    /*AssignmentCreationWindowMemento save();
+    void restore(const AssignmentCreationWindowMemento& memento);*/
+private slots:
+    void OnAddHeaderButtonClicked();
+    void OnUndoButtonClicked();
 };
 
 #endif // ASSIGNMENTCREATIONWINDOW_H

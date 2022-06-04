@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addeditableheadercommand.cpp \
     assignmentcreationwindow.cpp \
     assignmentcreationwindowaddheadercommand.cpp \
     assignmentcreationwindowcaretaker.cpp \
@@ -17,6 +18,9 @@ SOURCES += \
     assignmentcreationwindowmemento.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    command.cpp \
+    commandhistory.cpp \
+    editablelabel.cpp \
     jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -25,6 +29,7 @@ SOURCES += \
     testassignment.cpp
 
 HEADERS += \
+    addeditableheadercommand.h \
     assignmentbuilder.h \
     assignmentcreationwindow.h \
     assignmentcreationwindowaddheadercommand.h \
@@ -34,6 +39,9 @@ HEADERS += \
     assignmentcreationwindowmemento.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    command.h \
+    commandhistory.h \
+    editablelabel.h \
     jsonfile.h \
     mainwindow.h \
     submitassignment.h \
