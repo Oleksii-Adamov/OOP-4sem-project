@@ -31,7 +31,7 @@ AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
         this, &AssignmentCreationWindow::OnAddHeaderButtonClicked
     );
 
-    QPushButton* undo_button = new QPushButton("Undo", command_buttons_container);
+    QPushButton* undo_button = new QPushButton("Undo (structure)", command_buttons_container);
     command_buttons_layout->addWidget(undo_button);
     undo_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     QAbstractButton::connect(

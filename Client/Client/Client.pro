@@ -21,6 +21,7 @@ SOURCES += \
     command.cpp \
     commandhistory.cpp \
     editablelabel.cpp \
+    font.cpp \
     jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     command.h \
     commandhistory.h \
     editablelabel.h \
+    font.h \
     jsonfile.h \
     mainwindow.h \
     submitassignment.h \
