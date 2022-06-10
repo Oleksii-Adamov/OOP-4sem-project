@@ -4,6 +4,8 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include "addeditableheadercommand.h"
+#include "addeditabletestassignmentcommand.h"
+#include "addeditabletestanswercommand.h"
 
 AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,6 +40,14 @@ AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
         undo_button, &QPushButton::clicked,
         this, &AssignmentCreationWindow::OnUndoButtonClicked
     );
+
+    QPushButton* add_test_button = new QPushButton("Add test", command_buttons_container);
+    command_buttons_layout->addWidget(add_test_button);
+    add_test_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    QAbstractButton::connect(
+        add_test_button, &QPushButton::clicked,
+        this, &AssignmentCreationWindow::OnAddTestButtonClicked
+    );
 }
 
 AssignmentCreationWindow::~AssignmentCreationWindow()
@@ -56,13 +66,26 @@ void AssignmentCreationWindow::execute_command(Command* command)
 void AssignmentCreationWindow::undo()
 {
     Command* command = history_.pop();
-    command->undo();
-    delete command;
+    if (command != nullptr) {
+        command->undo();
+        delete command;
+    }
 }
 
 void AssignmentCreationWindow::AddHeader(const QString& text)
 {
     execute_command(new AddEditableHeaderCommand(assignment_layout_, assignment_container_, text));
+}
+
+void AssignmentCreationWindow::AddTest(const QString& text)
+{
+    execute_command(new AddEditableTestAssignmentCommand(assignment_layout_, assignment_container_, cur_assignment_id, text));
+    cur_assignment_id++;
+}
+
+void AssignmentCreationWindow::AddTestAnswer(const QString& text)
+{
+    execute_command(new AddEditableTestAnswerCommand(assignment_layout_, assignment_container_, text));
 }
 
 void AssignmentCreationWindow::OnAddHeaderButtonClicked()
@@ -73,4 +96,14 @@ void AssignmentCreationWindow::OnAddHeaderButtonClicked()
 void AssignmentCreationWindow::OnUndoButtonClicked()
 {
     undo();
+}
+
+void AssignmentCreationWindow::OnAddTestAnswerButtonClicked()
+{
+    AddTestAnswer("Answer");
+}
+
+void AssignmentCreationWindow::OnAddTestButtonClicked()
+{
+    AddTest("Question");
 }

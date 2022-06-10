@@ -24,10 +24,13 @@ private:
     CommandHistory history_;
     QVBoxLayout* assignment_layout_;
     QWidget* assignment_container_;
+    unsigned long long cur_assignment_id = 0;
 
     void execute_command(Command* command);
     void undo();
     void AddHeader(const QString& text);
+    void AddTest(const QString& text);
+    void AddTestAnswer(const QString& text);
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);
@@ -37,6 +40,9 @@ public:
 private slots:
     void OnAddHeaderButtonClicked();
     void OnUndoButtonClicked();
+    void OnAddTestButtonClicked();
+public slots:
+    void OnAddTestAnswerButtonClicked();
 };
 
 #endif // ASSIGNMENTCREATIONWINDOW_H

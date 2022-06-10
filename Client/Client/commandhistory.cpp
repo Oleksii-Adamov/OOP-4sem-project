@@ -11,7 +11,12 @@ void CommandHistory::push(Command* command)
 }
 Command* CommandHistory::pop()
 {
-    Command* ret = history_.back();
-    history_.pop_back();
-    return ret;
+    if (history_.size() > 0) {
+        Command* ret = history_.back();
+        history_.pop_back();
+        return ret;
+    }
+    else {
+        return nullptr;
+    }
 }

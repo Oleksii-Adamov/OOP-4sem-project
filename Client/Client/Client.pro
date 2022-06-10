@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     addeditableheadercommand.cpp \
+    addeditabletestanswercommand.cpp \
+    addeditabletestassignmentcommand.cpp \
     assignmentcreationwindow.cpp \
     assignmentcreationwindowaddheadercommand.cpp \
     assignmentcreationwindowcaretaker.cpp \
@@ -31,6 +33,8 @@ SOURCES += \
 
 HEADERS += \
     addeditableheadercommand.h \
+    addeditabletestanswercommand.h \
+    addeditabletestassignmentcommand.h \
     assignmentbuilder.h \
     assignmentcreationwindow.h \
     assignmentcreationwindowaddheadercommand.h \

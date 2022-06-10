@@ -13,11 +13,11 @@ bool AddEditableHeaderCommand::execute()
     header_editable_label->setFont(Font::TestHeaderFont());
     header_editable_label->setAlignment(Qt::AlignHCenter);
     layout_->addWidget(header_editable_label);
-    added_header_ = header_editable_label;
+    added_widget_ = header_editable_label;
     return true;
 }
 void AddEditableHeaderCommand::undo()
 {
-    layout_->removeWidget(added_header_);
-    added_header_->hide();
+    layout_->removeWidget(added_widget_);
+    added_widget_->hide();
 }

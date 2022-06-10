@@ -11,7 +11,7 @@ class AddEditableHeaderCommand : public Command
 private:
     QLayout* layout_;
     QWidget* widget_;
-    QWidget* added_header_ = nullptr;
+    QWidget* added_widget_ = nullptr;
     const QString& header_text_;
 public:
     AddEditableHeaderCommand(QLayout* layout, QWidget* widget, const QString& header_text = "Header");
