@@ -30,7 +30,7 @@ private:
     void undo();
     void AddHeader(const QString& text);
     void AddTest(const QString& text);
-    void AddTestAnswer(const QString& text);
+    void AddTestAnswer(const QString& text, QWidget* container, QLayout* layout);
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);

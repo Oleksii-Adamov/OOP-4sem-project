@@ -79,13 +79,13 @@ void AssignmentCreationWindow::AddHeader(const QString& text)
 
 void AssignmentCreationWindow::AddTest(const QString& text)
 {
-    execute_command(new AddEditableTestAssignmentCommand(assignment_layout_, assignment_container_, cur_assignment_id, text));
+    execute_command(new AddEditableTestAssignmentCommand(assignment_layout_, assignment_container_, this, cur_assignment_id, text));
     cur_assignment_id++;
 }
 
-void AssignmentCreationWindow::AddTestAnswer(const QString& text)
+void AssignmentCreationWindow::AddTestAnswer(const QString& text, QWidget* container, QLayout* layout)
 {
-    execute_command(new AddEditableTestAnswerCommand(assignment_layout_, assignment_container_, text));
+    execute_command(new AddEditableTestAnswerCommand(layout, container, text));
 }
 
 void AssignmentCreationWindow::OnAddHeaderButtonClicked()
@@ -100,7 +100,9 @@ void AssignmentCreationWindow::OnUndoButtonClicked()
 
 void AssignmentCreationWindow::OnAddTestAnswerButtonClicked()
 {
-    AddTestAnswer("Answer");
+    QWidget* container = qobject_cast<QWidget*>(sender()->parent());
+    QLayout* layout = container->layout();
+    AddTestAnswer("Answer", container, layout);
 }
 
 void AssignmentCreationWindow::OnAddTestButtonClicked()
