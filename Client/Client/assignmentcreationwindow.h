@@ -25,6 +25,7 @@ private:
     QVBoxLayout* assignment_layout_;
     QWidget* assignment_container_;
     unsigned long long cur_assignment_id = 0;
+    QString assignment_name_ = "";
 
     void execute_command(Command* command);
     void undo();
@@ -44,6 +45,7 @@ private slots:
     void OnSaveButtonClicked();
 public slots:
     void OnAddTestAnswerButtonClicked();
+    void NameChanged(const QString& name);
 };
 
 #endif // ASSIGNMENTCREATIONWINDOW_H

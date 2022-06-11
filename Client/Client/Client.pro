@@ -23,6 +23,8 @@ SOURCES += \
     command.cpp \
     commandhistory.cpp \
     editablelabel.cpp \
+    enterassignmentnamedialog.cpp \
+    filepath.cpp \
     font.cpp \
     jsonfile.cpp \
     main.cpp \
@@ -48,6 +50,8 @@ HEADERS += \
     command.h \
     commandhistory.h \
     editablelabel.h \
+    enterassignmentnamedialog.h \
+    filepath.h \
     font.h \
     jsonfile.h \
     mainwindow.h \
@@ -58,6 +62,7 @@ HEADERS += \
 
 FORMS += \
     assignmentcreationwindow.ui \
+    enterassignmentnamedialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

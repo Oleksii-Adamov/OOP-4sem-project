@@ -11,6 +11,7 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include "saveeditableassignmentcommand.h"
+#include "enterassignmentnamedialog.h"
 
 AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -179,5 +180,17 @@ QJsonDocument AssignmentCreationWindow::ToJSON()
 
 void AssignmentCreationWindow::OnSaveButtonClicked()
 {
-    execute_command(new SaveEditableAssignmentCommand(ToJSON()));
+    if (assignment_name_ == "") {
+        EnterAssignmentNameDialog* new_dialog  = new EnterAssignmentNameDialog(this);
+        connect(new_dialog, SIGNAL(NameChanged(const QString&)), this, SLOT(NameChanged(const QString&)));
+        new_dialog->setModal(true);
+        new_dialog->show();
+    }
+    execute_command(new SaveEditableAssignmentCommand(ToJSON(), assignment_name_));
+}
+
+void AssignmentCreationWindow::NameChanged(const QString& name)
+{
+    assignment_name_ = name;
+    this->setWindowTitle(assignment_name_);
 }
