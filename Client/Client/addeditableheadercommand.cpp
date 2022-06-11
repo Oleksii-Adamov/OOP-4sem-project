@@ -9,6 +9,7 @@ AddEditableHeaderCommand::AddEditableHeaderCommand(QLayout* layout, QWidget* wid
 bool AddEditableHeaderCommand::execute()
 {
     EditableLabel* header_editable_label = new EditableLabel(header_text_, widget_);
+    header_editable_label->setObjectName("header");
     header_editable_label->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     header_editable_label->setFont(Font::TestHeaderFont());
     header_editable_label->setAlignment(Qt::AlignHCenter);

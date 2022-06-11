@@ -27,6 +27,7 @@ SOURCES += \
     jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
+    saveeditableassignmentcommand.cpp \
     submitassignment.cpp \
     testanswer.cpp \
     testassignment.cpp
@@ -50,6 +51,7 @@ HEADERS += \
     font.h \
     jsonfile.h \
     mainwindow.h \
+    saveeditableassignmentcommand.h \
     submitassignment.h \
     testanswer.h \
     testassignment.h

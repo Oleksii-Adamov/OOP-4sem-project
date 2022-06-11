@@ -18,8 +18,8 @@ bool AddEditableTestAssignmentCommand::execute()
     group_box->setObjectName("test_assignment" + QString::number(id_));
     group_box->setFont(Font::TestQuestionFont());
     QVBoxLayout* v_layout = new QVBoxLayout(group_box);
-    //EditableLabel* question = new EditableLabel(question_text_, group_box);
-    //v_layout->addWidget(question);
+    EditableLabel* question = new EditableLabel(question_text_, group_box);
+    v_layout->addWidget(question);
     QPushButton* add_answer_button = new QPushButton("Add answer");
     connect(add_answer_button, SIGNAL(clicked()), widget_to_link_button_signal_, SLOT(OnAddTestAnswerButtonClicked()));
     v_layout->addWidget(add_answer_button);

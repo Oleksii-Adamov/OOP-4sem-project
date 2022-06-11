@@ -41,6 +41,7 @@ private slots:
     void OnAddHeaderButtonClicked();
     void OnUndoButtonClicked();
     void OnAddTestButtonClicked();
+    void OnSaveButtonClicked();
 public slots:
     void OnAddTestAnswerButtonClicked();
 };
