@@ -4,6 +4,9 @@
 #include "assignmentguibuilder.h"
 #include <QJsonDocument>
 
+/*!
+ * \brief Director of AssignmentBuilder that can build assignment from JSON (Builder pattern - Director of concrete builder)
+ */
 class AssignmentGUIDirector
 {
 private:

@@ -48,7 +48,7 @@ void SubmitAssignment::OnSubmitButtonClicked()
                 }
             }
             else {
-                assignment_info.insert("type", QJsonValue("one choice"));
+                assignment_info.insert("type", QJsonValue("multiple choice"));
                 foreach(QCheckBox* check_box, check_boxes) {
                     QJsonObject answer_info;
                     answer_info.insert("answer_text", check_box->text());

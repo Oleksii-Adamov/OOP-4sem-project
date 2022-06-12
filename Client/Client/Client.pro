@@ -9,26 +9,50 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addeditableheadercommand.cpp \
+    addeditabletestanswercommand.cpp \
+    addeditabletestassignmentcommand.cpp \
+    assignmentcreationwindow.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    command.cpp \
+    commandhistory.cpp \
+    editablelabel.cpp \
+    enterassignmentnamedialog.cpp \
+    filepath.cpp \
+    font.cpp \
     jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
+    saveeditableassignmentcommand.cpp \
     submitassignment.cpp \
     testanswer.cpp \
     testassignment.cpp
 
 HEADERS += \
+    addeditableheadercommand.h \
+    addeditabletestanswercommand.h \
+    addeditabletestassignmentcommand.h \
     assignmentbuilder.h \
+    assignmentcreationwindow.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    command.h \
+    commandhistory.h \
+    editablelabel.h \
+    enterassignmentnamedialog.h \
+    filepath.h \
+    font.h \
     jsonfile.h \
     mainwindow.h \
+    saveeditableassignmentcommand.h \
     submitassignment.h \
     testanswer.h \
     testassignment.h
 
 FORMS += \
+    assignmentcreationwindow.ui \
+    enterassignmentnamedialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.
