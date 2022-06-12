@@ -66,14 +66,20 @@ AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     );
 }
 
+AssignmentCreationWindow::AssignmentCreationWindow(const QJsonDocument& json_doc, QWidget *parent)
+    : AssignmentCreationWindow(parent)
+{
+    FromJSON(json_doc);
+}
+
 AssignmentCreationWindow::~AssignmentCreationWindow()
 {
     delete ui;
 }
 
-void AssignmentCreationWindow::execute_command(Command* command)
+void AssignmentCreationWindow::execute_command(Command* command, bool is_needed_to_save)
 {
-    if (command->execute())
+    if (command->execute() && is_needed_to_save)
     {
         history_.push(command);
     }
@@ -91,20 +97,20 @@ void AssignmentCreationWindow::undo()
     }
 }
 
-void AssignmentCreationWindow::AddHeader(const QString& text)
+void AssignmentCreationWindow::AddHeader(const QString& text, bool is_needed_to_save)
 {
-    execute_command(new AddEditableHeaderCommand(assignment_layout_, assignment_container_, text));
+    execute_command(new AddEditableHeaderCommand(assignment_layout_, assignment_container_, text), is_needed_to_save);
 }
 
-void AssignmentCreationWindow::AddTest(const QString& text)
+void AssignmentCreationWindow::AddTest(const QString& text, bool is_needed_to_save)
 {
-    execute_command(new AddEditableTestAssignmentCommand(assignment_layout_, assignment_container_, this, cur_assignment_id, text));
+    execute_command(new AddEditableTestAssignmentCommand(assignment_layout_, assignment_container_, this, cur_assignment_id, text), is_needed_to_save);
     cur_assignment_id++;
 }
 
-void AssignmentCreationWindow::AddTestAnswer(const QString& text, QWidget* container, QLayout* layout)
+void AssignmentCreationWindow::AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save)
 {
-    execute_command(new AddEditableTestAnswerCommand(layout, container, text));
+    execute_command(new AddEditableTestAnswerCommand(layout, container, text), is_needed_to_save);
 }
 
 void AssignmentCreationWindow::OnAddHeaderButtonClicked()
@@ -205,5 +211,35 @@ void AssignmentCreationWindow::NameChanged(const QString& name)
     else {
         RenameFile(QString::fromStdString(GetAssignmentPath(prev_name.toStdString())),
                     QString::fromStdString(GetAssignmentPath(assignment_name_.toStdString())));
+    }
+}
+void AssignmentCreationWindow::FromJSON(const QJsonDocument& json_doc)
+{
+    QJsonObject json_document_object = json_doc.object();
+    QJsonArray assignment_layout =  json_document_object.take("Assignment").toArray();
+    foreach (QJsonValue item, assignment_layout)
+    {
+        QJsonObject cur_object = item.toObject();
+        QString type =  cur_object.take("type").toString();
+        if (type == "Header")
+        {
+            AddHeader(cur_object.take("content").toString(), false);
+        }
+        else if (type == "test_assignment")
+        {
+            QJsonObject test_assignment_obj = cur_object.take("content").toObject();
+            long long id = (long long) test_assignment_obj.take("id").toDouble();
+            QString question = test_assignment_obj.take("question").toString();
+            QJsonArray answers = test_assignment_obj.take("answers").toArray();
+            // create command and get widget
+            AddEditableTestAssignmentCommand* add_test_command =
+                    new AddEditableTestAssignmentCommand(assignment_layout_, assignment_container_, this, id, question);
+            add_test_command->execute();
+            foreach(QJsonValue answer, answers)
+            {
+                AddTestAnswer(answer.toObject().take("answer_text").toString(),
+                              add_test_command->GetAddedWidget(), add_test_command->GetAddedWidget()->layout());
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
 			"content" : "Simple math"
 		},
 		{
-			"type" : "TestAssignment",
+			"type": "test_assignment",
 			"content": {
 				"id": 1,
 				"type": "one choice",
@@ -21,7 +21,7 @@
 			}
 		},
 		{
-			"type" : "TestAssignment",
+			"type": "test_assignment",
 			"content": {
 				"id": 2,
 				"type": "multiple choice",

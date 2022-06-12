@@ -20,6 +20,7 @@ public:
     AddEditableTestAssignmentCommand(QLayout* layout, QWidget* widget, QWidget* widget_to_link_button_signal, unsigned long long id, const QString& question_text = "Question");
     bool execute() override;
     void undo() override;
+    QWidget* GetAddedWidget();
 };
 
 #endif // ADDEDITABLETESTASSIGNMENTCOMMAND_H

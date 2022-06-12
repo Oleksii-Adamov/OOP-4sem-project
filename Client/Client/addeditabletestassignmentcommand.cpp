@@ -33,3 +33,8 @@ void AddEditableTestAssignmentCommand::undo()
     layout_->removeWidget(added_widget_);
     added_widget_->hide();
 }
+
+QWidget* AddEditableTestAssignmentCommand::GetAddedWidget()
+{
+    return added_widget_;
+}

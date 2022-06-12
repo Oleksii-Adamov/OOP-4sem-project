@@ -17,6 +17,7 @@ class AssignmentCreationWindow : public QMainWindow
 
 public:
     explicit AssignmentCreationWindow(QWidget *parent = nullptr);
+    explicit AssignmentCreationWindow(const QJsonDocument& json_doc,QWidget *parent = nullptr);
     ~AssignmentCreationWindow();
 
 private:
@@ -27,11 +28,11 @@ private:
     unsigned long long cur_assignment_id = 0;
     QString assignment_name_ = "";
 
-    void execute_command(Command* command);
+    void execute_command(Command* command, bool is_needed_to_save = true);
     void undo();
-    void AddHeader(const QString& text);
-    void AddTest(const QString& text);
-    void AddTestAnswer(const QString& text, QWidget* container, QLayout* layout);
+    void AddHeader(const QString& text, bool is_needed_to_save = true);
+    void AddTest(const QString& text, bool is_needed_to_save = true);
+    void AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save = true);
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);

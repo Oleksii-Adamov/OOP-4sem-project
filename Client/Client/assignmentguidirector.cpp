@@ -24,7 +24,7 @@ void AssignmentGUIDirector::BuildFromJSON(const QJsonDocument& json_document)
         {
             builder_->ProduceHeader(cur_object.take("content").toString().toStdString());
         }
-        else if (type == "TestAssignment")
+        else if (type == "test_assignment")
         {
             QJsonObject test_assignment_obj = cur_object.take("content").toObject();
             long long id = (long long) test_assignment_obj.take("id").toDouble();
