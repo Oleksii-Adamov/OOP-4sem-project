@@ -14,10 +14,8 @@ SOURCES += \
     addeditabletestassignmentcommand.cpp \
     assignmentcreationwindow.cpp \
     assignmentcreationwindowaddheadercommand.cpp \
-    assignmentcreationwindowcaretaker.cpp \
     assignmentcreationwindowcommand.cpp \
     assignmentcreationwindowcommandhistory.cpp \
-    assignmentcreationwindowmemento.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
     command.cpp \
@@ -41,10 +39,8 @@ HEADERS += \
     assignmentbuilder.h \
     assignmentcreationwindow.h \
     assignmentcreationwindowaddheadercommand.h \
-    assignmentcreationwindowcaretaker.h \
     assignmentcreationwindowcommand.h \
     assignmentcreationwindowcommandhistory.h \
-    assignmentcreationwindowmemento.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
     command.h \

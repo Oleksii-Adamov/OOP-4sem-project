@@ -35,9 +35,6 @@ private:
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);
-
-    /*AssignmentCreationWindowMemento save();
-    void restore(const AssignmentCreationWindowMemento& memento);*/
 private slots:
     void OnAddHeaderButtonClicked();
     void OnUndoButtonClicked();
