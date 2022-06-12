@@ -12,12 +12,14 @@
 #include <QCheckBox>
 #include "saveeditableassignmentcommand.h"
 #include "enterassignmentnamedialog.h"
+#include "filepath.h"
 
 AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AssignmentCreationWindow)
 {
     ui->setupUi(this);
+    InitAssignmentDir();
     QVBoxLayout* layout = new QVBoxLayout(ui->centralwidget);
 
     auto * scrollArea = new QScrollArea(this);
@@ -186,11 +188,22 @@ void AssignmentCreationWindow::OnSaveButtonClicked()
         new_dialog->setModal(true);
         new_dialog->show();
     }
-    execute_command(new SaveEditableAssignmentCommand(ToJSON(), assignment_name_));
+    else {
+        execute_command(new SaveEditableAssignmentCommand(ToJSON(), assignment_name_));
+    }
 }
 
 void AssignmentCreationWindow::NameChanged(const QString& name)
 {
+    QString prev_name = assignment_name_;
     assignment_name_ = name;
     this->setWindowTitle(assignment_name_);
+    if (prev_name == "") {
+        CreateFile(QString::fromStdString(GetAssignmentPath(assignment_name_.toStdString())));
+        execute_command(new SaveEditableAssignmentCommand(ToJSON(), assignment_name_));
+    }
+    else {
+        RenameFile(QString::fromStdString(GetAssignmentPath(prev_name.toStdString())),
+                    QString::fromStdString(GetAssignmentPath(assignment_name_.toStdString())));
+    }
 }

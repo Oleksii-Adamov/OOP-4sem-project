@@ -9,6 +9,6 @@ SaveEditableAssignmentCommand::SaveEditableAssignmentCommand(const QJsonDocument
 }
 bool SaveEditableAssignmentCommand::execute()
 {
-    writeJsonFile(json_doc_, GetAssignmentPath(assignment_name_));
+    writeJsonFile(json_doc_, GetAssignmentPath(assignment_name_.toStdString()));
     return false;
 }
