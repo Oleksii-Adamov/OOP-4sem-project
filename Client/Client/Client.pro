@@ -6,6 +6,7 @@ CONFIG += c++17
 
 #DEPENDPATH += . ../Lib
 INCLUDEPATH += ../../../boost/boost_1_77_0
+INCLUDEPATH += ../../src
 LIBS += -L../../../boost/boost_1_77_0/stage/lib -llibboost_system-mgw11-mt-x64-1_77
 LIBS += -lwsock32
 LIBS += -lws2_32
@@ -32,8 +33,8 @@ SOURCES += \
     mainwindow.cpp \
     saveeditableassignmentcommand.cpp \
     submitassignment.cpp \
-    testanswer.cpp \
-    testassignment.cpp
+    ../../src/testanswer.cpp \
+    ../../src/testassignment.cpp
 
 HEADERS += \
     addeditableheadercommand.h \
@@ -53,8 +54,8 @@ HEADERS += \
     mainwindow.h \
     saveeditableassignmentcommand.h \
     submitassignment.h \
-    testanswer.h \
-    testassignment.h
+    ../../src/testanswer.h \
+    ../../src/testassignment.h
 
 FORMS += \
     assignmentcreationwindow.ui \

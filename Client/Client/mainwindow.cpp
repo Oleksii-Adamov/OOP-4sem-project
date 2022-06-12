@@ -37,8 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
     assignment_GUI_builder.ProduceHeader("Header2");
     assignment_GUI_builder.ProduceSubmitButton();
     assignment_GUI_builder.Reset();*/
-    EditableLabel* editable_label = new EditableLabel("Text", this);
-    assignment_layout->addWidget(editable_label);
 }
 
 MainWindow::~MainWindow()
