@@ -5,6 +5,9 @@
 #include "command.h"
 #include <QJsonDocument>
 
+/*!
+ * \brief Save assignment created by teacher as JSON file locally (Command pattern - concrete command)
+ */
 class SaveEditableAssignmentCommand : public Command
 {
 private:

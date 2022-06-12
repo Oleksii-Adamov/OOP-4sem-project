@@ -3,6 +3,9 @@
 
 #include<QObject>
 
+/*!
+ * \brief Abstract command class (Command pattern)
+ */
 class Command : public QObject
 {
     Q_OBJECT

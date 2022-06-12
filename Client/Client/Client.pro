@@ -13,9 +13,6 @@ SOURCES += \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
     assignmentcreationwindow.cpp \
-    assignmentcreationwindowaddheadercommand.cpp \
-    assignmentcreationwindowcommand.cpp \
-    assignmentcreationwindowcommandhistory.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
     command.cpp \
@@ -38,9 +35,6 @@ HEADERS += \
     addeditabletestassignmentcommand.h \
     assignmentbuilder.h \
     assignmentcreationwindow.h \
-    assignmentcreationwindowaddheadercommand.h \
-    assignmentcreationwindowcommand.h \
-    assignmentcreationwindowcommandhistory.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
     command.h \

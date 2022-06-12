@@ -1,3 +1,6 @@
+/*! \file jsonfile.h
+    \brief Functions that work with files and concrete file paths on client side.
+*/
 #ifndef FILEPATH_H
 #define FILEPATH_H
 #include <QString>

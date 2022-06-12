@@ -4,6 +4,9 @@
 #include "command.h"
 #include <vector>
 
+/*!
+ * \brief History of commands (Command pattern)
+ */
 class CommandHistory
 {
 private:
