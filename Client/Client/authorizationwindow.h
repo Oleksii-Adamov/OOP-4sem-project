@@ -15,6 +15,9 @@ public:
     explicit AuthorizationWindow(QWidget *parent = nullptr);
     ~AuthorizationWindow();
 
+private slots:
+    void on_pushButtonLogIn_clicked();
+
 private:
     Ui::AuthorizationWindow *ui;
 };
