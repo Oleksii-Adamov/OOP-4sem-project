@@ -15,12 +15,14 @@ LIBS += -lws2_32
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ../../common_src/assignmentinfo.cpp \
     addeditableheadercommand.cpp \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
     assignmentcreationwindow.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    assignmentslistmodel.cpp \
     authorizationwindow.cpp \
     client.cpp \
     command.cpp \
@@ -39,6 +41,7 @@ SOURCES += \
     ../../common_src/testassignment.cpp
 
 HEADERS += \
+    ../../common_src/assignmentinfo.h \
     ../../common_src/messagetypes.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \
@@ -47,6 +50,7 @@ HEADERS += \
     assignmentcreationwindow.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    assignmentslistmodel.h \
     authorizationwindow.h \
     client.h \
     command.h \
