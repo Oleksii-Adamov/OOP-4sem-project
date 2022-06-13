@@ -21,6 +21,7 @@ SOURCES += \
     assignmentcreationwindow.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    client.cpp \
     command.cpp \
     commandhistory.cpp \
     editablelabel.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
     ../../common_src/testassignment.cpp
 
 HEADERS += \
+    ../../common_src/messagetypes.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \
     addeditabletestassignmentcommand.h \
@@ -43,6 +45,7 @@ HEADERS += \
     assignmentcreationwindow.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    client.h \
     command.h \
     commandhistory.h \
     editablelabel.h \
@@ -55,6 +58,7 @@ HEADERS += \
     submitassignment.h \
     ../../common_src/testanswer.h \
     ../../common_src/testassignment.h
+    ../../common_src/net.h
 
 FORMS += \
     assignmentcreationwindow.ui \
