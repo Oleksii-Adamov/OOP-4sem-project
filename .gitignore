@@ -55,3 +55,7 @@ compile_commands.json
 
 *_qmlcache.qrc
 .vs/
+
+#Clion
+/Server/.idea/
+/Server/cmake-build-debug/
