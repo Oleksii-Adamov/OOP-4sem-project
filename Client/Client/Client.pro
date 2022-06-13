@@ -21,6 +21,7 @@ SOURCES += \
     assignmentcreationwindow.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    authorizationwindow.cpp \
     client.cpp \
     command.cpp \
     commandhistory.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
+    registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
@@ -45,6 +47,7 @@ HEADERS += \
     assignmentcreationwindow.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    authorizationwindow.h \
     client.h \
     command.h \
     commandhistory.h \
@@ -54,6 +57,7 @@ HEADERS += \
     font.h \
     jsonfile.h \
     mainwindow.h \
+    registerwindow.h \
     saveeditableassignmentcommand.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
@@ -62,8 +66,10 @@ HEADERS += \
 
 FORMS += \
     assignmentcreationwindow.ui \
+    authorizationwindow.ui \
     enterassignmentnamedialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    registerwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
