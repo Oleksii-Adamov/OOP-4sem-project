@@ -18,9 +18,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     /// Push data to beggining
-    bool Push(int row, const QVariant &value, int role = Qt::EditRole);
+    bool Push(const AssignmentInfo &value, int role = Qt::EditRole);
 
-    long long GetId(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    unsigned long long GetId(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
 private:
     std::vector<AssignmentInfo> assignments_list_;

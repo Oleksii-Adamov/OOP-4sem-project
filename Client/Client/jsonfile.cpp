@@ -46,12 +46,9 @@ void sendJsonFile(const QJsonDocument& json_doc)
     message.header.id = CustomMsgTypes::ServerMessage;
     std::string json_std_str = json_string.toStdString();
     uint32_t json_c_str_size = uint32_t(json_string.size());
-    char* json_c_str = new char[json_c_str_size];
     for (uint32_t i = 0; i < json_c_str_size; i++) {
         message << json_std_str[i];
-        qDebug() << json_std_str[i];
     }
     message << uint32_t(json_string.size());
     Client::GetInstance()->Send(message);
-    delete[] json_c_str;
 }

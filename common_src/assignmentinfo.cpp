@@ -1,11 +1,18 @@
 #include "assignmentinfo.h"
-AssignmentInfo::AssignmentInfo(long long id, const std::string& name, std::string& date_time)
+
+AssignmentInfo::AssignmentInfo()
+    : id_(-1), name_(""), date_time_("")
+{
+
+}
+
+AssignmentInfo::AssignmentInfo(unsigned long long id, const std::string& name, const std::string& date_time)
     : id_(id), name_(name), date_time_(date_time)
 {
 
 }
 
-long long AssignmentInfo::getId() const
+unsigned long long AssignmentInfo::getId() const
 {
     return id_;
 }

@@ -3,6 +3,7 @@
 AssignmentsListModel::AssignmentsListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+
 }
 
 int AssignmentsListModel::rowCount(const QModelIndex &parent) const
@@ -25,15 +26,20 @@ QVariant AssignmentsListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool AssignmentsListModel::Push(int row, const QVariant &value, int role)
+bool AssignmentsListModel::Push(const AssignmentInfo &value, int role)
 {
-    beginInsertRows(QModelIndex(), row, row);
-    assignments_list_.insert(assignments_list_.begin(), value.value<AssignmentInfo>());
-    endInsertRows();
-    return true;
+    if (role == Qt::EditRole) {
+        beginInsertRows(QModelIndex(), 0, 0);
+        assignments_list_.insert(assignments_list_.begin(), value);
+        endInsertRows();
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
-long long AssignmentsListModel::GetId(const QModelIndex &index, int role) const
+unsigned long long AssignmentsListModel::GetId(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || std::size_t(index.row()) >= assignments_list_.size())
         return -1;
@@ -41,32 +47,4 @@ long long AssignmentsListModel::GetId(const QModelIndex &index, int role) const
         return assignments_list_[std::size_t(index.row())].getId();
     return -1;
 }
-
-/*
-bool AssignmentsListModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if (index.isValid() && role == Qt::EditRole && data(index, role) != value) {
-        assignments_list_[std::size_t(index.row())] = value.value<AssignmentInfo>();
-        emit dataChanged(index, index, {role});
-        return true;
-    }
-    return false;
-}
-
-Qt::ItemFlags AssignmentsListModel::flags(const QModelIndex &index) const
-{
-    if (!index.isValid())
-        return Qt::NoItemFlags;
-
-    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
-}
-
-bool AssignmentsListModel::insertRows(int row, int count, const QModelIndex &parent)
-{
-    beginInsertRows(parent, row, row + count - 1);
-    assignments_list_.insert(assignments_list_.begin() + row, count, ToDoListData());
-    endInsertRows();
-    return true;
-}
-*/
 
