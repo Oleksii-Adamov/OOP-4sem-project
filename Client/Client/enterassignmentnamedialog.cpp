@@ -27,6 +27,7 @@ void EnterAssignmentNameDialog::on_pushButton_Save_clicked()
     QFile file(QString::fromStdString(GetAssignmentPath(ui->lineEdit->text().toStdString())));
     if (file.exists()) {
         QMessageBox::critical(this, "Error", "Assignment with this name already exists!");
+        return;
     }
     emit NameChanged(ui->lineEdit->text());
     this->close();

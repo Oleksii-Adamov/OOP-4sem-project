@@ -183,6 +183,7 @@ QJsonDocument AssignmentCreationWindow::ToJSON()
     }
     QJsonObject main_json_obj;
     main_json_obj.insert("Assignment", content_array);
+    main_json_obj.insert("Assignment_name", QJsonValue(assignment_name_));
     return QJsonDocument(main_json_obj);
 }
 
@@ -216,6 +217,7 @@ void AssignmentCreationWindow::NameChanged(const QString& name)
 void AssignmentCreationWindow::FromJSON(const QJsonDocument& json_doc)
 {
     QJsonObject json_document_object = json_doc.object();
+    assignment_name_ = json_document_object.take("Assignment_name").toString();
     QJsonArray assignment_layout =  json_document_object.take("Assignment").toArray();
     foreach (QJsonValue item, assignment_layout)
     {
