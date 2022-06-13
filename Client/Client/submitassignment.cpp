@@ -63,7 +63,7 @@ void SubmitAssignment::OnSubmitButtonClicked()
         }
     }
     QJsonObject main_json_obj;
-    main_json_obj.insert("assignment", assignments);
+    main_json_obj.insert("Assignment", assignments);
     //writeJsonFile(QJsonDocument(main_json_obj), "assinment_json_from_student_to_server.json");
 
     sendJsonFile(QJsonDocument(main_json_obj));
