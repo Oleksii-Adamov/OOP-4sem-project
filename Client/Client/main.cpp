@@ -4,11 +4,12 @@
 #include "jsonfile.h"
 #include "client.h"
 #include "authorizationwindow.h"
+#include "assignmentinfo.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
+    qRegisterMetaType<AssignmentInfo>();
 
     Client:: GetInstance()->Connect("127.0.0.1", 60000);
     //MainWindow w;
