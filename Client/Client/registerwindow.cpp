@@ -8,12 +8,7 @@ RegisterWindow::RegisterWindow(QWidget *parent) :
     ui(new Ui::RegisterWindow)
 {
     ui->setupUi(this);
-}
-
-RegisterWindow::RegisterWindow(const QString& login, QWidget *parent) :
-    RegisterWindow(parent)
-{
-    ui->lineEdit_login->setText(login);
+    ui->lineEdit_password->setEchoMode(QLineEdit::Password);
 }
 
 RegisterWindow::RegisterWindow(const QString& login, const QString& password, QWidget *parent) :

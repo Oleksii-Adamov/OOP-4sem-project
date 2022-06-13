@@ -42,3 +42,10 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
     }
 }
 
+
+void AuthorizationWindow::on_pushButton_register_clicked()
+{
+    RegisterWindow* register_window  = new RegisterWindow(ui->lineEdit_login->text(), ui->lineEdit_password->text(), this);
+    register_window->show();
+}
+
