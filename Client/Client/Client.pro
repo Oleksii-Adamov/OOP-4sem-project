@@ -21,6 +21,7 @@ SOURCES += \
     assignmentcreationwindow.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    authorizationwindow.cpp \
     client.cpp \
     command.cpp \
     commandhistory.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     assignmentcreationwindow.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    authorizationwindow.h \
     client.h \
     command.h \
     commandhistory.h \
@@ -62,6 +64,7 @@ HEADERS += \
 
 FORMS += \
     assignmentcreationwindow.ui \
+    authorizationwindow.ui \
     enterassignmentnamedialog.ui \
     mainwindow.ui
 
