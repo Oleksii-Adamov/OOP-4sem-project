@@ -5,7 +5,7 @@
 #include "client.h"
 #include "authorizationwindow.h"
 //#include "assignmentinfo.h"
-#include "classroomofstudentwindow.h"
+#include "classroomwindow.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //AssignmentCreationWindow w(QJsonDocumentFromJsonFile("./Assignments/A1.json"));
     //AuthorizationWindow w;
-    ClassroomOfStudentWindow w;
+    ClassroomWindow w;
     w.show();
     return a.exec();
 }

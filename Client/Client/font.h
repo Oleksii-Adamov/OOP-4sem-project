@@ -10,6 +10,9 @@ public:
     static QFont TestHeaderFont();
     static QFont TestQuestionFont();
     static QFont TestAnswerFont();
+    static QFont BigFont();
+    static QFont AssignmentsFont();
+    static QFont RegularFont();
 };
 
 #endif // FONT_H
