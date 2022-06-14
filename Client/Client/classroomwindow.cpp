@@ -1,10 +1,11 @@
-#include "classroomofstudentwindow.h"
-#include "ui_classroomofstudentwindow.h"
+#include "classroomwindow.h"
+#include "ui_classroomwindow.h"
 #include "font.h"
 
-ClassroomOfStudentWindow::ClassroomOfStudentWindow(QWidget *parent) :
+
+ClassroomWindow::ClassroomWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::ClassroomOfStudentWindow)
+    ui(new Ui::ClassroomWindow)
 {
     assignments_list_model.reset(new AssignmentsListModel());
 
@@ -25,11 +26,11 @@ ClassroomOfStudentWindow::ClassroomOfStudentWindow(QWidget *parent) :
     assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
 }
 
-void ClassroomOfStudentWindow::OnAssignmentClicked(const QModelIndex& assignment) {
+void ClassroomWindow::OnAssignmentClicked(const QModelIndex& assignment) {
    qDebug() << assignments_list_model->GetId(assignment);
 }
 
-ClassroomOfStudentWindow::~ClassroomOfStudentWindow()
+ClassroomWindow::~ClassroomWindow()
 {
     delete ui;
 }

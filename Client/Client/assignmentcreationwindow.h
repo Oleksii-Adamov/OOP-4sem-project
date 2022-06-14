@@ -11,6 +11,7 @@ namespace Ui {
 class AssignmentCreationWindow;
 }
 
+
 class AssignmentCreationWindow : public QMainWindow
 {
     Q_OBJECT
