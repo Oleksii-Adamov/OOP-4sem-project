@@ -19,3 +19,24 @@ QFont Font::TestAnswerFont()
     answer_font.setPointSize(15);
     return answer_font;
 }
+
+QFont Font::BigFont()
+{
+    QFont font;
+    font.setPointSize(40);
+    return font;
+}
+
+QFont Font::AssignmentsFont()
+{
+    QFont font;
+    font.setPointSize(30);
+    return font;
+}
+
+QFont Font::RegularFont()
+{
+    QFont font;
+    font.setPointSize(15);
+    return font;
+}
