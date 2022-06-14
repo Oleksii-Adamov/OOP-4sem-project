@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "assignmentslistmodel.h"
+#include "classroomwindowstrategy.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +25,7 @@ public slots:
 private:
     Ui::ClassroomWindow *ui;
     QSharedPointer<AssignmentsListModel> assignments_list_model;
+    ClassroomWindowStrategy* strategy_;
 };
 
 #endif // CLASSROOMWINDOW_H

@@ -16,6 +16,7 @@ LIBS += -lws2_32
 
 SOURCES += \
     ../../common_src/assignmentinfo.cpp \
+    ../../common_src/classroominfo.cpp \
     addeditableheadercommand.cpp \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
@@ -45,6 +46,7 @@ SOURCES += \
 
 HEADERS += \
     ../../common_src/assignmentinfo.h \
+    ../../common_src/classroominfo.h \
     ../../common_src/messagetypes.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \

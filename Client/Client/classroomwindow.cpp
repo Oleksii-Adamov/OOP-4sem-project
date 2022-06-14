@@ -28,6 +28,7 @@ ClassroomWindow::ClassroomWindow(QWidget *parent) :
 
 void ClassroomWindow::OnAssignmentClicked(const QModelIndex& assignment) {
    qDebug() << assignments_list_model->GetId(assignment);
+   //strategy_->OnAssignmentClicked(assignments_list_model->GetId(assignment));
 }
 
 ClassroomWindow::~ClassroomWindow()
