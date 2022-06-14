@@ -9,6 +9,13 @@ namespace net
   template<typename T>
 	class server_interface;
 	
+  /*!
+  * \brief connection - class that implements connection between server 
+  *        and client
+  * 
+  * The behavioral design pattern "Mediator" was used to provide convenient 
+  * data transfer between the server and the client.
+  */
 	template<typename T>
 	class connection : public std::enable_shared_from_this<connection<T>>
 	{
@@ -20,14 +27,18 @@ namespace net
 		};
 	
 	public:
-		connection(owner parent, boost::asio::io_context& asioContext, boost::asio::ip::tcp::socket socket, tsqueue<owned_message<T>>& qIn)
-		: m_asioContext(asioContext), m_socket(std::move(socket)), m_qMessagesIn(qIn)
+		connection(owner parent, boost::asio::io_context& asioContext, 
+      boost::asio::ip::tcp::socket socket, tsqueue<owned_message<T>>& qIn)
+		: m_asioContext(asioContext),
+      m_socket(std::move(socket)),
+      m_qMessagesIn(qIn)
 		{
 			m_nOwnerType = parent;
 			
 			if (m_nOwnerType == owner::server)
 			{
-				m_nHandshakeOut = uint64_t(std::chrono::system_clock::now().time_since_epoch().count());
+				m_nHandshakeOut = 
+          uint64_t(std::chrono::system_clock::now().time_since_epoch().count());
 				
 				m_nHandshakeCheck = scramble(m_nHandshakeOut);
 			}
@@ -62,12 +73,14 @@ namespace net
 			}
 		}
 		
-		void ConnectToServer(const boost::asio::ip::tcp::resolver::results_type& endpoints)
+		void ConnectToServer(
+      const boost::asio::ip::tcp::resolver::results_type& endpoints)
 		{
 			if (m_nOwnerType == owner::client)
 			{
 				boost::asio::async_connect(m_socket, endpoints,
-														[this](std::error_code ec, boost::asio::ip::tcp::endpoint endpoint)
+														[this](std::error_code ec,
+                                  boost::asio::ip::tcp::endpoint endpoint)
 														{
 															if (!ec)
 															{
@@ -98,15 +111,15 @@ namespace net
 		void Send(const message<T>& msg)
 		{
 			boost::asio::post(m_asioContext,
-								 [this, msg]()
-								 {
-									 bool bWritingMessage = !m_qMessagesOut.empty();
-									 m_qMessagesOut.push_back(msg);
-									 if (!bWritingMessage)
-									 {
-										 WriteHeader();
-									 }
-								 });
+                        [this, msg]()
+                        {
+                          bool bWritingMessage = !m_qMessagesOut.empty();
+                          m_qMessagesOut.push_back(msg);
+                          if (!bWritingMessage)
+                          {
+                            WriteHeader();
+                          }
+                        });
 		}
 	
 	
@@ -114,36 +127,42 @@ namespace net
 	private:
 		void WriteHeader()
 		{
-			boost::asio::async_write(m_socket, boost::asio::buffer(&m_qMessagesOut.front().header, sizeof(message_header<T>)),
-												[this](std::error_code ec, std::size_t length)
-												{
-													if (!ec)
-													{
-														if (m_qMessagesOut.front().body.size() > 0)
-														{
-															WriteBody();
-														}
-														else
-														{
-															m_qMessagesOut.pop_front();
-															
-															if (!m_qMessagesOut.empty())
-															{
-																WriteHeader();
-															}
-														}
-													}
-													else
-													{
-														std::cout << "[" << id << "] Write Header Fail.\n";
-														m_socket.close();
-													}
-												});
+			boost::asio::async_write(m_socket, 
+                            boost::asio::buffer(&m_qMessagesOut.front().header,
+                                                sizeof(message_header<T>)),
+                            [this](std::error_code ec, std::size_t length)
+                            {
+                              if (!ec)
+                              {
+                                if (m_qMessagesOut.front().body.size() > 0)
+                                {
+                                  WriteBody();
+                                }
+                                else
+                                {
+                                  m_qMessagesOut.pop_front();
+                                  
+                                  if (!m_qMessagesOut.empty())
+                                  {
+                                    WriteHeader();
+                                  }
+                                }
+                              }
+                              else
+                              {
+                                std::cout << "["
+                                          << id 
+                                          << "] Write Header Fail.\n";
+                                m_socket.close();
+                              }
+                            });
 		}
 		
 		void WriteBody()
 		{
-			boost::asio::async_write(m_socket, boost::asio::buffer(m_qMessagesOut.front().body.data(), m_qMessagesOut.front().body.size()),
+			boost::asio::async_write(m_socket, 
+                        boost::asio::buffer(m_qMessagesOut.front().body.data(), 
+                                            m_qMessagesOut.front().body.size()),
 												[this](std::error_code ec, std::size_t length)
 												{
 													if (!ec)
@@ -165,44 +184,53 @@ namespace net
 		
 		void ReadHeader()
 		{
-			boost::asio::async_read(m_socket, boost::asio::buffer(&m_msgTemporaryIn.header, sizeof(message_header<T>)),
-											 [this](std::error_code ec, std::size_t length)
-											 {
-												 if (!ec)
-												 {
-													 if (m_msgTemporaryIn.header.size > 0)
-													 {
-														 m_msgTemporaryIn.body.resize(m_msgTemporaryIn.header.size);
-														 ReadBody();
-													 }
-													 else
-													 {
-														 AddToIncomingMessageQueue();
-													 }
-												 }
-												 else
-												 {
-													 std::cout << "[" << id << "] Read Header Fail.\n";
-													 m_socket.close();
-												 }
-											 });
+			boost::asio::async_read(m_socket, 
+                              boost::asio::buffer(&m_msgTemporaryIn.header, 
+                                                  sizeof(message_header<T>)),
+                              [this](std::error_code ec, std::size_t length)
+                              {
+                                if (!ec)
+                                {
+                                  if (m_msgTemporaryIn.header.size > 0)
+                                  {
+                                    m_msgTemporaryIn.body.resize(
+                                      m_msgTemporaryIn.header.size);
+                                    ReadBody();
+                                  }
+                                  else
+                                  {
+                                    AddToIncomingMessageQueue();
+                                  }
+                                }
+                                else
+                                {
+                                  std::cout << "["
+                                            << id 
+                                            << "] Read Header Fail.\n";
+                                  m_socket.close();
+                                }
+                              });
 		}
 		
 		void ReadBody()
 		{
-			boost::asio::async_read(m_socket, boost::asio::buffer(m_msgTemporaryIn.body.data(), m_msgTemporaryIn.body.size()),
-											 [this](std::error_code ec, std::size_t length)
-											 {
-												 if (!ec)
-												 {
-													 AddToIncomingMessageQueue();
-												 }
-												 else
-												 {
-													 std::cout << "[" << id << "] Read Body Fail.\n";
-													 m_socket.close();
-												 }
-											 });
+			boost::asio::async_read(m_socket, 
+                              boost::asio::buffer(m_msgTemporaryIn.body.data(), 
+                                                  m_msgTemporaryIn.body.size()),
+                              [this](std::error_code ec, std::size_t length)
+                              {
+                                if (!ec)
+                                {
+                                  AddToIncomingMessageQueue();
+                                }
+                                else
+                                {
+                                  std::cout << "[" 
+                                            << id 
+                                            << "] Read Body Fail.\n";
+                                  m_socket.close();
+                                }
+                              });
 		}
 		
 		uint64_t scramble(uint64_t nInput)
@@ -214,7 +242,8 @@ namespace net
 		
 		void WriteValidation()
 		{
-			boost::asio::async_write(m_socket, boost::asio::buffer(&m_nHandshakeOut, sizeof(uint64_t)),
+			boost::asio::async_write(m_socket, boost::asio::buffer(&m_nHandshakeOut, 
+                                                            sizeof(uint64_t)),
 												[this](std::error_code ec, std::size_t length)
 												{
 													if (!ec)
@@ -231,39 +260,45 @@ namespace net
 		
 		void ReadValidation(net::server_interface<T>* server = nullptr)
 		{
-			boost::asio::async_read(m_socket, boost::asio::buffer(&m_nHandshakeIn, sizeof(uint64_t)),
-											 [this, server](std::error_code ec, std::size_t length)
-											 {
-												 if (!ec)
-												 {
-													 if (m_nOwnerType == owner::server)
-													 {
-														 if (m_nHandshakeIn == m_nHandshakeCheck)
-														 {
-															 std::cout << "Client Validated" << std::endl;
-															 server->OnClientValidated(this->shared_from_this());
-							
-															 ReadHeader();
-														 }
-														 else
-														 {
-															 std::cout << "Client Disconnected (Fail Validation)" << std::endl;
-															 m_socket.close();
-														 }
-													 }
-													 else
-													 {
-														 m_nHandshakeOut = scramble(m_nHandshakeIn);
-						
-														 WriteValidation();
-													 }
-												 }
-												 else
-												 {
-													 std::cout << "Client Disconnected (ReadValidation)" << std::endl;
-													 m_socket.close();
-												 }
-											 });
+			boost::asio::async_read(m_socket, boost::asio::buffer(&m_nHandshakeIn, 
+                                                            sizeof(uint64_t)),
+                          [this, server](std::error_code ec, std::size_t length)
+                          {
+                            if (!ec)
+                            {
+                              if (m_nOwnerType == owner::server)
+                              {
+                                if (m_nHandshakeIn == m_nHandshakeCheck)
+                                {
+                                  std::cout << "Client Validated" << std::endl;
+                                  server->OnClientValidated(
+                                    this->shared_from_this());
+                
+                                  ReadHeader();
+                                }
+                                else
+                                {
+                                  std::cout << "Client Disconnected"
+                                            << " (Fail Validation)" 
+                                            << std::endl;
+                                  m_socket.close();
+                                }
+                              }
+                              else
+                              {
+                                m_nHandshakeOut = scramble(m_nHandshakeIn);
+              
+                                WriteValidation();
+                              }
+                            }
+                            else
+                            {
+                              std::cout << "Client Disconnected" 
+                                        << " (ReadValidation)" 
+                                        << std::endl;
+                              m_socket.close();
+                            }
+                          });
 		}
 		
 		void AddToIncomingMessageQueue()

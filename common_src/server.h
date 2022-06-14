@@ -7,12 +7,21 @@
 
 namespace net
 {
+  /*!
+  * \brief server_interface - class that implements server interface.
+  *
+  * The behavioral design pattern "Template Method" was used to enable 
+  * the overwriting of methods that are related to the response 
+  * to events (Client Connection, Client Disconnection, 
+  * Client Connection Validation, Receive Message)
+  */
   template<typename T>
 	class server_interface
 	{
 	public:
 		server_interface(uint16_t port)
-		: m_asioAcceptor(m_asioContext, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+		: m_asioAcceptor(m_asioContext, 
+      boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 		{
 		
 		}
@@ -56,11 +65,15 @@ namespace net
 			{
 				if (!ec)
 				{
-					std::cout << "[SERVER] New Connection: " << socket.remote_endpoint() << "\n";
+					std::cout << "[SERVER] New Connection: " 
+                    << socket.remote_endpoint() 
+                    << "\n";
 					
 					std::shared_ptr<connection<T>> newconn =
 					std::make_shared<connection<T>>(connection<T>::owner::server,
-																					m_asioContext, std::move(socket), m_qMessagesIn);
+																					m_asioContext, 
+                                          std::move(socket), 
+                                          m_qMessagesIn);
 					
 					if (OnClientConnect(newconn))
 					{
@@ -68,7 +81,9 @@ namespace net
 						
 						m_deqConnections.back()->ConnectToClient(this, nIDCounter++);
 						
-						std::cout << "[" << m_deqConnections.back()->GetID() << "] Connection Approved\n";
+						std::cout << "[" 
+                      << m_deqConnections.back()->GetID() 
+                      << "] Connection Approved\n";
 					}
 					else
 					{
@@ -78,14 +93,17 @@ namespace net
 				}
 				else
 				{
-					std::cout << "[SERVER] New Connection Error: " << ec.message() << "\n";
+					std::cout << "[SERVER] New Connection Error: " 
+                    << ec.message() 
+                    << "\n";
 				}
 				
 				WaitForClientConnection();
 			});
 		}
 		
-		void MessageClient(std::shared_ptr<connection<T>> client, const message<T>& msg)
+		void MessageClient(std::shared_ptr<connection<T>> client, 
+      const message<T>& msg)
 		{
 			if (client && client->IsConnected())
 			{
@@ -97,12 +115,15 @@ namespace net
 				
 				client.reset();
 				
-				m_deqConnections.erase(
-				std::remove(m_deqConnections.begin(), m_deqConnections.end(), client), m_deqConnections.end());
+				m_deqConnections.erase(std::remove(m_deqConnections.begin(),
+                                          m_deqConnections.end(),
+                                          client), 
+                              m_deqConnections.end());
 			}
 		}
 		
-		void MessageAllClients(const message<T>& msg, std::shared_ptr<connection<T>> pIgnoreClient = nullptr)
+		void MessageAllClients(const message<T>& msg, 
+      std::shared_ptr<connection<T>> pIgnoreClient = nullptr)
 		{
 			bool bInvalidClientExists = false;
 			
@@ -123,8 +144,10 @@ namespace net
 			}
 			
 			if (bInvalidClientExists)
-				m_deqConnections.erase(
-				std::remove(m_deqConnections.begin(), m_deqConnections.end(), nullptr), m_deqConnections.end());
+				m_deqConnections.erase(std::remove(m_deqConnections.begin(),
+                                          m_deqConnections.end(),
+                                          nullptr), 
+                              m_deqConnections.end());
 		}
 		
 		void Update(size_t nMaxMessages = -1, bool bWait = false)
@@ -153,7 +176,8 @@ namespace net
 		
 		}
 		
-		virtual void OnMessage(std::shared_ptr<connection<T>> client, message<T>& msg)
+		virtual void OnMessage(std::shared_ptr<connection<T>> client, 
+                          message<T>& msg)
 		{
 		
 		}

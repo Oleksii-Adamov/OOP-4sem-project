@@ -4,6 +4,14 @@
 
 namespace net
 {
+  /*!
+  * \brief message_header - struct that implements message_header
+  * 
+  * This structure is part of the message structure. 
+  * Stores two parameters - the id, which specifies 
+  * the purpose of the message, and the size, which specifies 
+  * the size in bytes of the main message.
+  */
   template <typename T>
 	struct message_header
 	{
@@ -11,6 +19,16 @@ namespace net
 		uint32_t size = 0;
 	};
 	
+  /*!
+  * \brief message - struct that implements message.
+  * 
+  * The message consists of the message header and the body. The body stores 
+  * the raw byte vector. Typed data when written to the message is converted 
+  * to raw bytes and added to the end of the vector. When reading from 
+  * a message, raw bytes are removed from the end of the vector and passed 
+  * to typed data. Fixed-size data should be used to effectively write and 
+  * read messages.
+  */
 	template <typename T>
 	struct message
 	{
@@ -66,6 +84,12 @@ namespace net
 	template <typename T>
 	class connection;
 	
+  /*!
+  * \brief owned_message - struct that implements owned message.
+  * 
+  * The owned message differs from the common message by the 
+  * presence of a connection that has an owner.
+  */
 	template <typename T>
 	struct owned_message
 	{

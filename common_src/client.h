@@ -4,6 +4,12 @@
 
 namespace net
 {
+  /*!
+  * \brief client_interface - class that implements client interface.
+  * 
+  * The structural design pattern "Facade" was used to make a simple interface 
+  * to connect / disconnect and send messages to the server.
+  */
   template <typename T>
 	class client_interface
 	{
@@ -22,9 +28,13 @@ namespace net
 			try
 			{
 				boost::asio::ip::tcp::resolver resolver(m_context);
-				boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(host, std::to_string(port));
+				boost::asio::ip::tcp::resolver::results_type endpoints = 
+          resolver.resolve(host, std::to_string(port));
 				
-				m_connection = std::make_unique<connection<T>>(connection<T>::owner::client, m_context, boost::asio::ip::tcp::socket(m_context), m_qMessagesIn);
+				m_connection = std::make_unique<connection<T>>(
+          connection<T>::owner::client, m_context, 
+          boost::asio::ip::tcp::socket(m_context), 
+          m_qMessagesIn);
 				
 				m_connection->ConnectToServer(endpoints);
 				
