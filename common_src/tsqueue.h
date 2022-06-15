@@ -4,6 +4,12 @@
 
 namespace net
 {
+  /*!
+  * \brief TSQueue - сlass that implements thread-save queue.
+  * 
+  * The class controls the blocking and unlocking of queue access when 
+  * multithreading adding / deleting / viewing container data. 
+  */
   template<typename T>
 	class tsqueue
 	{

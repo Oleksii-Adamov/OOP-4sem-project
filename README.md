@@ -1,9 +1,22 @@
 # OOP-4sem-project
 ## Naming convensions: https://google.github.io/styleguide/cppguide.html#Naming
-## Реалізовані паттерни (3):
-### Builder (Client - AssignmentBuilder)
-### Singleton(Client - SubmitAssignment)
-### Command (Client - Command)
+## Реалізовані паттерни (4-5):
+- ### Builder (Client - AssignmentBuilder)
+
+- ### Singleton(2)(Client - SubmitAssignment, Client - Client)
+
+- ### Command (Client - Command)
+
+- ### Strategy (sketch)
+
+- ### MVC (not Gof, and using Qt tools for MVC) (Client - AssignmentsListModel - QListView)
+
+- ### Template Method (server_interface)
+
+- ### Mediator (client_interface <-> connection <-> connection <-> server_interface)
+
+- ### Facade (client_interface & server_interface connection/disconnection/sending methods)
+
 ## TO DO (General):
 ### 1. Клієнт-серверна архітектура.
 ### 2. Графічний інтерфейс для учня.
