@@ -8,6 +8,7 @@ ClassroomWindow::ClassroomWindow(QWidget *parent) :
     ui(new Ui::ClassroomWindow)
 {
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowMaximized);
 
     assignments_list_model.reset(new AssignmentsListModel());
 

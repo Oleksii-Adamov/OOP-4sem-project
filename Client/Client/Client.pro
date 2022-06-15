@@ -39,6 +39,7 @@ SOURCES += \
     font.cpp \
     jsonfile.cpp \
     main.cpp \
+    mainmenuwindow.cpp \
     mainwindow.cpp \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     filepath.h \
     font.h \
     jsonfile.h \
+    mainmenuwindow.h \
     mainwindow.h \
     registerwindow.h \
     saveeditableassignmentcommand.h \
@@ -87,6 +89,7 @@ FORMS += \
     classroomslistwindow.ui \
     classroomwindow.ui \
     enterassignmentnamedialog.ui \
+    mainmenuwindow.ui \
     mainwindow.ui \
     registerwindow.ui
 
