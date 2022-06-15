@@ -6,6 +6,7 @@
 #include "authorizationwindow.h"
 #include "classroomwindow.h"
 #include "classroomslistwindow.h"
+#include "mainmenuwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +17,8 @@ int main(int argc, char *argv[])
     //AssignmentCreationWindow w(QJsonDocumentFromJsonFile("./Assignments/A1.json"));
     //AuthorizationWindow w;
     //ClassroomWindow w;
-    ClassroomsListWindow w;
+    //ClassroomsListWindow w;
+    MainMenuWindow w;
     w.show();
     return a.exec();
 }
