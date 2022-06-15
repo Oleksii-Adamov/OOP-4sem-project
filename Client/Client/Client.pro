@@ -25,6 +25,8 @@ SOURCES += \
     assignmentguidirector.cpp \
     assignmentslistmodel.cpp \
     authorizationwindow.cpp \
+    classroomslistmodel.cpp \
+    classroomslistwindow.cpp \
     classroomwindow.cpp \
     classroomwindowstudentstrategy.cpp \
     classroomwindowteacherstrategy.cpp \
@@ -57,6 +59,8 @@ HEADERS += \
     assignmentguidirector.h \
     assignmentslistmodel.h \
     authorizationwindow.h \
+    classroomslistmodel.h \
+    classroomslistwindow.h \
     classroomwindow.h \
     classroomwindowstrategy.h \
     classroomwindowstudentstrategy.h \
@@ -80,6 +84,7 @@ HEADERS += \
 FORMS += \
     assignmentcreationwindow.ui \
     authorizationwindow.ui \
+    classroomslistwindow.ui \
     classroomwindow.ui \
     enterassignmentnamedialog.ui \
     mainwindow.ui \

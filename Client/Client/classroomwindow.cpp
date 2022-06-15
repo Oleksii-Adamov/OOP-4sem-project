@@ -7,16 +7,16 @@ ClassroomWindow::ClassroomWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ClassroomWindow)
 {
-    assignments_list_model.reset(new AssignmentsListModel());
-
     ui->setupUi(this);
+
+    assignments_list_model.reset(new AssignmentsListModel());
 
     ui->name_label->setFont(Font::BigFont());
     ui->teacher_label->setFont(Font::RegularFont());
     ui->assignments_label->setFont(Font::BigFont());
 
     ui->assignments_list_view->setEditTriggers(QListView::EditTrigger::NoEditTriggers);
-    ui->assignments_list_view->setFont(Font::AssignmentsFont());
+    ui->assignments_list_view->setFont(Font::RegularListViewFont());
     ui->assignments_list_view->setModel(assignments_list_model.data());
 
     connect(ui->assignments_list_view, SIGNAL(clicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));

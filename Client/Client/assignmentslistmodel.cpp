@@ -42,9 +42,9 @@ bool AssignmentsListModel::Push(const AssignmentInfo &value, int role)
 unsigned long long AssignmentsListModel::GetId(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || std::size_t(index.row()) >= assignments_list_.size())
-        return -1;
+        return 0;
     if (role == Qt::DisplayRole || role == Qt::EditRole)
         return assignments_list_[std::size_t(index.row())].getId();
-    return -1;
+    return 0;
 }
 
