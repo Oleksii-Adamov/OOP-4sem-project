@@ -16,6 +16,7 @@ LIBS += -lws2_32
 
 SOURCES += \
     ../../common_src/assignmentinfo.cpp \
+    ../../common_src/classroominfo.cpp \
     addeditableheadercommand.cpp \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
@@ -24,6 +25,8 @@ SOURCES += \
     assignmentguidirector.cpp \
     assignmentslistmodel.cpp \
     authorizationwindow.cpp \
+    classroomslistmodel.cpp \
+    classroomslistwindow.cpp \
     classroomwindow.cpp \
     classroomwindowstudentstrategy.cpp \
     classroomwindowteacherstrategy.cpp \
@@ -45,6 +48,7 @@ SOURCES += \
 
 HEADERS += \
     ../../common_src/assignmentinfo.h \
+    ../../common_src/classroominfo.h \
     ../../common_src/messagetypes.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \
@@ -55,6 +59,8 @@ HEADERS += \
     assignmentguidirector.h \
     assignmentslistmodel.h \
     authorizationwindow.h \
+    classroomslistmodel.h \
+    classroomslistwindow.h \
     classroomwindow.h \
     classroomwindowstrategy.h \
     classroomwindowstudentstrategy.h \
@@ -78,6 +84,7 @@ HEADERS += \
 FORMS += \
     assignmentcreationwindow.ui \
     authorizationwindow.ui \
+    classroomslistwindow.ui \
     classroomwindow.ui \
     enterassignmentnamedialog.ui \
     mainwindow.ui \

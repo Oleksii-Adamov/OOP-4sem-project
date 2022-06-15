@@ -27,7 +27,7 @@ QFont Font::BigFont()
     return font;
 }
 
-QFont Font::AssignmentsFont()
+QFont Font::RegularListViewFont()
 {
     QFont font;
     font.setPointSize(30);

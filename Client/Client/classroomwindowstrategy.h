@@ -5,7 +5,6 @@
 class ClassroomWindowStrategy
 {
 public:
-    ClassroomWindowStrategy();
     virtual void OnAssignmentClicked(unsigned long long id) = 0;
 };
 

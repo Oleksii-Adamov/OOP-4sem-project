@@ -8,6 +8,7 @@ RegisterWindow::RegisterWindow(QWidget *parent) :
     ui(new Ui::RegisterWindow)
 {
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowMaximized);
     ui->lineEdit_password->setEchoMode(QLineEdit::Password);
 }
 

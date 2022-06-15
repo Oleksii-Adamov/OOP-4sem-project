@@ -11,7 +11,7 @@ public:
     static QFont TestQuestionFont();
     static QFont TestAnswerFont();
     static QFont BigFont();
-    static QFont AssignmentsFont();
+    static QFont RegularListViewFont();
     static QFont RegularFont();
 };
 
