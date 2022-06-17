@@ -15,14 +15,14 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /// Get displayed data
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     /// Push data to beggining
     bool Push(const AssignmentInfo &value, int role = Qt::EditRole);
 
     unsigned long long GetId(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
-private:
+protected:
     std::vector<AssignmentInfo> assignments_list_;
 };
 

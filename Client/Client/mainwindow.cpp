@@ -23,20 +23,18 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout* assignment_layout = new QVBoxLayout(assignment_container);
 
     AssignmentGUIBuilder assignment_GUI_builder;
-    assignment_GUI_builder.Set(assignment_layout, assignment_container);
+    assignment_GUI_builder.Set(assignment_layout, assignment_container, false);
     AssignmentGUIDirector assignment_GUI_director;
     assignment_GUI_director.set_builder(&assignment_GUI_builder);
-    assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student_example.json"));
-    /*assignment_GUI_builder.ProduceHeader("Header1");
-    std::vector<TestAnswer> test_answers1 = {TestAnswer("4", IsAnswerCorrect::inaccessible),
-                                             TestAnswer("5", IsAnswerCorrect::inaccessible)};
-    TestAssignment test_assignment1("What is 2+2 ?", test_answers1, TestType::one_choice);
-    assignment_GUI_builder.ProduceTestAssignment(test_assignment1);
-    TestAssignment test_assignment2("What is 2+2 ?", test_answers1, TestType::one_choice);
-    assignment_GUI_builder.ProduceTestAssignment(test_assignment2);
-    assignment_GUI_builder.ProduceHeader("Header2");
-    assignment_GUI_builder.ProduceSubmitButton();
-    assignment_GUI_builder.Reset();*/
+    //assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
+    //assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("assinment_json_from_student_to_server.json"));
+    assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("assinment_json_from_student_to_server.json"),
+                                          QJsonDocumentFromJsonFile("Assignments/from_teacher_to_server.json"));
+
+    //assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student_example.json"));
+    //assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_teacher_to_server.json"));
+    //assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_student_to_server.json"));
+    //assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_student_to_server.json"));
 }
 
 MainWindow::~MainWindow()
