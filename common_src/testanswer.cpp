@@ -5,7 +5,7 @@ TestAnswer::TestAnswer()
 
 }
 
-TestAnswer::TestAnswer(std::string answer_text, IsAnswerChecked is_answer_checked)
+TestAnswer::TestAnswer(std::string answer_text, bool is_answer_checked)
     : answer_text(answer_text), is_checked(is_answer_checked)
 {
 
@@ -21,12 +21,12 @@ std::string TestAnswer::get_answer_text() const
     return answer_text;
 }
 
-void TestAnswer::set_is_answer_checked(const IsAnswerChecked input)
+void TestAnswer::set_is_answer_checked(const bool input)
 {
     is_checked = input;
 }
 
-IsAnswerChecked TestAnswer::get_is_answer_checked() const
+bool TestAnswer::get_is_answer_checked() const
 {
     return is_checked;
 }

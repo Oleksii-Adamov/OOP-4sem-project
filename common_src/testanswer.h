@@ -2,7 +2,6 @@
 #define TESTANSWER_H
 #include <string>
 
-enum class IsAnswerChecked {yes, no, inaccessible};
 /*!
  * \brief
  *
@@ -15,14 +14,14 @@ class TestAnswer
 {
 private:
     std::string answer_text = "";
-    IsAnswerChecked is_checked = IsAnswerChecked::inaccessible;
+    bool is_checked = false;
 public:
     TestAnswer();
-    TestAnswer(std::string answer_text, IsAnswerChecked is_answer_checked = IsAnswerChecked::inaccessible);
+    TestAnswer(std::string answer_text, bool is_answer_checked = false);
     void set_answer_text(const std::string& input);
     std::string get_answer_text() const;
-    void set_is_answer_checked(const IsAnswerChecked input);
-    IsAnswerChecked get_is_answer_checked() const;
+    void set_is_answer_checked(const bool input);
+    bool get_is_answer_checked() const;
 };
 
 #endif // TESTANSWER_H

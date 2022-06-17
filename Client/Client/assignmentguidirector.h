@@ -14,7 +14,7 @@ private:
 public:
     AssignmentGUIDirector();
     void set_builder(AssignmentGUIBuilder* builder);
-    void BuildFromJSON(const QJsonDocument& json_document, bool is_editable, const QJsonDocument& json_document_compare_to = QJsonDocument());
+    void BuildFromJSON(const QJsonDocument& json_document, const QJsonDocument& json_document_compare_to = QJsonDocument());
 };
 
 #endif // ASSIGNMENTGUIDIRECTOR_H

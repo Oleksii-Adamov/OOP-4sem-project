@@ -28,12 +28,18 @@ void AssignmentGUIBuilder::Set(QLayout* input_layout, QWidget* input_widget, boo
     is_editable_ = is_editable;
 }
 
+bool AssignmentGUIBuilder::IsEditable() const
+{
+    return is_editable_;
+}
+
 void AssignmentGUIBuilder::ProduceHeader(const std::string& header_text) const
 {
     QLabel* header_label = new QLabel(QString::fromStdString(header_text), widget_);
     header_label->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     header_label->setFont(Font::TestHeaderFont());
     header_label->setAlignment(Qt::AlignHCenter);
+    header_label->setObjectName("header");
     layout_->addWidget(header_label);
 }
 
@@ -45,7 +51,9 @@ void AssignmentGUIBuilder::ProduceTestAssignment(const TestAssignment& test_assi
     group_box->setFont(Font::TestQuestionFont());
     QVBoxLayout* v_layout = new QVBoxLayout(group_box);
     std::vector<TestAnswer> answers = test_assignment.get_answers();
-    std::vector<TestAnswer> answers_compare_to = test_assignment_compare_to.get_answers();
+    std::vector<TestAnswer> answers_compare_to;
+    if (test_assignment_compare_to.get_id() != -1)
+        answers_compare_to = test_assignment_compare_to.get_answers();
     for (std::size_t i = 0; i < answers.size(); i++) {
         QAbstractButton* option = nullptr;
         if (test_assignment.get_test_type() == TestType::one_choice) {
@@ -56,13 +64,26 @@ void AssignmentGUIBuilder::ProduceTestAssignment(const TestAssignment& test_assi
         }
         if (option != nullptr) {
             option->setFont(Font::TestAnswerFont());
-            if (answers[i].get_is_answer_checked() == IsAnswerChecked::yes)
+            if (answers[i].get_is_answer_checked())
             {
                 option->setChecked(true);
             }
             if (!is_editable_) {
                 option->setEnabled(false);
                 option->setStyleSheet("color: black;");
+            }
+            if (test_assignment_compare_to.get_id() != -1)
+            {
+                if (answers_compare_to[i].get_is_answer_checked() && answers[i].get_is_answer_checked()) {
+                    option->setStyleSheet("background-color: green; color: black;");
+                }
+                else if (answers_compare_to[i].get_is_answer_checked() && !answers[i].get_is_answer_checked() &&
+                         !(test_assignment.get_test_type() == TestType::one_choice)) {
+                    option->setStyleSheet("background-color: red; color: black;");
+                }
+                else if (!answers_compare_to[i].get_is_answer_checked() && answers[i].get_is_answer_checked()) {
+                    option->setStyleSheet("background-color: red; color: black;");
+                }
             }
             v_layout->addWidget(option);
         }

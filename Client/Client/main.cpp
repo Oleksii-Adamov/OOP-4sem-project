@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
     Client:: GetInstance()->Connect("127.0.0.1", 60000);
     MainWindow w;
-    //AssignmentCreationWindow w(QJsonDocumentFromJsonFile("./Assignments/A1.json"));
+    //AssignmentCreationWindow w;
     //AuthorizationWindow w;
     //ClassroomWindow w;
     //ClassroomsListWindow w;

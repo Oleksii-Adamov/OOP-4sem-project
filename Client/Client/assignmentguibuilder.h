@@ -29,6 +29,7 @@ public:
      * \param input_widget QWidget responsible for deleting created widgets
      */
     void Set(QLayout* input_layout, QWidget* input_widget, bool is_editable = false);
+    bool IsEditable() const;
 };
 
 #endif // ASSIGNMENTGUIBUILDER_H

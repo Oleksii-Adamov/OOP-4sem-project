@@ -9,7 +9,7 @@
                     },
                     {
                         "answer_text": "3",
-                        "is_answer_chosen": false
+                        "is_answer_chosen": true
                     }
                 ],
                 "id": 1,
@@ -27,11 +27,11 @@
                     },
                     {
                         "answer_text": "1 + 3 = 5",
-                        "is_answer_chosen": false
+                        "is_answer_chosen": true
                     },
                     {
                         "answer_text": "3 + 7 = 10",
-                        "is_answer_chosen": false
+                        "is_answer_chosen": true
                     }
                 ],
                 "id": 2,
