@@ -2,6 +2,8 @@
 #define SENDASSIGNMENTWINDOW_H
 
 #include <QMainWindow>
+#include "assignmentsnamelistmodel.h"
+#include "classroomsnamelistmodel.h"
 
 namespace Ui {
 class SendAssignmentWindow;
@@ -17,6 +19,8 @@ public:
 
 private:
     Ui::SendAssignmentWindow *ui;
+    QSharedPointer<AssignmentsNameListModel> assignments_list_model;
+    QSharedPointer<ClassroomsNameListModel> classrooms_list_model;
 };
 
 #endif // SENDASSIGNMENTWINDOW_H

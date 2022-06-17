@@ -31,7 +31,7 @@
     <item>
      <widget class="QLabel" name="label_as_teacher">
       <property name="text">
-       <string>Your classromms as teacher</string>
+       <string>Your Classrooms as teacher</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

@@ -21,7 +21,7 @@ QVariant ClassroomsListModel::data(const QModelIndex &index, int role) const
         return QVariant();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
         return QVariant(QString::fromStdString(classrooms_list_[std::size_t(index.row())].getName() + "\n" +
-                classrooms_list_[std::size_t(index.row())].getTeachersName()));
+                classrooms_list_[std::size_t(index.row())].getTeachersName()+ "\n"));
     return QVariant();
 }
 

@@ -46,7 +46,11 @@
      </widget>
     </item>
     <item>
-     <widget class="QListView" name="assignments_list_view"/>
+     <widget class="QListView" name="assignments_list_view">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

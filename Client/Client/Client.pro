@@ -24,9 +24,11 @@ SOURCES += \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
     assignmentslistmodel.cpp \
+    assignmentsnamelistmodel.cpp \
     authorizationwindow.cpp \
     classroomslistmodel.cpp \
     classroomslistwindow.cpp \
+    classroomsnamelistmodel.cpp \
     classroomwindow.cpp \
     classroomwindowstudentstrategy.cpp \
     classroomwindowteacherstrategy.cpp \
@@ -60,9 +62,11 @@ HEADERS += \
     assignmentguibuilder.h \
     assignmentguidirector.h \
     assignmentslistmodel.h \
+    assignmentsnamelistmodel.h \
     authorizationwindow.h \
     classroomslistmodel.h \
     classroomslistwindow.h \
+    classroomsnamelistmodel.h \
     classroomwindow.h \
     classroomwindowstrategy.h \
     classroomwindowstudentstrategy.h \
