@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     assignment_GUI_builder.Set(assignment_layout, assignment_container);
     AssignmentGUIDirector assignment_GUI_director;
     assignment_GUI_director.set_builder(&assignment_GUI_builder);
-    assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student_example.json"));
+    //assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student_example.json"), false);
+    assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_teacher_to_server.json"), false);
     /*assignment_GUI_builder.ProduceHeader("Header1");
     std::vector<TestAnswer> test_answers1 = {TestAnswer("4", IsAnswerCorrect::inaccessible),
                                              TestAnswer("5", IsAnswerCorrect::inaccessible)};

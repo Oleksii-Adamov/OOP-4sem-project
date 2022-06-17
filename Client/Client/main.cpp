@@ -14,13 +14,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     Client:: GetInstance()->Connect("127.0.0.1", 60000);
-    //MainWindow w;
+    MainWindow w;
     //AssignmentCreationWindow w(QJsonDocumentFromJsonFile("./Assignments/A1.json"));
     //AuthorizationWindow w;
     //ClassroomWindow w;
     //ClassroomsListWindow w;
     //MainMenuWindow w;
-    SendAssignmentWindow w;
+    //SendAssignmentWindow w;
     w.show();
     return a.exec();
 }

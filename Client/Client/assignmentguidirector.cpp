@@ -12,7 +12,8 @@ void AssignmentGUIDirector::set_builder(AssignmentGUIBuilder* builder)
     builder_ = builder;
 }
 
-void AssignmentGUIDirector::BuildFromJSON(const QJsonDocument& json_document)
+void AssignmentGUIDirector::BuildFromJSON(const QJsonDocument& json_document, bool is_editable,
+                                          const QJsonDocument& json_document_compare_to)
 {
     QJsonObject json_document_object = json_document.object();
     QJsonArray assignment_layout =  json_document_object.take("Assignment").toArray();
@@ -45,7 +46,20 @@ void AssignmentGUIDirector::BuildFromJSON(const QJsonDocument& json_document)
             QJsonArray answers = test_assignment_obj.take("answers").toArray();
             foreach(QJsonValue answer, answers)
             {
-                test_assignment.PushAnswer(TestAnswer(answer.toObject().take("answer_text").toString().toStdString()));
+                std::string answer_text = answer.toObject().take("answer_text").toString().toStdString();
+                QJsonValue is_checked_json = answer.toObject().take("is_correct");
+                if (is_checked_json == QJsonValue::Undefined) {
+                    is_checked_json = answer.toObject().take("is_answer_chosen");
+                }
+                // temporary bool
+                IsAnswerChecked is_checked;
+                if (is_checked_json.toBool()) {
+                    is_checked = IsAnswerChecked::yes;
+                }
+                else {
+                    is_checked = IsAnswerChecked::no;
+                }
+                test_assignment.PushAnswer(TestAnswer(answer_text, is_checked));
             }
             builder_->ProduceTestAssignment(test_assignment);
         }

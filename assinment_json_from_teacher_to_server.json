@@ -1,0 +1,44 @@
+{
+    "Assignment": [
+        {
+            "content": {
+                "answers": [
+                    {
+                        "answer_text": "Answer",
+                        "is_correct": false
+                    },
+                    {
+                        "answer_text": "Answer2",
+                        "is_correct": true
+                    }
+                ],
+                "id": 0,
+                "question": "Question",
+                "type": "one choice"
+            },
+            "type": "test_assignment"
+        },
+        {
+            "content": {
+                "answers": [
+                    {
+                        "answer_text": "Answer",
+                        "is_correct": false
+                    },
+                    {
+                        "answer_text": "Answer",
+                        "is_correct": true
+                    },
+                    {
+                        "answer_text": "Answer",
+                        "is_correct": true
+                    }
+                ],
+                "id": 1,
+                "question": "Question2",
+                "type": "multiple choice"
+            },
+            "type": "test_assignment"
+        }
+    ]
+}

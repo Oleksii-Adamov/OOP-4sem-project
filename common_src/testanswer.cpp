@@ -5,8 +5,8 @@ TestAnswer::TestAnswer()
 
 }
 
-TestAnswer::TestAnswer(std::string answer_text, IsAnswerCorrect is_answer_correct)
-    : answer_text(answer_text), is_answer_correct(is_answer_correct)
+TestAnswer::TestAnswer(std::string answer_text, IsAnswerChecked is_answer_checked)
+    : answer_text(answer_text), is_checked(is_answer_checked)
 {
 
 }
@@ -21,12 +21,12 @@ std::string TestAnswer::get_answer_text() const
     return answer_text;
 }
 
-void TestAnswer::set_is_answer_correct(const IsAnswerCorrect input)
+void TestAnswer::set_is_answer_checked(const IsAnswerChecked input)
 {
-    is_answer_correct = input;
+    is_checked = input;
 }
 
-IsAnswerCorrect TestAnswer::get_is_answer_correct() const
+IsAnswerChecked TestAnswer::get_is_answer_checked() const
 {
-    return is_answer_correct;
+    return is_checked;
 }
