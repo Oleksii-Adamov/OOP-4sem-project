@@ -43,6 +43,7 @@ SOURCES += \
     mainwindow.cpp \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
+    sendassignmentwindow.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
     ../../common_src/testassignment.cpp
@@ -78,6 +79,7 @@ HEADERS += \
     mainwindow.h \
     registerwindow.h \
     saveeditableassignmentcommand.h \
+    sendassignmentwindow.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
     ../../common_src/testassignment.h
@@ -91,7 +93,8 @@ FORMS += \
     enterassignmentnamedialog.ui \
     mainmenuwindow.ui \
     mainwindow.ui \
-    registerwindow.ui
+    registerwindow.ui \
+    sendassignmentwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

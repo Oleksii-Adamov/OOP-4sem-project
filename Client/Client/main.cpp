@@ -7,6 +7,7 @@
 #include "classroomwindow.h"
 #include "classroomslistwindow.h"
 #include "mainmenuwindow.h"
+#include "sendassignmentwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,7 +19,8 @@ int main(int argc, char *argv[])
     //AuthorizationWindow w;
     //ClassroomWindow w;
     //ClassroomsListWindow w;
-    MainMenuWindow w;
+    //MainMenuWindow w;
+    SendAssignmentWindow w;
     w.show();
     return a.exec();
 }
