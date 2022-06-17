@@ -15,6 +15,8 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
 
     ui->label_assignment->setFont(Font::RegularFont());
     ui->label_classroom->setFont(Font::RegularFont());
+    ui->label_deadline->setFont(Font::RegularFont());
+    ui->lineEdit_deadline->setFont(Font::RegularFont());
 
     ui->pushButton_cancel->setFont(Font::RegularFont());
     ui->pushButton_send->setFont(Font::RegularFont());
