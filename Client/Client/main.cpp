@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Client:: GetInstance()->Connect("127.0.0.1", 60000);
+    Client::GetInstance()->Connect("127.0.0.1", 60000);
+    Client::GetInstance()->Update();
     //MainWindow w;
     //AssignmentCreationWindow w;
     //AuthorizationWindow w;
