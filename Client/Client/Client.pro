@@ -51,7 +51,8 @@ SOURCES += \
     studentassignmentsessionswindow.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
-    ../../common_src/testassignment.cpp
+    ../../common_src/testassignment.cpp \
+    teacherassignmentcheckingwindow.cpp
 
 HEADERS += \
     ../../common_src/assignmentinfo.h \
@@ -92,7 +93,8 @@ HEADERS += \
     studentassignmentsessionswindow.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
-    ../../common_src/testassignment.h
+    ../../common_src/testassignment.h \
+    teacherassignmentcheckingwindow.h
     ../../common_src/net.h
 
 FORMS += \
@@ -105,7 +107,8 @@ FORMS += \
     mainwindow.ui \
     registerwindow.ui \
     sendassignmentwindow.ui \
-    studentassignmentsessionswindow.ui
+    studentassignmentsessionswindow.ui \
+    teacherassignmentcheckingwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
