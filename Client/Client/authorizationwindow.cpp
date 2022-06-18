@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 #include "registerwindow.h"
+#include "font.h"
 
 AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,6 +13,14 @@ AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     setAttribute(Qt::WA_DeleteOnClose);
     //this->setWindowState(Qt::WindowMaximized);
     ui->lineEdit_password->setEchoMode(QLineEdit::Password);
+
+    ui->label_login->setFont(Font::RegularFont());
+    ui->label_password->setFont(Font::RegularFont());
+    ui->lineEdit_login->setFont(Font::RegularFont());
+    ui->lineEdit_password->setFont(Font::RegularFont());
+    ui->pushButtonLogIn->setFont(Font::RegularFont());
+    ui->pushButton_register->setFont(Font::RegularFont());
+    this->setWindowTitle("Log In");
 }
 
 AuthorizationWindow::~AuthorizationWindow()
