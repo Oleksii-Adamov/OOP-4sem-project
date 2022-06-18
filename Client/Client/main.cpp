@@ -9,6 +9,7 @@
 #include "mainmenuwindow.h"
 #include "sendassignmentwindow.h"
 #include "studentassignmentsessionswindow.h"
+#include "teacherassignmentcheckingwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +23,8 @@ int main(int argc, char *argv[])
     //ClassroomsListWindow w;
     //MainMenuWindow w;
     //SendAssignmentWindow w;
-    StudentAssignmentSessionsWindow w;
+    //StudentAssignmentSessionsWindow w;
+    TeacherAssignmentCheckingWindow w;
     w.show();
     return a.exec();
 }

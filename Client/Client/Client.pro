@@ -27,6 +27,7 @@ SOURCES += \
     assignmentslistmodel.cpp \
     assignmentsnamelistmodel.cpp \
     authorizationwindow.cpp \
+    checkassignment.cpp \
     classroomslistmodel.cpp \
     classroomslistwindow.cpp \
     classroomsnamelistmodel.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
     assignmentslistmodel.h \
     assignmentsnamelistmodel.h \
     authorizationwindow.h \
+    checkassignment.h \
     classroomslistmodel.h \
     classroomslistwindow.h \
     classroomsnamelistmodel.h \

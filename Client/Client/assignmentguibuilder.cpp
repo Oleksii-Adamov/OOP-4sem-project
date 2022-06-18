@@ -75,14 +75,13 @@ void AssignmentGUIBuilder::ProduceTestAssignment(const TestAssignment& test_assi
             if (test_assignment_compare_to.get_id() != -1)
             {
                 if (answers_compare_to[i].get_is_answer_checked() && answers[i].get_is_answer_checked()) {
-                    option->setStyleSheet("background-color: green; color: black;");
+                    option->setStyleSheet("background-color: rgba(0, 255, 0, 90); color: black;");
                 }
-                else if (answers_compare_to[i].get_is_answer_checked() && !answers[i].get_is_answer_checked() &&
-                         !(test_assignment.get_test_type() == TestType::one_choice)) {
-                    option->setStyleSheet("background-color: red; color: black;");
+                else if (answers_compare_to[i].get_is_answer_checked() && !answers[i].get_is_answer_checked()) {
+                    option->setStyleSheet("background-color: rgba(255, 0, 0, 90); color: black;");
                 }
                 else if (!answers_compare_to[i].get_is_answer_checked() && answers[i].get_is_answer_checked()) {
-                    option->setStyleSheet("background-color: red; color: black;");
+                    option->setStyleSheet("background-color: rgba(255, 0, 0, 90); color: black;");
                 }
             }
             v_layout->addWidget(option);
