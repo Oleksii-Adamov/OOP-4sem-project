@@ -4,7 +4,13 @@ project(Server)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME}
+                main.cpp
+
+                Database/Database.cpp
+                Database/Database.h
+                Database/DatabaseLog.cpp
+                Database/DatabaseLog.h)
 
 find_package(Boost 1.77.0 COMPONENTS system filesystem REQUIRED)
 

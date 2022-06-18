@@ -1,4 +1,5 @@
 #include "../common_src/net.h"
+#include "Database/Database.h"
 
 enum class CustomMsgTypes : uint32_t
 {
@@ -79,6 +80,7 @@ protected:
 
 int main()
 {
+    Database::init();
 	CustomServer server(60000);
 	server.Start();
 	
@@ -86,6 +88,7 @@ int main()
 	{
 		server.Update(-1, true);
 	}
-	
+
+    Database::clear();
 	return 0;
 }
