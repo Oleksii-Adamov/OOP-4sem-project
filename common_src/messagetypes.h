@@ -8,6 +8,8 @@ enum class CustomMsgTypes : uint32_t
     ServerPing,
     MessageAll,
     ServerMessage,
+    GET_TEST_ASSIGNMENT,
+    RETURN_TEST_ASSIGMENT,
 };
 
 #endif // MESSAGETYPES_H
