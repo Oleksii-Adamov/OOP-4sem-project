@@ -38,6 +38,16 @@ bool ClassroomsListModel::PushBack(const ClassroomInfo &value, int role)
     }
 }
 
+
+ClassroomInfo ClassroomsListModel::GetClassroomInfo(const QModelIndex &index, int role) const
+{
+    if (!index.isValid() || std::size_t(index.row()) >= classrooms_list_.size())
+        return ClassroomInfo();
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
+        return classrooms_list_[std::size_t(index.row())];
+    return ClassroomInfo();
+}
+/*
 unsigned long long ClassroomsListModel::GetId(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || std::size_t(index.row()) >= classrooms_list_.size())
@@ -45,4 +55,4 @@ unsigned long long ClassroomsListModel::GetId(const QModelIndex &index, int role
     if (role == Qt::DisplayRole || role == Qt::EditRole)
         return classrooms_list_[std::size_t(index.row())].getId();
     return 0;
-}
+}*/

@@ -20,7 +20,7 @@ public:
     /// Pushes data to end
     bool PushBack(const ClassroomInfo &value, int role = Qt::EditRole);
 
-    unsigned long long GetId(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    ClassroomInfo GetClassroomInfo(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
 protected:
     std::vector<ClassroomInfo> classrooms_list_;

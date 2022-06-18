@@ -7,7 +7,7 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
     ui(new Ui::SendAssignmentWindow)
 {
     ui->setupUi(this);
-
+    this->setWindowTitle("Send Assignment");
     this->setWindowState(Qt::WindowMaximized);
 
     assignments_list_model.reset(new AssignmentsNameListModel());

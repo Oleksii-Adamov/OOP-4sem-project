@@ -6,10 +6,11 @@
 class ClassroomInfo
 {
 private:
-    unsigned long long id_;
-    std::string name_;
-    std::string teachers_name_;
+    unsigned long long id_ = 0;
+    std::string name_ = "";
+    std::string teachers_name_ = "";
 public:
+    ClassroomInfo();
     ClassroomInfo(unsigned long long id, const std::string& name, const std::string& teachers_name);
     unsigned long long getId() const;
     std::string getName() const;

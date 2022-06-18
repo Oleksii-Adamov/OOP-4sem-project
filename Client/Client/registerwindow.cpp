@@ -19,7 +19,7 @@ RegisterWindow::RegisterWindow(QWidget *parent) :
     ui->lineEdit_password->setFont(Font::RegularFont());
     ui->lineEdit_user_name->setFont(Font::RegularFont());
     ui->pushButton_register->setFont(Font::RegularFont());
-    this->setWindowTitle("Log In");
+    this->setWindowTitle("Register");
 }
 
 RegisterWindow::RegisterWindow(const QString& login, const QString& password, QWidget *parent) :

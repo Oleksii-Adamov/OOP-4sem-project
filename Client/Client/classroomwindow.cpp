@@ -3,21 +3,26 @@
 #include "font.h"
 #include <QDebug>
 
-ClassroomWindow::ClassroomWindow(QWidget *parent) :
+ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom, QSharedPointer<ClassroomWindowStrategy> strategy,
+                                 QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::ClassroomWindow)
+    ui(new Ui::ClassroomWindow), strategy_(strategy), classroom_(classroom)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
 
-    assignments_list_model.reset(new AssignmentsListModel());
-
     ui->name_label->setFont(Font::BigFont());
     ui->teacher_label->setFont(Font::RegularFont());
     ui->assignments_label->setFont(Font::BigFont());
-
     ui->assignments_list_view->setEditTriggers(QListView::EditTrigger::NoEditTriggers);
     ui->assignments_list_view->setFont(Font::RegularListViewFont());
+
+    this->setWindowTitle(QString::fromStdString(classroom_.getName()));
+    ui->name_label->setText(QString::fromStdString(classroom_.getName()));
+    ui->teacher_label->setText(QString::fromStdString(classroom_.getTeachersName()));
+
+    assignments_list_model.reset(new AssignmentsListModel());
+
     ui->assignments_list_view->setModel(assignments_list_model.data());
 
     connect(ui->assignments_list_view, SIGNAL(clicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));
