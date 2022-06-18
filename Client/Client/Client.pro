@@ -17,6 +17,7 @@ LIBS += -lws2_32
 SOURCES += \
     ../../common_src/assignmentinfo.cpp \
     ../../common_src/classroominfo.cpp \
+    ../../common_src/studentassignmentsessioninfo.cpp \
     addeditableheadercommand.cpp \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
@@ -46,6 +47,8 @@ SOURCES += \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
     sendassignmentwindow.cpp \
+    studentassignmentsessionslistmodel.cpp \
+    studentassignmentsessionswindow.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
     ../../common_src/testassignment.cpp
@@ -54,6 +57,7 @@ HEADERS += \
     ../../common_src/assignmentinfo.h \
     ../../common_src/classroominfo.h \
     ../../common_src/messagetypes.h \
+    ../../common_src/studentassignmentsessioninfo.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \
     addeditabletestassignmentcommand.h \
@@ -84,6 +88,8 @@ HEADERS += \
     registerwindow.h \
     saveeditableassignmentcommand.h \
     sendassignmentwindow.h \
+    studentassignmentsessionslistmodel.h \
+    studentassignmentsessionswindow.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
     ../../common_src/testassignment.h
@@ -98,7 +104,8 @@ FORMS += \
     mainmenuwindow.ui \
     mainwindow.ui \
     registerwindow.ui \
-    sendassignmentwindow.ui
+    sendassignmentwindow.ui \
+    studentassignmentsessionswindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

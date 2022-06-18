@@ -8,6 +8,7 @@
 #include "classroomslistwindow.h"
 #include "mainmenuwindow.h"
 #include "sendassignmentwindow.h"
+#include "studentassignmentsessionswindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,12 +16,13 @@ int main(int argc, char *argv[])
 
     Client:: GetInstance()->Connect("127.0.0.1", 60000);
     //MainWindow w;
-    AssignmentCreationWindow w;
+    //AssignmentCreationWindow w;
     //AuthorizationWindow w;
     //ClassroomWindow w;
     //ClassroomsListWindow w;
     //MainMenuWindow w;
     //SendAssignmentWindow w;
+    StudentAssignmentSessionsWindow w;
     w.show();
     return a.exec();
 }
