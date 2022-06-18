@@ -2,6 +2,7 @@
 #define AUTHORIZATIONWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 namespace Ui {
 class AuthorizationWindow;
@@ -14,6 +15,7 @@ class AuthorizationWindow : public QMainWindow
 public:
     explicit AuthorizationWindow(QWidget *parent = nullptr);
     ~AuthorizationWindow();
+    void closeEvent (QCloseEvent *event) override;
 
 private slots:
     void on_pushButtonLogIn_clicked();
@@ -22,6 +24,7 @@ private slots:
 
 private:
     Ui::AuthorizationWindow *ui;
+    bool is_succesuful_ = false;
 };
 
 #endif // AUTHORIZATIONWINDOW_H

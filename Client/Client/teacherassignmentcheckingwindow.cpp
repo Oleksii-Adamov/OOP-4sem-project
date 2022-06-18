@@ -21,6 +21,7 @@ TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(QWidget *parent
     ui->label_final_score->setFont(Font::RegularListViewFont());
     ui->spinBox_final_score->setFont(Font::RegularListViewFont());
     //ui->spinBox_final_score->setMaximum(max_score);
+    // set title according to name
 
     CheckAssignment assignment_checker;
 

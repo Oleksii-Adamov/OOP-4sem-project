@@ -9,7 +9,8 @@ AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     ui(new Ui::AuthorizationWindow)
 {
     ui->setupUi(this);
-    this->setWindowState(Qt::WindowMaximized);
+    setAttribute(Qt::WA_DeleteOnClose);
+    //this->setWindowState(Qt::WindowMaximized);
     ui->lineEdit_password->setEchoMode(QLineEdit::Password);
 }
 
@@ -41,6 +42,10 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
     {
         QMessageBox::critical(this, "Log in error", "Password has forbidden symbols! Only digits, latin letters of any case, _,^,- allowed");
     }
+    else {
+        is_succesuful_ = true;
+        this->close();
+    }
 }
 
 
@@ -50,3 +55,12 @@ void AuthorizationWindow::on_pushButton_register_clicked()
     register_window->show();
 }
 
+void AuthorizationWindow::closeEvent (QCloseEvent *event)
+{
+    if (is_succesuful_) {
+        event->accept();
+    }
+    else {
+        exit(0);
+    }
+}

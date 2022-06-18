@@ -21,10 +21,10 @@ int main(int argc, char *argv[])
     //AuthorizationWindow w;
     //ClassroomWindow w;
     //ClassroomsListWindow w;
-    //MainMenuWindow w;
+    MainMenuWindow w;
     //SendAssignmentWindow w;
     //StudentAssignmentSessionsWindow w;
-    TeacherAssignmentCheckingWindow w;
+    //TeacherAssignmentCheckingWindow w;
     w.show();
     return a.exec();
 }
