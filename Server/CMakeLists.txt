@@ -10,7 +10,28 @@ add_executable(${PROJECT_NAME}
                 Database/Database.cpp
                 Database/Database.h
                 Database/DatabaseLog.cpp
-                Database/DatabaseLog.h)
+                Database/DatabaseLog.h
+                Database/DatabaseTable.cpp
+                Database/DatabaseTable.h
+                Database/DatabaseService.cpp
+                Database/DatabaseService.h
+
+                Database/DatabaseType/DatabaseType.cpp
+                Database/DatabaseType/DatabaseType.h
+                Database/DatabaseType/DatabaseUserType.cpp
+                Database/DatabaseType/DatabaseUserType.h
+                Database/DatabaseType/DatabaseClassroomType.cpp
+                Database/DatabaseType/DatabaseClassroomType.h
+                Database/DatabaseType/DatabaseStudentClassroomType.cpp
+                Database/DatabaseType/DatabaseStudentClassroomType.h
+                Database/DatabaseType/DatabaseAuthorizationType.cpp
+                Database/DatabaseType/DatabaseAuthorizationType.h
+                Database/DatabaseType/DatabaseAssignmentType.cpp
+                Database/DatabaseType/DatabaseAssignmentType.h
+                Database/DatabaseType/DatabaseAssignmentSessionType.cpp
+                Database/DatabaseType/DatabaseAssignmentSessionType.h
+                Database/DatabaseType/DatabaseStudentAssignmentSessionType.cpp
+                Database/DatabaseType/DatabaseStudentAssignmentSessionType.h)
 
 find_package(Boost 1.77.0 COMPONENTS system filesystem REQUIRED)
 
