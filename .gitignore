@@ -60,4 +60,4 @@ compile_commands.json
 #Clion
 *.idea/
 *cmake-build-debug/
-
+/Server/Database/SQLite/sqlite_src/
