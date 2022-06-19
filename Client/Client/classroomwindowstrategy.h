@@ -10,7 +10,7 @@ class ClassroomWindowStrategy
 {
 public:
     virtual void SetModel(QSharedPointer<QAbstractListModel>& model) = 0;
-    virtual void OnAssignmentClicked(unsigned long long id) = 0;
+    virtual void OnAssignmentClicked(const QModelIndex& index, QSharedPointer<QAbstractListModel>& model, QWidget* parent = nullptr) = 0;
     virtual void Update(net::message<CustomMsgTypes>& msg, QSharedPointer<QAbstractListModel>& model) = 0;
 };
 

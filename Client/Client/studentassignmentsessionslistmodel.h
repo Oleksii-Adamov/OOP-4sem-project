@@ -14,6 +14,7 @@ public:
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    /// Get displayed data
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     /// Push data to beggining

@@ -20,6 +20,7 @@ SOURCES += \
     ../../common_src/assignmentsessioninfo.cpp \
     ../../common_src/classroominfo.cpp \
     ../../common_src/studentassignmentsessioninfo.cpp \
+    ../../common_src/studentassignmentsessioninfoforteacher.cpp \
     addeditableheadercommand.cpp \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
@@ -52,8 +53,10 @@ SOURCES += \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
     sendassignmentwindow.cpp \
+    studentassignmentsessionsforteacherlistmodel.cpp \
     studentassignmentsessionslistmodel.cpp \
     studentassignmentsessionswindow.cpp \
+    studentassignmentwindow.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
     ../../common_src/testassignment.cpp \
@@ -74,6 +77,7 @@ HEADERS += \
     ../../common_src/classroominfo.h \
     ../../common_src/messagetypes.h \
     ../../common_src/studentassignmentsessioninfo.h \
+    ../../common_src/studentassignmentsessioninfoforteacher.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \
     addeditabletestassignmentcommand.h \
@@ -107,8 +111,10 @@ HEADERS += \
     registerwindow.h \
     saveeditableassignmentcommand.h \
     sendassignmentwindow.h \
+    studentassignmentsessionsforteacherlistmodel.h \
     studentassignmentsessionslistmodel.h \
     studentassignmentsessionswindow.h \
+    studentassignmentwindow.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
     ../../common_src/testassignment.h \
@@ -136,6 +142,7 @@ FORMS += \
     registerwindow.ui \
     sendassignmentwindow.ui \
     studentassignmentsessionswindow.ui \
+    studentassignmentwindow.ui \
     teacherassignmentcheckingwindow.ui
 
 # Default rules for deployment.

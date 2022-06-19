@@ -1,14 +1,17 @@
 #include "classroomwindowteacherstrategy.h"
 #include "assignmentsessionslistmodel.h"
+#include "studentassignmentsessionswindow.h"
 
 ClassroomWindowTeacherStrategy::ClassroomWindowTeacherStrategy()
 {
 
 }
 
-void ClassroomWindowTeacherStrategy::OnAssignmentClicked(unsigned long long id)
+void ClassroomWindowTeacherStrategy::OnAssignmentClicked(const QModelIndex& index, QSharedPointer<QAbstractListModel>& model, QWidget* parent)
 {
-
+    AssignmentSessionsListModel* student_assignment_sessions_model = qobject_cast<AssignmentSessionsListModel*>(model.data());
+    StudentAssignmentSessionsWindow* new_window = new StudentAssignmentSessionsWindow(student_assignment_sessions_model->GetData(index), parent);
+    new_window->show();
 }
 
 void ClassroomWindowTeacherStrategy::SetModel(QSharedPointer<QAbstractListModel>& model)

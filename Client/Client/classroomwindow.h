@@ -16,18 +16,18 @@ class ClassroomWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ClassroomWindow(const ClassroomInfo& classroom, QSharedPointer<ClassroomWindowStrategy> strategy, QWidget *parent = nullptr);
+    explicit ClassroomWindow(const ClassroomInfo& classroom_info, QSharedPointer<ClassroomWindowStrategy> strategy, QWidget *parent = nullptr);
     ~ClassroomWindow();
     void Update(net::message<CustomMsgTypes>& msg);
 
 public slots:
-    void OnAssignmentClicked(const QModelIndex& assignment);
+    void OnAssignmentClicked(const QModelIndex& index);
 
 private:
     Ui::ClassroomWindow *ui;
     QSharedPointer<QAbstractListModel> assignments_list_model;
     QSharedPointer<ClassroomWindowStrategy> strategy_;
-    ClassroomInfo classroom_;
+    ClassroomInfo classroom_info_;
 };
 
 #endif // CLASSROOMWINDOW_H
