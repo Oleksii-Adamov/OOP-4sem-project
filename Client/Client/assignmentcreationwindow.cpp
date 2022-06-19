@@ -179,6 +179,7 @@ QJsonDocument AssignmentCreationWindow::ToJSON()
             QJsonObject header_info;
             header_info.insert("type", "Header");
             header_info.insert("content", header->text());
+            content_array.push_back(header_info);
         }
     }
     QJsonObject main_json_obj;

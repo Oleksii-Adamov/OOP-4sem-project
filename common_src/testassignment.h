@@ -13,7 +13,7 @@ private:
     std::string question_;
     std::vector<TestAnswer> answers_;
     TestType test_type_;
-    long long id_;
+    long long id_ = -1;
 public:
     TestAssignment();
     TestAssignment(const std::string& question, const std::vector<TestAnswer>& answers, TestType test_type, long long id);

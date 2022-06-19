@@ -24,9 +24,11 @@ SOURCES += \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
     assignmentslistmodel.cpp \
+    assignmentsnamelistmodel.cpp \
     authorizationwindow.cpp \
     classroomslistmodel.cpp \
     classroomslistwindow.cpp \
+    classroomsnamelistmodel.cpp \
     classroomwindow.cpp \
     classroomwindowstudentstrategy.cpp \
     classroomwindowteacherstrategy.cpp \
@@ -43,6 +45,7 @@ SOURCES += \
     mainwindow.cpp \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
+    sendassignmentwindow.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
     ../../common_src/testassignment.cpp
@@ -59,9 +62,11 @@ HEADERS += \
     assignmentguibuilder.h \
     assignmentguidirector.h \
     assignmentslistmodel.h \
+    assignmentsnamelistmodel.h \
     authorizationwindow.h \
     classroomslistmodel.h \
     classroomslistwindow.h \
+    classroomsnamelistmodel.h \
     classroomwindow.h \
     classroomwindowstrategy.h \
     classroomwindowstudentstrategy.h \
@@ -78,6 +83,7 @@ HEADERS += \
     mainwindow.h \
     registerwindow.h \
     saveeditableassignmentcommand.h \
+    sendassignmentwindow.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
     ../../common_src/testassignment.h
@@ -91,7 +97,8 @@ FORMS += \
     enterassignmentnamedialog.ui \
     mainmenuwindow.ui \
     mainwindow.ui \
-    registerwindow.ui
+    registerwindow.ui \
+    sendassignmentwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

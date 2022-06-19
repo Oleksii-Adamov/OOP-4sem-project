@@ -12,7 +12,8 @@ class AssignmentBuilder
 public:
     virtual ~AssignmentBuilder(){}
     virtual void ProduceHeader(const std::string& header_text) const = 0;
-    virtual void ProduceTestAssignment(const TestAssignment& test_assignment) const = 0;
+    virtual void ProduceTestAssignment(const TestAssignment& test_assignment,
+                                       const TestAssignment& test_assignment_compare_to = TestAssignment()) const = 0;
 //    virtual void ProduceCodeAssignment() const = 0;
 //    virtual void ProduceFileAssignment()const = 0;
 };

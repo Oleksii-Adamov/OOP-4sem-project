@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QRadioButton>
 #include <QCheckBox>
+#include <QLabel>
 #include "jsonfile.h"
 #include "client.h"
 
@@ -27,7 +28,15 @@ void SubmitAssignment::OnSubmitButtonClicked()
     auto layout_items = parent_widget->findChildren<QWidget*>();
     QJsonArray assignments;
     foreach(auto layout_item, layout_items) {
-        if (layout_item->objectName().lastIndexOf("test_assignment") == 0)
+        if (layout_item->objectName() == "header")
+        {
+            QLabel* header = qobject_cast<QLabel*>(layout_item);
+            QJsonObject header_info;
+            header_info.insert("type", "Header");
+            header_info.insert("content", header->text());
+            assignments.push_back(header_info);
+        }
+        else if (layout_item->objectName().lastIndexOf("test_assignment") == 0)
         {
             QGroupBox* test_assignment = qobject_cast<QGroupBox*>(layout_item);
             QJsonObject assignment;
@@ -64,7 +73,7 @@ void SubmitAssignment::OnSubmitButtonClicked()
     }
     QJsonObject main_json_obj;
     main_json_obj.insert("Assignment", assignments);
-    //writeJsonFile(QJsonDocument(main_json_obj), "assinment_json_from_student_to_server.json");
+    writeJsonFile(QJsonDocument(main_json_obj), "assinment_json_from_student_to_server.json");
 
     sendJsonFile(QJsonDocument(main_json_obj));
 }

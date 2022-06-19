@@ -1,7 +1,7 @@
 #include "classroomwindow.h"
 #include "ui_classroomwindow.h"
 #include "font.h"
-
+#include <QDebug>
 
 ClassroomWindow::ClassroomWindow(QWidget *parent) :
     QMainWindow(parent),

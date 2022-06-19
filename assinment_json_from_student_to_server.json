@@ -1,0 +1,48 @@
+{
+    "Assignment": [
+        {
+            "content": "Simple math",
+            "type": "Header"
+        },
+        {
+            "content": {
+                "answers": [
+                    {
+                        "answer_text": "4",
+                        "is_answer_chosen": false
+                    },
+                    {
+                        "answer_text": "3",
+                        "is_answer_chosen": true
+                    }
+                ],
+                "id": 0,
+                "question": "What is 2+2 ?",
+                "type": "one choice"
+            },
+            "type": "test_assignment"
+        },
+        {
+            "content": {
+                "answers": [
+                    {
+                        "answer_text": "2 + 2 = 4",
+                        "is_answer_chosen": true
+                    },
+                    {
+                        "answer_text": "1 + 3 = 5",
+                        "is_answer_chosen": true
+                    },
+                    {
+                        "answer_text": "3 + 7 = 10",
+                        "is_answer_chosen": false
+                    }
+                ],
+                "id": 1,
+                "question": "What is correct ?",
+                "type": "multiple choice"
+            },
+            "type": "test_assignment"
+        }
+    ]
+}
