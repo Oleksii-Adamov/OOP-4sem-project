@@ -16,7 +16,7 @@ void StudentAssignmentSession::setStudentAssignmentSessionStatus(int student_ass
     student_assignment_session_status_ = student_assignment_session_status;
 }
 
-void StudentAssignmentSession::setStudentAssignmentSessionAnswer(DATA* student_assignment_session_answer)
+void StudentAssignmentSession::setStudentAssignmentSessionAnswer(const DATA& student_assignment_session_answer)
 {
     student_assignment_session_answer_ = student_assignment_session_answer;
 }
@@ -46,7 +46,7 @@ int StudentAssignmentSession::getStudentAssignmentSessionStatus() const
     return student_assignment_session_status_;
 }
 
-DATA* StudentAssignmentSession::getStudentAssignmentSessionAnswer() const
+const DATA& StudentAssignmentSession::getStudentAssignmentSessionAnswer() const
 {
     return student_assignment_session_answer_;
 }

@@ -21,7 +21,7 @@ void Assignment::setAssignmentCreationDate(const DATETIME& assignment_creation_d
     assignment_creation_date_ = assignment_creation_date;
 }
 
-void Assignment::setAssignmentData(DATA* assignment_data)
+void Assignment::setAssignmentData(const DATA& assignment_data)
 {
     assignment_data_ = assignment_data;
 }
@@ -51,7 +51,7 @@ DATETIME Assignment::getAssignmentCreationDate() const
     return assignment_creation_date_;
 }
 
-DATA* Assignment::getAssignmentData() const
+const DATA& Assignment::getAssignmentData() const
 {
     return assignment_data_;
 }
