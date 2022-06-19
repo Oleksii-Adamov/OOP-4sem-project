@@ -1,9 +1,9 @@
-#ifndef SERVER_DATABASEASSIGNMENTTYPE_H
-#define SERVER_DATABASEASSIGNMENTTYPE_H
+#ifndef ASSIGNMENT_H
+#define ASSIGNMENT_H
 
-#include "DatabaseType.h"
+#include "Entity.h"
 
-class DatabaseAssignmentType : DatabaseType
+class Assignment : Entity
 {
     ID assignment_id_;
     ID teacher_user_id_;
@@ -12,8 +12,8 @@ class DatabaseAssignmentType : DatabaseType
     DATA* assignment_data_;
     int assignment_max_score_;
 public:
-    DatabaseAssignmentType(const ID& assignment_id, const ID& teacher_user_id, const std::string& assignment_name,
-                           const DATETIME& assignment_creation_date, DATA* assignment_data, int assignment_max_score) :
+    Assignment(const ID& assignment_id, const ID& teacher_user_id, const std::string& assignment_name,
+               const DATETIME& assignment_creation_date, DATA* assignment_data, int assignment_max_score) :
                            assignment_id_(assignment_id), teacher_user_id_(teacher_user_id), assignment_name_(assignment_name),
                            assignment_creation_date_(assignment_creation_date), assignment_data_(assignment_data), assignment_max_score_(assignment_max_score) {};
     void setAssignmentId(const ID& assignment_id);

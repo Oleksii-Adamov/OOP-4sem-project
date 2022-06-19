@@ -11,27 +11,31 @@ add_executable(${PROJECT_NAME}
                 Database/Database.h
                 Database/DatabaseLog.cpp
                 Database/DatabaseLog.h
-                Database/DatabaseTable.cpp
-                Database/DatabaseTable.h
                 Database/DatabaseService.cpp
                 Database/DatabaseService.h
 
-                Database/DatabaseType/DatabaseType.cpp
-                Database/DatabaseType/DatabaseType.h
-                Database/DatabaseType/DatabaseUserType.cpp
-                Database/DatabaseType/DatabaseUserType.h
-                Database/DatabaseType/DatabaseClassroomType.cpp
-                Database/DatabaseType/DatabaseClassroomType.h
-                Database/DatabaseType/DatabaseStudentClassroomType.cpp
-                Database/DatabaseType/DatabaseStudentClassroomType.h
-                Database/DatabaseType/DatabaseAuthorizationType.cpp
-                Database/DatabaseType/DatabaseAuthorizationType.h
-                Database/DatabaseType/DatabaseAssignmentType.cpp
-                Database/DatabaseType/DatabaseAssignmentType.h
-                Database/DatabaseType/DatabaseAssignmentSessionType.cpp
-                Database/DatabaseType/DatabaseAssignmentSessionType.h
-                Database/DatabaseType/DatabaseStudentAssignmentSessionType.cpp
-                Database/DatabaseType/DatabaseStudentAssignmentSessionType.h)
+                ../common_src/Entities/Entities.h
+                ../common_src/Entities/Entity.cpp
+                ../common_src/Entities/Entity.h
+                ../common_src/Entities/User.cpp
+                ../common_src/Entities/User.h
+                ../common_src/Entities/Classroom.cpp
+                ../common_src/Entities/Classroom.h
+                ../common_src/Entities/StudentClassroom.cpp
+                ../common_src/Entities/StudentClassroom.h
+                ../common_src/Entities/Authorization.cpp
+                ../common_src/Entities/Authorization.h
+                ../common_src/Entities/Assignment.cpp
+                ../common_src/Entities/Assignment.h
+                ../common_src/Entities/AssignmentSession.cpp
+                ../common_src/Entities/AssignmentSession.h
+                ../common_src/Entities/StudentAssignmentSession.cpp
+                ../common_src/Entities/StudentAssignmentSession.h
+
+                Database/Tables/Table.cpp
+                Database/Tables/Table.h
+                Database/Tables/UserTable.cpp
+                Database/Tables/UserTable.h)
 
 find_package(Boost 1.77.0 COMPONENTS system filesystem REQUIRED)
 

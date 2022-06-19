@@ -1,9 +1,9 @@
-#ifndef SERVER_DATABASESTUDENTASSIGNMENTSESSIONTYPE_H
-#define SERVER_DATABASESTUDENTASSIGNMENTSESSIONTYPE_H
+#ifndef STUDENTASSIGNMENTSESSION_H
+#define STUDENTASSIGNMENTSESSION_H
 
-#include "DatabaseType.h"
+#include "Entity.h"
 
-class DatabaseStudentAssignmentSessionType : DatabaseType
+class StudentAssignmentSession : Entity
 {
     ID student_user_id_;
     ID assignment_session_id_;
@@ -12,9 +12,9 @@ class DatabaseStudentAssignmentSessionType : DatabaseType
     int student_assignment_session_score_;
     DATETIME student_assignment_session_finish_date_;
 public:
-    DatabaseStudentAssignmentSessionType(const ID& student_user_id, const ID& assignment_session_id,
-                                         int student_assignment_session_status, DATA* student_assignment_session_answer,
-                                         int student_assignment_session_score, const DATETIME& student_assignment_session_finish_date) :
+    StudentAssignmentSession(const ID& student_user_id, const ID& assignment_session_id,
+                             int student_assignment_session_status, DATA* student_assignment_session_answer,
+                             int student_assignment_session_score, const DATETIME& student_assignment_session_finish_date) :
                                          student_user_id_(student_user_id), assignment_session_id_(assignment_session_id),
                                          student_assignment_session_status_(student_assignment_session_status),
                                          student_assignment_session_answer_(student_assignment_session_answer),

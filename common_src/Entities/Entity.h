@@ -1,5 +1,5 @@
-#ifndef SERVER_DATABASETYPE_H
-#define SERVER_DATABASETYPE_H
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <string>
 
@@ -7,10 +7,10 @@
 #define DATETIME std::string
 #define DATA std::string
 
-class DatabaseType
+class Entity
 {
 protected:
-    virtual ~DatabaseType() = 0;
+    virtual ~Entity() = 0;
 };
 
 
