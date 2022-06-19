@@ -2,7 +2,7 @@
 #define ASSIGNMENTSNAMELISTMODEL_H
 
 #include<assignmentslistmodel.h>
-
+/*
 class AssignmentsNameListModel : public AssignmentsListModel
 {
     Q_OBJECT
@@ -11,5 +11,5 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 };
-
+*/
 #endif // ASSIGNMENTSNAMELISTMODEL_H

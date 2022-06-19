@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::SendAssignmentWindow *ui;
-    QSharedPointer<AssignmentsNameListModel> assignments_list_model;
+    //QSharedPointer<AssignmentsNameListModel> assignments_list_model;
     QSharedPointer<ClassroomsNameListModel> classrooms_list_model;
 };
 

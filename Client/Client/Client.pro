@@ -26,6 +26,7 @@ SOURCES += \
     assignmentcreationwindow.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    assignmentsessionslistmodel.cpp \
     assignmentslistmodel.cpp \
     assignmentsnamelistmodel.cpp \
     authorizationwindow.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     assignmentcreationwindow.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    assignmentsessionslistmodel.h \
     assignmentslistmodel.h \
     assignmentsnamelistmodel.h \
     authorizationwindow.h \
