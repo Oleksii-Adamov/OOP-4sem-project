@@ -13,12 +13,23 @@
 //#include "Assignment.h"
 //#include "AssignmentSession.h"
 
+void CheckClient(Client* client) {
+  std::this_thread::sleep_for(500ms);
+  client->Update();
+  CheckClient(client);
+}
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Client::GetInstance()->Connect("127.0.0.1", 60000);
-    Client::GetInstance()->Update();
+    Client* client = Client::GetInstance();
+    client->Connect("127.0.0.1", 60000);
+    std::thread checkClientThread(CheckClient, client);
+
+    // Client::GetInstance()->Connect("127.0.0.1", 60000);
+    // Client::GetInstance()->Update();
+    
     //MainWindow w;
     //AssignmentCreationWindow w;
     //AuthorizationWindow w;
@@ -29,5 +40,8 @@ int main(int argc, char *argv[])
     //StudentAssignmentSessionsWindow w;
     //TeacherAssignmentCheckingWindow w;
     w.show();
+
+    checkClientThread.join();
+
     return a.exec();
 }
