@@ -1,0 +1,17 @@
+#ifndef ENTITY_H
+#define ENTITY_H
+
+#include <string>
+
+#define ID unsigned long long
+#define DATETIME std::string
+#define DATA std::string
+
+class Entity
+{
+protected:
+    virtual ~Entity() = 0;
+};
+
+
+#endif
