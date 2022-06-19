@@ -12,16 +12,16 @@ int ClassroomsListModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return classrooms_list_.size();
+    return list_.size();
 }
 
 QVariant ClassroomsListModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || std::size_t(index.row()) >= classrooms_list_.size())
+    if (!index.isValid() || std::size_t(index.row()) >= list_.size())
         return QVariant();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return QVariant(QString::fromStdString(classrooms_list_[std::size_t(index.row())].getName() + "\n" +
-                classrooms_list_[std::size_t(index.row())].getTeachersName()+ "\n"));
+        return QVariant(QString::fromStdString(list_[std::size_t(index.row())].classroom.getName() + "\n" +
+                list_[std::size_t(index.row())].teacher.getUserName()+ "\n"));
     return QVariant();
 }
 
@@ -29,7 +29,7 @@ bool ClassroomsListModel::PushBack(const ClassroomInfo &value, int role)
 {
     if (role == Qt::EditRole) {
         beginInsertRows(QModelIndex(), 0, 0);
-        classrooms_list_.push_back(value);
+        list_.push_back(value);
         endInsertRows();
         return true;
     }
@@ -41,9 +41,9 @@ bool ClassroomsListModel::PushBack(const ClassroomInfo &value, int role)
 
 ClassroomInfo ClassroomsListModel::GetClassroomInfo(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || std::size_t(index.row()) >= classrooms_list_.size())
+    if (!index.isValid() || std::size_t(index.row()) >= list_.size())
         return ClassroomInfo();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return classrooms_list_[std::size_t(index.row())];
+        return list_[std::size_t(index.row())];
     return ClassroomInfo();
 }

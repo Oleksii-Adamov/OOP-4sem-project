@@ -23,7 +23,7 @@ public:
     ClassroomInfo GetClassroomInfo(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
 protected:
-    std::vector<ClassroomInfo> classrooms_list_;
+    std::vector<ClassroomInfo> list_;
 };
 
 #endif // CLASSROOMSLISTMODEL_H

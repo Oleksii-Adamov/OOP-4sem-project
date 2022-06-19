@@ -17,9 +17,9 @@ ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom, QSharedPointer<
     ui->assignments_list_view->setEditTriggers(QListView::EditTrigger::NoEditTriggers);
     ui->assignments_list_view->setFont(Font::RegularListViewFont());
 
-    this->setWindowTitle(QString::fromStdString(classroom_.getName()));
-    ui->name_label->setText(QString::fromStdString(classroom_.getName()));
-    ui->teacher_label->setText(QString::fromStdString(classroom_.getTeachersName()));
+//    this->setWindowTitle(QString::fromStdString(classroom_.getName()));
+//    ui->name_label->setText(QString::fromStdString(classroom_.getName()));
+//    ui->teacher_label->setText(QString::fromStdString(classroom_.getTeachersName()));
 
     assignments_list_model.reset(new AssignmentsListModel());
 
