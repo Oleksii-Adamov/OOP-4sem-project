@@ -2,7 +2,7 @@
 #define ASSIGNMENTSLISTMODEL_H
 
 #include <QAbstractListModel>
-#include "assignmentinfo.h"
+#include "assignmentsessioninfo.h"
 
 class AssignmentsListModel : public QAbstractListModel
 {
@@ -18,12 +18,12 @@ public:
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     /// Push data to beggining
-    bool Push(const AssignmentInfo &value, int role = Qt::EditRole);
+    bool Push(const AssignmentSessionInfo &value, int role = Qt::EditRole);
 
     unsigned long long GetId(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
 protected:
-    std::vector<AssignmentInfo> assignments_list_;
+    std::vector<AssignmentSessionInfo> list_;
 };
 
 #endif // ASSIGNMENTSLISTMODEL_H

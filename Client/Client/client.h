@@ -51,8 +51,21 @@ public:
                     qDebug() << "Ping: " << std::chrono::duration<double>(timeNow - timeThen).count() << "\n";
                     break;
                 }
-
+                case CustomMsgTypes::RETURN_TEST_ASSIGMENT:
+                {
+                  uint64_t size;
+                  message >> size;
+                  std::string json = "";
+                  for (uint64_t i = 0; i < size; i++) {
+                    char c;
+                    message >> c;
+                    json = c + json;
+                  }
+                  qDebug() << QString::fromStdString(json);
+                  break;
+                }
             }
+
         }
 
     }

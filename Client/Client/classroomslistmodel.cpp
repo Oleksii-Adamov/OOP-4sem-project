@@ -38,11 +38,12 @@ bool ClassroomsListModel::PushBack(const ClassroomInfo &value, int role)
     }
 }
 
-unsigned long long ClassroomsListModel::GetId(const QModelIndex &index, int role) const
+
+ClassroomInfo ClassroomsListModel::GetClassroomInfo(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || std::size_t(index.row()) >= classrooms_list_.size())
-        return 0;
+        return ClassroomInfo();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return classrooms_list_[std::size_t(index.row())].getId();
-    return 0;
+        return classrooms_list_[std::size_t(index.row())];
+    return ClassroomInfo();
 }

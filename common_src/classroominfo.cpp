@@ -1,5 +1,10 @@
 #include "classroominfo.h"
 
+ClassroomInfo::ClassroomInfo()
+{
+
+}
+
 ClassroomInfo::ClassroomInfo(unsigned long long id, const std::string& name, const std::string& teachers_name)
     : id_(id), name_(name), teachers_name_(teachers_name)
 {

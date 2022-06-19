@@ -6,6 +6,7 @@ CONFIG += c++17
 
 INCLUDEPATH += ../../../boost/boost_1_77_0
 INCLUDEPATH += ../../common_src
+INCLUDEPATH += ../../common_src/Entities
 LIBS += -L../../../boost/boost_1_77_0/stage/lib -llibboost_system-mgw11-mt-x64-1_77
 LIBS += -lwsock32
 LIBS += -lws2_32
@@ -16,7 +17,9 @@ LIBS += -lws2_32
 
 SOURCES += \
     ../../common_src/assignmentinfo.cpp \
+    ../../common_src/assignmentsessioninfo.cpp \
     ../../common_src/classroominfo.cpp \
+    ../../common_src/studentassignmentsessioninfo.cpp \
     addeditableheadercommand.cpp \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
@@ -26,6 +29,7 @@ SOURCES += \
     assignmentslistmodel.cpp \
     assignmentsnamelistmodel.cpp \
     authorizationwindow.cpp \
+    checkassignment.cpp \
     classroomslistmodel.cpp \
     classroomslistwindow.cpp \
     classroomsnamelistmodel.cpp \
@@ -35,6 +39,7 @@ SOURCES += \
     client.cpp \
     command.cpp \
     commandhistory.cpp \
+    createdassignmentswindow.cpp \
     editablelabel.cpp \
     enterassignmentnamedialog.cpp \
     filepath.cpp \
@@ -46,14 +51,28 @@ SOURCES += \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
     sendassignmentwindow.cpp \
+    studentassignmentsessionslistmodel.cpp \
+    studentassignmentsessionswindow.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
-    ../../common_src/testassignment.cpp
+    ../../common_src/testassignment.cpp \
+    teacherassignmentcheckingwindow.cpp \
+#    ../../common_src/Entities/Assignment.cpp \
+#    ../../common_src/Entities/AssignmentSession.cpp \
+#    ../../common_src/Entities/AssignmentSession.cpp \
+#    ../../common_src/Entities/Authorization.cpp \
+#    ../../common_src/Entities/Classroom.cpp \
+#    ../../common_src/Entities/StudentAssignmentSession.cpp \
+#    ../../common_src/Entities/StudentClassroom.cpp \
+#    ../../common_src/Entities/User.cpp \
+#    ../../common_src/Entities/Entity.cpp \
 
 HEADERS += \
     ../../common_src/assignmentinfo.h \
+    ../../common_src/assignmentsessioninfo.h \
     ../../common_src/classroominfo.h \
     ../../common_src/messagetypes.h \
+    ../../common_src/studentassignmentsessioninfo.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \
     addeditabletestassignmentcommand.h \
@@ -64,6 +83,7 @@ HEADERS += \
     assignmentslistmodel.h \
     assignmentsnamelistmodel.h \
     authorizationwindow.h \
+    checkassignment.h \
     classroomslistmodel.h \
     classroomslistwindow.h \
     classroomsnamelistmodel.h \
@@ -74,6 +94,7 @@ HEADERS += \
     client.h \
     command.h \
     commandhistory.h \
+    createdassignmentswindow.h \
     editablelabel.h \
     enterassignmentnamedialog.h \
     filepath.h \
@@ -84,21 +105,36 @@ HEADERS += \
     registerwindow.h \
     saveeditableassignmentcommand.h \
     sendassignmentwindow.h \
+    studentassignmentsessionslistmodel.h \
+    studentassignmentsessionswindow.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
-    ../../common_src/testassignment.h
-    ../../common_src/net.h
+    ../../common_src/testassignment.h \
+    teacherassignmentcheckingwindow.h \
+    ../../common_src/net.h \
+    ../../common_src/Entities/Assignment.h \
+    ../../common_src/Entities/AssignmentSession.h \
+    ../../common_src/Entities/AssignmentSession.h \
+    ../../common_src/Entities/Authorization.h \
+    ../../common_src/Entities/Classroom.h \
+    ../../common_src/Entities/StudentAssignmentSession.h \
+    ../../common_src/Entities/StudentClassroom.h \
+    ../../common_src/Entities/User.h
+    ../../common_src/Entities/Entity.h
 
 FORMS += \
     assignmentcreationwindow.ui \
     authorizationwindow.ui \
     classroomslistwindow.ui \
     classroomwindow.ui \
+    createdassignmentswindow.ui \
     enterassignmentnamedialog.ui \
     mainmenuwindow.ui \
     mainwindow.ui \
     registerwindow.ui \
-    sendassignmentwindow.ui
+    sendassignmentwindow.ui \
+    studentassignmentsessionswindow.ui \
+    teacherassignmentcheckingwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -3,14 +3,24 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 #include "registerwindow.h"
+#include "font.h"
 
 AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AuthorizationWindow)
 {
     ui->setupUi(this);
-    this->setWindowState(Qt::WindowMaximized);
+    setAttribute(Qt::WA_DeleteOnClose);
+    //this->setWindowState(Qt::WindowMaximized);
     ui->lineEdit_password->setEchoMode(QLineEdit::Password);
+
+    ui->label_login->setFont(Font::RegularFont());
+    ui->label_password->setFont(Font::RegularFont());
+    ui->lineEdit_login->setFont(Font::RegularFont());
+    ui->lineEdit_password->setFont(Font::RegularFont());
+    ui->pushButtonLogIn->setFont(Font::RegularFont());
+    ui->pushButton_register->setFont(Font::RegularFont());
+    this->setWindowTitle("Log In");
 }
 
 AuthorizationWindow::~AuthorizationWindow()
@@ -41,6 +51,10 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
     {
         QMessageBox::critical(this, "Log in error", "Password has forbidden symbols! Only digits, latin letters of any case, _,^,- allowed");
     }
+    else {
+        is_succesuful_ = true;
+        this->close();
+    }
 }
 
 
@@ -50,3 +64,12 @@ void AuthorizationWindow::on_pushButton_register_clicked()
     register_window->show();
 }
 
+void AuthorizationWindow::closeEvent (QCloseEvent *event)
+{
+    if (is_succesuful_) {
+        event->accept();
+    }
+    else {
+        exit(0);
+    }
+}

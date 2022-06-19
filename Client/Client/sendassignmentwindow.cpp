@@ -7,7 +7,7 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
     ui(new Ui::SendAssignmentWindow)
 {
     ui->setupUi(this);
-
+    this->setWindowTitle("Send Assignment");
     this->setWindowState(Qt::WindowMaximized);
 
     assignments_list_model.reset(new AssignmentsNameListModel());
@@ -27,9 +27,9 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
     ui->comboBox_classroom->setFont(Font::RegularFont());
     ui->comboBox_classroom->setModel(classrooms_list_model.data());
 
-    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
-    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
-    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
+//    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
+//    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
+//    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
 }
 
 SendAssignmentWindow::~SendAssignmentWindow()

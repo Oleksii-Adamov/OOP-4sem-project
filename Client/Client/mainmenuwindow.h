@@ -15,6 +15,11 @@ public:
     explicit MainMenuWindow(QWidget *parent = nullptr);
     ~MainMenuWindow();
 
+private slots:
+    void on_pushButton_classrooms_clicked();
+
+    void on_pushButton_send_assignment_clicked();
+
 private:
     Ui::MainMenuWindow *ui;
 };

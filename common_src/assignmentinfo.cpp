@@ -1,13 +1,12 @@
 #include "assignmentinfo.h"
 
 AssignmentInfo::AssignmentInfo()
-    : id_(-1), name_(""), date_time_("")
 {
 
 }
 
-AssignmentInfo::AssignmentInfo(unsigned long long id, const std::string& name, const std::string& date_time)
-    : id_(id), name_(name), date_time_(date_time)
+AssignmentInfo::AssignmentInfo(unsigned long long id, int max_score, const std::string& name, const std::string& creation_date_time)
+    : id_(id), max_score_(max_score), name_(name), creation_date_time_(creation_date_time)
 {
 
 }
@@ -22,7 +21,12 @@ std::string AssignmentInfo::getName() const
     return name_;
 }
 
-std::string AssignmentInfo::getDateTime() const
+std::string AssignmentInfo::getCreationDateTime() const
 {
-    return date_time_;
+    return creation_date_time_;
+}
+
+int AssignmentInfo::getMaxScore() const
+{
+    return max_score_;
 }

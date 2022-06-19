@@ -2,14 +2,24 @@
 #include "ui_registerwindow.h"
 #include <QMessageBox>
 #include <QRegularExpression>
+#include "font.h"
 
 RegisterWindow::RegisterWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RegisterWindow)
 {
     ui->setupUi(this);
-    this->setWindowState(Qt::WindowMaximized);
+    //this->setWindowState(Qt::WindowMaximized);
     ui->lineEdit_password->setEchoMode(QLineEdit::Password);
+
+    ui->label_login->setFont(Font::RegularFont());
+    ui->label_password->setFont(Font::RegularFont());
+    ui->label_user_name->setFont(Font::RegularFont());
+    ui->lineEdit_login->setFont(Font::RegularFont());
+    ui->lineEdit_password->setFont(Font::RegularFont());
+    ui->lineEdit_user_name->setFont(Font::RegularFont());
+    ui->pushButton_register->setFont(Font::RegularFont());
+    this->setWindowTitle("Register");
 }
 
 RegisterWindow::RegisterWindow(const QString& login, const QString& password, QWidget *parent) :
@@ -56,6 +66,9 @@ void RegisterWindow::on_pushButton_register_clicked()
     else if (!rx.match(ui->lineEdit_password->text()).hasMatch())
     {
         QMessageBox::critical(this, "Registraion error", "Password has forbidden symbols! Only digits, latin letters of any case, _,^,- allowed");
+    }
+    else {
+        this->close();
     }
 }
 

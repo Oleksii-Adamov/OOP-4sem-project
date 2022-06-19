@@ -10,7 +10,7 @@
 class Entity
 {
 protected:
-    virtual ~Entity() = 0;
+    virtual ~Entity() {};
 };
 
 
