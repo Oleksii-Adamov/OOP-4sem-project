@@ -1,29 +1,20 @@
 #ifndef STUDENTASSIGNMENTSESSIONINFO_H
 #define STUDENTASSIGNMENTSESSIONINFO_H
 
-#include "string"
+#include "StudentAssignmentSession.h"
+#include "AssignmentSession.h"
+#include "Assignment.h"
 
-enum class StudentAssignmentSessionStatus {not_submitted, submitted, checked};
-
-class StudentAssignmentSessionInfo
+struct StudentAssignmentSessionInfo
 {
-private:
-    unsigned long long id_ = 0;
-    StudentAssignmentSessionStatus status_;
-    std::string finish_date_time_;
-    std::string student_user_name_;
-    int score_;
-
-public:
-    StudentAssignmentSessionInfo();
-    StudentAssignmentSessionInfo(unsigned long long id, StudentAssignmentSessionStatus status,
-                                 const std::string& finish_date_time, const std::string& student_user_name,
-                                 long long score = 0);
-    unsigned long long getId() const;
-    StudentAssignmentSessionStatus getStatus();
-    std::string getFinishDateTime();
-    std::string getStudentUserName() const;
-    int getScore() const;
+    StudentAssignmentSession student_assignment_session;
+    AssignmentSession assignment_session;
+    Assignment assignment;
+    StudentAssignmentSessionInfo() {}
+    StudentAssignmentSessionInfo(const StudentAssignmentSession& student_assignment_session,
+                                 const AssignmentSession& assignment_session, const Assignment& assignment)
+        : student_assignment_session(student_assignment_session), assignment_session(assignment_session), assignment(assignment)
+    {}
 };
 
 #endif // STUDENTASSIGNMENTSESSIONINFO_H

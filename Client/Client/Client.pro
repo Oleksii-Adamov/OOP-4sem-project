@@ -6,7 +6,7 @@ CONFIG += c++17
 
 INCLUDEPATH += ../../../boost/boost_1_77_0
 INCLUDEPATH += ../../common_src
-#INCLUDEPATH += ../../common_src/Entities
+INCLUDEPATH += ../../common_src/Entities
 LIBS += -L../../../boost/boost_1_77_0/stage/lib -llibboost_system-mgw11-mt-x64-1_77
 LIBS += -lwsock32
 LIBS += -lws2_32
@@ -20,12 +20,14 @@ SOURCES += \
     ../../common_src/assignmentsessioninfo.cpp \
     ../../common_src/classroominfo.cpp \
     ../../common_src/studentassignmentsessioninfo.cpp \
+    ../../common_src/studentassignmentsessioninfoforteacher.cpp \
     addeditableheadercommand.cpp \
     addeditabletestanswercommand.cpp \
     addeditabletestassignmentcommand.cpp \
     assignmentcreationwindow.cpp \
     assignmentguibuilder.cpp \
     assignmentguidirector.cpp \
+    assignmentsessionslistmodel.cpp \
     assignmentslistmodel.cpp \
     assignmentsnamelistmodel.cpp \
     authorizationwindow.cpp \
@@ -51,8 +53,10 @@ SOURCES += \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
     sendassignmentwindow.cpp \
+    studentassignmentsessionsforteacherlistmodel.cpp \
     studentassignmentsessionslistmodel.cpp \
     studentassignmentsessionswindow.cpp \
+    studentassignmentwindow.cpp \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
     ../../common_src/testassignment.cpp \
@@ -73,6 +77,7 @@ HEADERS += \
     ../../common_src/classroominfo.h \
     ../../common_src/messagetypes.h \
     ../../common_src/studentassignmentsessioninfo.h \
+    ../../common_src/studentassignmentsessioninfoforteacher.h \
     addeditableheadercommand.h \
     addeditabletestanswercommand.h \
     addeditabletestassignmentcommand.h \
@@ -80,6 +85,7 @@ HEADERS += \
     assignmentcreationwindow.h \
     assignmentguibuilder.h \
     assignmentguidirector.h \
+    assignmentsessionslistmodel.h \
     assignmentslistmodel.h \
     assignmentsnamelistmodel.h \
     authorizationwindow.h \
@@ -105,8 +111,10 @@ HEADERS += \
     registerwindow.h \
     saveeditableassignmentcommand.h \
     sendassignmentwindow.h \
+    studentassignmentsessionsforteacherlistmodel.h \
     studentassignmentsessionslistmodel.h \
     studentassignmentsessionswindow.h \
+    studentassignmentwindow.h \
     submitassignment.h \
     ../../common_src/testanswer.h \
     ../../common_src/testassignment.h \
@@ -134,6 +142,7 @@ FORMS += \
     registerwindow.ui \
     sendassignmentwindow.ui \
     studentassignmentsessionswindow.ui \
+    studentassignmentwindow.ui \
     teacherassignmentcheckingwindow.ui
 
 # Default rules for deployment.

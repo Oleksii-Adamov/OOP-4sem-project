@@ -1,5 +1,5 @@
 #include "assignmentslistmodel.h"
-
+/*
 AssignmentsListModel::AssignmentsListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -48,4 +48,4 @@ unsigned long long AssignmentsListModel::GetId(const QModelIndex &index, int rol
         return list_[std::size_t(index.row())].getId();
     return 0;
 }
-
+*/

@@ -32,7 +32,8 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     connect(ui->classromms_list_view_as_student, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnStudentClassroomClicked(QModelIndex)));
     connect(ui->classromms_list_view_as_teacher, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTeacherClassroomClicked(QModelIndex)));
 
-//    classrooms_list_as_teacher_model_->PushBack(ClassroomInfo(1, "General algebra", "Linder"));
+    classrooms_list_as_student_model_->PushBack(ClassroomInfo(Classroom(2,2,"Probability theory"), User(2, "rozora", "Rozora")));
+    classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(2, "Probability theory", "Rozora"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(3, "OOP", "Zhereb"));
 }
@@ -46,7 +47,7 @@ void ClassroomsListWindow::OnStudentClassroomClicked(const QModelIndex& classroo
 
 void ClassroomsListWindow::OnTeacherClassroomClicked(const QModelIndex& classroom_index)
 {
-    ClassroomWindow* new_window  = new ClassroomWindow(classrooms_list_as_teacher_model_->GetClassroomInfo(classroom_index),
+    ClassroomWindow* new_window  = new ClassroomWindow(ClassroomInfo(classrooms_list_as_teacher_model_->GetClassroom(classroom_index),User()),
                                                             QSharedPointer<ClassroomWindowStrategy>(new ClassroomWindowTeacherStrategy), this);
     new_window->show();
 }
