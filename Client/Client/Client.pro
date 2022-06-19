@@ -38,6 +38,7 @@ SOURCES += \
     client.cpp \
     command.cpp \
     commandhistory.cpp \
+    createdassignmentswindow.cpp \
     editablelabel.cpp \
     enterassignmentnamedialog.cpp \
     filepath.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
     client.h \
     command.h \
     commandhistory.h \
+    createdassignmentswindow.h \
     editablelabel.h \
     enterassignmentnamedialog.h \
     filepath.h \
@@ -106,6 +108,7 @@ FORMS += \
     authorizationwindow.ui \
     classroomslistwindow.ui \
     classroomwindow.ui \
+    createdassignmentswindow.ui \
     enterassignmentnamedialog.ui \
     mainmenuwindow.ui \
     mainwindow.ui \

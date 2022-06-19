@@ -12,7 +12,7 @@ private:
     StudentAssignmentSessionStatus status_;
     std::string finish_date_time_;
     std::string student_user_name_;
-    long long score_;
+    int score_;
 
 public:
     StudentAssignmentSessionInfo();
@@ -23,7 +23,7 @@ public:
     StudentAssignmentSessionStatus getStatus();
     std::string getFinishDateTime();
     std::string getStudentUserName() const;
-    long long getScore() const;
+    int getScore() const;
 };
 
 #endif // STUDENTASSIGNMENTSESSIONINFO_H
