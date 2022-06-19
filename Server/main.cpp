@@ -1,5 +1,6 @@
 #include "../common_src/net.h"
 #include "../common_src/messagetypes.h"
+#include "Database/Database.h"
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -95,6 +96,7 @@ protected:
 
 int main()
 {
+    Database::init("Database.db");
 	CustomServer server(60000);
 	server.Start();
 
