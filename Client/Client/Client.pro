@@ -16,6 +16,7 @@ LIBS += -lws2_32
 
 SOURCES += \
     ../../common_src/assignmentinfo.cpp \
+    ../../common_src/assignmentsessioninfo.cpp \
     ../../common_src/classroominfo.cpp \
     ../../common_src/studentassignmentsessioninfo.cpp \
     addeditableheadercommand.cpp \
@@ -57,6 +58,7 @@ SOURCES += \
 
 HEADERS += \
     ../../common_src/assignmentinfo.h \
+    ../../common_src/assignmentsessioninfo.h \
     ../../common_src/classroominfo.h \
     ../../common_src/messagetypes.h \
     ../../common_src/studentassignmentsessioninfo.h \
