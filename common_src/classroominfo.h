@@ -1,20 +1,13 @@
 #ifndef CLASSROOMINFO_H
 #define CLASSROOMINFO_H
 
-#include<string>
+#include "Entities/Classroom.h"
+#include "Entities/User.h"
 
-class ClassroomInfo
+struct ClassroomInfo
 {
-private:
-    unsigned long long id_ = 0;
-    std::string name_ = "";
-    std::string teachers_name_ = "";
-public:
-    ClassroomInfo();
-    ClassroomInfo(unsigned long long id, const std::string& name, const std::string& teachers_name);
-    unsigned long long getId() const;
-    std::string getName() const;
-    std::string getTeachersName() const;
+    Classroom classroom = Classroom();
+    User teacher = User();
 };
 
 #endif // CLASSROOMINFO_H

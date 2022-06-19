@@ -10,8 +10,8 @@
 #include "sendassignmentwindow.h"
 #include "studentassignmentsessionswindow.h"
 #include "teacherassignmentcheckingwindow.h"
-#include "Assignment.h"
-#include "AssignmentSession.h"
+//#include "Assignment.h"
+//#include "AssignmentSession.h"
 
 int main(int argc, char *argv[])
 {

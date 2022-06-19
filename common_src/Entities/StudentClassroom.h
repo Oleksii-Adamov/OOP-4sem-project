@@ -9,10 +9,25 @@ class StudentClassroom : Entity
     ID classroom_id_;
 public:
     StudentClassroom(const ID& student_user_id, const ID& classroom_id) : student_user_id_(student_user_id), classroom_id_(classroom_id) {};
-    void setStudentUserId(const ID& student_user_id);
-    void setClassroomId(const ID& classroom_id);
-    ID getStudentUserId() const;
-    ID getClassroomId() const;
+    void setStudentUserId(const ID& student_user_id)
+    {
+        student_user_id_ = student_user_id;
+    }
+
+    void setClassroomId(const ID& classroom_id)
+    {
+        classroom_id_ = classroom_id;
+    }
+
+    ID getStudentUserId() const
+    {
+        return student_user_id_;
+    }
+
+    ID getClassroomId() const
+    {
+        return classroom_id_;
+    }
 };
 
 
