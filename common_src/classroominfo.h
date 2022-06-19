@@ -1,13 +1,17 @@
 #ifndef CLASSROOMINFO_H
 #define CLASSROOMINFO_H
 
-#include "Entities/Classroom.h"
-#include "Entities/User.h"
+#include "Classroom.h"
+#include "User.h"
 
 struct ClassroomInfo
 {
-    Classroom classroom = Classroom();
-    User teacher = User();
+    Classroom classroom;
+    User teacher;
+    ClassroomInfo() {}
+    ClassroomInfo(const Classroom& classroom, const User& teacher)
+        : classroom(classroom), teacher(teacher)
+    {}
 };
 
 #endif // CLASSROOMINFO_H

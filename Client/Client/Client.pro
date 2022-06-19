@@ -6,7 +6,7 @@ CONFIG += c++17
 
 INCLUDEPATH += ../../../boost/boost_1_77_0
 INCLUDEPATH += ../../common_src
-#INCLUDEPATH += ../../common_src/Entities
+INCLUDEPATH += ../../common_src/Entities
 LIBS += -L../../../boost/boost_1_77_0/stage/lib -llibboost_system-mgw11-mt-x64-1_77
 LIBS += -lwsock32
 LIBS += -lws2_32
