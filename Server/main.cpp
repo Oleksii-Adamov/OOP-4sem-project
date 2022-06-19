@@ -80,15 +80,14 @@ protected:
 
 int main()
 {
-    Database::init();
+    Database::init("Database.db");
 	CustomServer server(60000);
 	server.Start();
-	
+
 	while (1)
 	{
 		server.Update(-1, true);
 	}
 
-    Database::clear();
 	return 0;
 }

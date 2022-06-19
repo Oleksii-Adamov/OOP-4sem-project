@@ -1,22 +1,8 @@
 #include "Database.h"
-Database* Database::database_= nullptr;;
+#include "DatabaseService.h"
 
 
-Database& Database::instance()
+void Database::init(const std::string& path)
 {
-    if(!database_)
-    {
-        database_ = new Database();
-    }
-    return *database_;
-}
-
-void Database::init()
-{
-    // build database
-}
-
-void Database::clear()
-{
-    delete database_;
+    DatabaseService::initDatabase(path);
 }
