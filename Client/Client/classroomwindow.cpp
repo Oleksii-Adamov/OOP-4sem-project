@@ -21,20 +21,25 @@ ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom, QSharedPointer<
 //    ui->name_label->setText(QString::fromStdString(classroom_.getName()));
 //    ui->teacher_label->setText(QString::fromStdString(classroom_.getTeachersName()));
 
-    assignments_list_model.reset(new AssignmentsListModel());
+    strategy_->SetModel(assignments_list_model);
 
     ui->assignments_list_view->setModel(assignments_list_model.data());
 
     connect(ui->assignments_list_view, SIGNAL(clicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));
-
+    net::message<CustomMsgTypes> msg;
+    Update(msg);
 //    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
 }
 
 void ClassroomWindow::OnAssignmentClicked(const QModelIndex& assignment) {
-   qDebug() << assignments_list_model->GetId(assignment);
    //strategy_->OnAssignmentClicked(assignments_list_model->GetId(assignment));
+}
+
+void ClassroomWindow::Update(net::message<CustomMsgTypes>& msg)
+{
+    strategy_->Update(msg, assignments_list_model);
 }
 
 ClassroomWindow::~ClassroomWindow()

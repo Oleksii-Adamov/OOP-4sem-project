@@ -1,7 +1,7 @@
 #include "studentassignmentsessionslistmodel.h"
 
-StudentAssignmentSessionsListModel::StudentAssignmentSessionsListModel(long long max_score, QObject *parent)
-    : QAbstractListModel(parent), max_score_(max_score)
+StudentAssignmentSessionsListModel::StudentAssignmentSessionsListModel(QObject *parent)
+    : QAbstractListModel(parent)
 {
 }
 
@@ -21,23 +21,25 @@ QVariant StudentAssignmentSessionsListModel::data(const QModelIndex &index, int 
         return QVariant();
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         StudentAssignmentSessionInfo student_assignment = list_[std::size_t(index.row())];
-        QString display = QString::fromStdString(student_assignment.getStudentUserName()) + "  ";
-        if (student_assignment.getStatus() != StudentAssignmentSessionStatus::checked)
-        {
-            display += QString::number(student_assignment.getScore());
-        }
-        else {
-            display += "-";
-        }
-        display += "/" + QString::number(max_score_) + "\n";
-        if (student_assignment.getStatus() == StudentAssignmentSessionStatus::not_submitted)
+        QString display = QString::fromStdString(student_assignment.assignment.getAssignmentName() +
+                "\nPublished: " + student_assignment.assignment_session.getAssignmentSessionStartDate() +
+                "\nDeadline: " + student_assignment.assignment_session.getAssignmentSessionEndDate() + "\n");
+
+        if (student_assignment.student_assignment_session.getStudentAssignmentSessionStatus() == StudentAssignmentSessionStatus::not_submitted)
         {
             display += "Not submitted";
         }
         else {
-            display += "Submitted: " + QString::fromStdString(student_assignment.getFinishDateTime());
+            display += "Submitted: " + QString::fromStdString(student_assignment.student_assignment_session.getStudentAssignmentSessionFinishDate()) + "\n";
+            if (student_assignment.student_assignment_session.getStudentAssignmentSessionStatus() == StudentAssignmentSessionStatus::checked)
+            {
+                display += QString::number(student_assignment.student_assignment_session.getStudentAssignmentSessionScore());
+            }
+            else {
+                display += "-";
+            }
+            display += "/" + QString::number(student_assignment.assignment.getAssignmentMaxScore()) + "\n";
         }
-        display += "\n";
         return display;
     }
     return QVariant();
@@ -56,11 +58,11 @@ bool StudentAssignmentSessionsListModel::PushBack(const StudentAssignmentSession
     }
 }
 
-unsigned long long StudentAssignmentSessionsListModel::GetId(const QModelIndex &index, int role) const
+StudentAssignmentSessionInfo StudentAssignmentSessionsListModel::GetData(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || std::size_t(index.row()) >= list_.size())
-        return 0;
+        return StudentAssignmentSessionInfo();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return list_[std::size_t(index.row())].getId();
-    return 0;
+        return list_[std::size_t(index.row())];
+    return StudentAssignmentSessionInfo();
 }
