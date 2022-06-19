@@ -1,5 +1,5 @@
 #include "assignmentslistmodel.h"
-/*
+
 AssignmentsListModel::AssignmentsListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -21,13 +21,11 @@ QVariant AssignmentsListModel::data(const QModelIndex &index, int role) const
     if (!index.isValid() || std::size_t(index.row()) >= list_.size())
         return QVariant();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return QVariant(QString::fromStdString(list_[std::size_t(index.row())].getName() +
-                        "\n Published :" + list_[std::size_t(index.row())].getStartDateTime() +
-                "\n Deadline :" + list_[std::size_t(index.row())].getDeadlineDateTime()));
+        return QVariant(QString::fromStdString(list_[std::size_t(index.row())].getAssignmentName()));
     return QVariant();
 }
 
-bool AssignmentsListModel::Push(const AssignmentSessionInfo &value, int role)
+bool AssignmentsListModel::PushBack(const Assignment &value, int role)
 {
     if (role == Qt::EditRole) {
         beginInsertRows(QModelIndex(), 0, 0);
@@ -40,12 +38,12 @@ bool AssignmentsListModel::Push(const AssignmentSessionInfo &value, int role)
     }
 }
 
-unsigned long long AssignmentsListModel::GetId(const QModelIndex &index, int role) const
+Assignment AssignmentsListModel::GetData(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || std::size_t(index.row()) >= list_.size())
-        return 0;
+        return Assignment();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return list_[std::size_t(index.row())].getId();
-    return 0;
+        return list_[std::size_t(index.row())];
+    return Assignment();
 }
-*/
+
