@@ -6,7 +6,7 @@
 class Table
 {
 protected:
-    virtual ~Table() = 0;
+    virtual ~Table() {};
 
     virtual bool insertToDatabase() = 0; //!ID (key) field is ignored (a new one is generated)
     virtual bool getFromDatabaseById() = 0;

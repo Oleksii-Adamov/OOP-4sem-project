@@ -6,7 +6,7 @@
 class Database
 {
 public:
-    static void init(const std::string& path);
+    static void init();
 };
 
 

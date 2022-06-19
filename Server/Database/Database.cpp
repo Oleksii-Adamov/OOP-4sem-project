@@ -2,7 +2,7 @@
 #include "DatabaseService.h"
 
 
-void Database::init(const std::string& path)
+void Database::init()
 {
-    DatabaseService::initDatabase(path);
+    DatabaseService::initDatabase();
 }

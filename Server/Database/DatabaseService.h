@@ -8,7 +8,7 @@ class DatabaseService
 public:
     DatabaseService() = delete;
 
-    static void initDatabase(const std::string& path);
+    static void initDatabase();
 };
 
 

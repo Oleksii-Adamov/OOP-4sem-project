@@ -3,9 +3,16 @@
 
 #include "Table.h"
 
-class UserTable : User, Table
+class UserTable : Table
 {
+    User data;
+public:
+    UserTable() = default;
 
+    bool insertToDatabase() override;
+    bool getFromDatabaseById() override;
+    bool updateInDatabaseById() override;
+    bool deleteFromDatabaseById() override;
 };
 
 

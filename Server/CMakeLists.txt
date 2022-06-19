@@ -13,29 +13,30 @@ add_executable(${PROJECT_NAME}
                 Database/DatabaseLog.h
                 Database/DatabaseService.cpp
                 Database/DatabaseService.h
+                Database/DatabaseOperation.h
+                Database/DatabaseOperation.cpp
 
                 ../common_src/Entities/Entities.h
-                ../common_src/Entities/Entity.cpp
                 ../common_src/Entities/Entity.h
-                ../common_src/Entities/User.cpp
                 ../common_src/Entities/User.h
-                ../common_src/Entities/Classroom.cpp
                 ../common_src/Entities/Classroom.h
-                ../common_src/Entities/StudentClassroom.cpp
                 ../common_src/Entities/StudentClassroom.h
-                ../common_src/Entities/Authorization.cpp
                 ../common_src/Entities/Authorization.h
-                ../common_src/Entities/Assignment.cpp
                 ../common_src/Entities/Assignment.h
-                ../common_src/Entities/AssignmentSession.cpp
                 ../common_src/Entities/AssignmentSession.h
-                ../common_src/Entities/StudentAssignmentSession.cpp
                 ../common_src/Entities/StudentAssignmentSession.h
 
                 Database/Tables/Table.cpp
                 Database/Tables/Table.h
                 Database/Tables/UserTable.cpp
-                Database/Tables/UserTable.h)
+                Database/Tables/UserTable.h
+
+                Database/SQLite/DatabasePath.h
+                Database/SQLite/SQLiteAdapter.cpp
+                Database/SQLite/SQLiteAdapter.h
+
+                Database/SQLite/sqlite_src/sqlite3.c
+                Database/SQLite/sqlite_src/sqlite3.h)
 
 find_package(Boost 1.77.0 COMPONENTS system filesystem REQUIRED)
 
