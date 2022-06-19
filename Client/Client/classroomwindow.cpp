@@ -27,9 +27,9 @@ ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom, QSharedPointer<
 
     connect(ui->assignments_list_view, SIGNAL(clicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));
 
-    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
-    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
-    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
+//    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
+//    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
+//    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
 }
 
 void ClassroomWindow::OnAssignmentClicked(const QModelIndex& assignment) {

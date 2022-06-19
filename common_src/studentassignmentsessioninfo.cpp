@@ -33,7 +33,7 @@ std::string StudentAssignmentSessionInfo::getStudentUserName() const
     return student_user_name_;
 }
 
-long long StudentAssignmentSessionInfo::getScore() const
+int StudentAssignmentSessionInfo::getScore() const
 {
     return score_;
 }

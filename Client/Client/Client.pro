@@ -6,6 +6,7 @@ CONFIG += c++17
 
 INCLUDEPATH += ../../../boost/boost_1_77_0
 INCLUDEPATH += ../../common_src
+INCLUDEPATH += ../../common_src/Entities
 LIBS += -L../../../boost/boost_1_77_0/stage/lib -llibboost_system-mgw11-mt-x64-1_77
 LIBS += -lwsock32
 LIBS += -lws2_32
@@ -55,7 +56,16 @@ SOURCES += \
     submitassignment.cpp \
     ../../common_src/testanswer.cpp \
     ../../common_src/testassignment.cpp \
-    teacherassignmentcheckingwindow.cpp
+    teacherassignmentcheckingwindow.cpp \
+#    ../../common_src/Entities/Assignment.cpp \
+#    ../../common_src/Entities/AssignmentSession.cpp \
+#    ../../common_src/Entities/AssignmentSession.cpp \
+#    ../../common_src/Entities/Authorization.cpp \
+#    ../../common_src/Entities/Classroom.cpp \
+#    ../../common_src/Entities/StudentAssignmentSession.cpp \
+#    ../../common_src/Entities/StudentClassroom.cpp \
+#    ../../common_src/Entities/User.cpp \
+#    ../../common_src/Entities/Entity.cpp \
 
 HEADERS += \
     ../../common_src/assignmentinfo.h \
@@ -100,8 +110,17 @@ HEADERS += \
     submitassignment.h \
     ../../common_src/testanswer.h \
     ../../common_src/testassignment.h \
-    teacherassignmentcheckingwindow.h
-    ../../common_src/net.h
+    teacherassignmentcheckingwindow.h \
+    ../../common_src/net.h \
+    ../../common_src/Entities/Assignment.h \
+    ../../common_src/Entities/AssignmentSession.h \
+    ../../common_src/Entities/AssignmentSession.h \
+    ../../common_src/Entities/Authorization.h \
+    ../../common_src/Entities/Classroom.h \
+    ../../common_src/Entities/StudentAssignmentSession.h \
+    ../../common_src/Entities/StudentClassroom.h \
+    ../../common_src/Entities/User.h
+    ../../common_src/Entities/Entity.h
 
 FORMS += \
     assignmentcreationwindow.ui \

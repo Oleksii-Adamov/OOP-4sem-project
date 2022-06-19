@@ -2,7 +2,7 @@
 #define ASSIGNMENTSLISTMODEL_H
 
 #include <QAbstractListModel>
-#include "assignmentsessioninfo.h".h"
+#include "assignmentsessioninfo.h"
 
 class AssignmentsListModel : public QAbstractListModel
 {
