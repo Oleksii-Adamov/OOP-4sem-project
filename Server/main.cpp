@@ -187,6 +187,7 @@ protected:
 				
 			case CustomMsgTypes::GET_TEACHER_ASSIGNMENTS:
 				GetTeacherAssignments(client, msg);
+				break;
 		}
 	}
 };
