@@ -26,11 +26,10 @@ AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment,
     this->setWindowState(Qt::WindowMaximized);
     InitAssignmentDir();
 
-    //QLayout* layout = ui->centralwidget->layout();
-    QVBoxLayout* layout = new QVBoxLayout(ui->centralwidget);
+    QLayout* layout = ui->centralwidget->layout();
 
-//    ui->label_max_score->setFont(Font::RegularListViewFont());
-//    ui->spinBox_max_score->setFont(Font::RegularListViewFont());
+    ui->label_max_score->setFont(Font::RegularListViewFont());
+    ui->spinBox_max_score->setFont(Font::RegularListViewFont());
 
     auto * scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
@@ -80,7 +79,7 @@ AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment,
     );
 
     if (assignment.getAssignmentId() != 0) {
-//        ui->spinBox_max_score->setValue(assignment_.getAssignmentMaxScore());
+        ui->spinBox_max_score->setValue(assignment_.getAssignmentMaxScore());
         //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
         this->setWindowTitle(QString::fromStdString(assignment_.getAssignmentName()));
         //Client::GetInstance()->Subscribe(this);
@@ -93,7 +92,8 @@ void AssignmentCreationWindow::GetData()
     net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::GET_TEST_ASSIGNMENT;
     Client::GetInstance()->Send(message);
-//    Client::GetInstance()->Update();
+    for (std::size_t i = 0; i < 100; i++)
+        Client::GetInstance()->Update();
 //    Client::GetInstance()->Update();
 }
 
