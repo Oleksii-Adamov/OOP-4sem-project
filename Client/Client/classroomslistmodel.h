@@ -22,6 +22,8 @@ public:
 
     ClassroomInfo GetClassroomInfo(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    void Clear();
+
 protected:
     std::vector<ClassroomInfo> list_;
 };

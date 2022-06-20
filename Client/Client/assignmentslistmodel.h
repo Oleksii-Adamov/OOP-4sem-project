@@ -21,6 +21,8 @@ public:
 
     Assignment GetData(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    void Clear();
+
 protected:
     std::vector<Assignment> list_;
 };

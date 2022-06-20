@@ -27,6 +27,7 @@ private slots:
 private:
     Ui::CreatedAssignmentsWindow *ui;
     QSharedPointer<AssignmentsListModel> assignments_list_model;
+    void GetData();
 };
 
 #endif // CREATEDASSIGNMENTSWINDOW_H

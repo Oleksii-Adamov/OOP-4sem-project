@@ -64,3 +64,8 @@ StudentAssignmentSessionInfoForTeacher StudentAssignmentSessionsForTeacherListMo
         return list_[std::size_t(index.row())];
     return StudentAssignmentSessionInfoForTeacher();
 }
+
+void StudentAssignmentSessionsForTeacherListModel::Clear()
+{
+    list_.clear();
+}

@@ -44,6 +44,8 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(2, "Probability theory", "Rozora"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(3, "OOP", "Zhereb"));
+    //GetStudentClassroomsData();
+    //GetTeacherClassroomsData();
 }
 
 void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
@@ -62,11 +64,27 @@ void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
                                          classroom_object.take("name").toString().toStdString()));
         }
     }
+    if (msg.header.id == CustomMsgTypes::RETURN_STUDENT_CLASSROOMS)
+    {
+        //classrooms_list_as_student_model_->Clear();
+        /*QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonArray classrooms =  json_doc_obj.take("Classrooms").toArray();
+        for (int i = 0; i < classrooms.size(); i++)
+        {
+            QJsonObject classroom_object = classrooms.at(i).toObject();
+            classrooms_list_as_teacher_model_->PushBack(Classroom(classroom_object.take("classroom_id").toInt(),
+                                         classroom_object.take("teacher_user_id").toInt(),
+                                         classroom_object.take("name").toString().toStdString()));
+        }*/
+    }
 }
 
-void GetStudentClassroomsData()
+void ClassroomsListWindow::GetStudentClassroomsData()
 {
-
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_STUDENT_CLASSROOMS;
+    Client::GetInstance()->Send(message);
 }
 void ClassroomsListWindow::GetTeacherClassroomsData()
 {

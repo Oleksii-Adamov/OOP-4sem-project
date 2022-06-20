@@ -21,7 +21,7 @@ public:
     bool PushBack(const StudentAssignmentSessionInfoForTeacher &value, int role = Qt::EditRole);
 
     StudentAssignmentSessionInfoForTeacher GetData(const QModelIndex &index, int role = Qt::DisplayRole) const;
-
+    void Clear();
 private:
     std::vector<StudentAssignmentSessionInfoForTeacher> list_;
     int max_score_;
