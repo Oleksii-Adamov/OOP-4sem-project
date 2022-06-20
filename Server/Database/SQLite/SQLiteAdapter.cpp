@@ -1,6 +1,7 @@
 #include "SQLiteAdapter.h"
 #include "../DatabaseLog.h"
 #include "DatabasePath.h"
+#include "SQLiteService.h"
 #include <string>
 
 
@@ -15,19 +16,27 @@ bool SQLiteAdapter::openDatabase(sqlite3** db)
     return true;
 }
 
-bool SQLiteAdapter::exec(sqlite3** db, const std::string& command)
+bool SQLiteAdapter::exec(const std::string& command)
 {
+    sqlite3* db = nullptr;
+    bool flag;
     char* error = nullptr;
-    bool flag = sqlite3_exec(*db, command.c_str(), nullptr, nullptr, &error);
-    if(flag)
+    if(SQLiteAdapter::openDatabase(&db))
     {
-        DatabaseLog::error("Execution failure: " + std::string(sqlite3_errmsg(*db)));
-        DatabaseLog::error("Script: " + command);
+        flag = sqlite3_exec(db, command.c_str(), nullptr, nullptr, &error);
+        if(flag)
+        {
+            DatabaseLog::error("Execution failure: " + std::string(sqlite3_errmsg(db)));
+            DatabaseLog::error("Script: " + command);
+        }
         sqlite3_free(error);
-        return false;
+        SQLiteAdapter::closeDatabase(&db);
+        if(flag)
+            return false;
+        return true;
     }
-    sqlite3_free(error);
-    return true;
+    else
+        return false;
 }
 
 bool SQLiteAdapter::initDatabase() const
@@ -121,35 +130,74 @@ bool SQLiteAdapter::initDatabase() const
                            "CREATE INDEX IF NOT EXISTS `fk_Assignment_has_User_User1_idx` ON `Student_AssignmentSession`(`StudentUserID`);\n"
                            "CREATE INDEX IF NOT EXISTS `fk_Student_AssignmentSession_AssignmentSession1_idx` ON `Student_AssignmentSession`(`AssignmentSessionID`);\n"
                            "";
-    sqlite3 *db = nullptr;
-    bool flag1, flag2;
-    flag1 = SQLiteAdapter::openDatabase(&db);
-    flag2 = SQLiteAdapter::exec(&db, command);
-    SQLiteAdapter::closeDatabase(&db);
-    if(!flag1 || !flag2)
-        return false;
-    return true;
+    return SQLiteAdapter::exec(command);
 }
 
 bool SQLiteAdapter::execInsert(const std::string& table_name, const std::vector<std::string>& columns, const std::vector<std::string>& values) const
 {
-
+    std::string command = "INSERT INTO '" + table_name + "' (" + SQLiteService::commasList(columns) + ")\n"
+                        + "VALUES (" + SQLiteService::commasList(values) + ");";
+    return SQLiteAdapter::exec(command);
 }
 
-std::vector<std::vector<std::string>> SQLiteAdapter::execSelect(const std::string& command_select) const
+std::pair<bool, std::vector<std::vector<std::string>>> SQLiteAdapter::execSelect(const std::string& command_select, size_t n) const
 {
+    sqlite3* db = nullptr;
+    sqlite3_stmt * stmt;
+    std::vector<std::vector<std::string>> result;
 
+    for(size_t i=0; i<n; i++)
+        result.emplace_back();
+
+    if(SQLiteAdapter::openDatabase(&db))
+    {
+        if(!sqlite3_prepare(db, command_select.c_str(), -1, &stmt, nullptr))
+        {
+            sqlite3_step(stmt);
+            while(sqlite3_column_text(stmt,0))
+            {
+                for(size_t i=0; i<n; i++)
+                    result[i].push_back(std::string( (char *)sqlite3_column_text(stmt, static_cast<int>(i))));
+                sqlite3_step(stmt);
+            }
+            sqlite3_finalize(stmt);
+            SQLiteAdapter::closeDatabase(&db);
+            return {true, result};
+        }
+        else
+        {
+            SQLiteAdapter::closeDatabase(&db);
+            return {false, {}};
+        }
+    }
+    else
+        return {false, {}};
 }
 
 bool SQLiteAdapter::execUpdate(const std::string& table_name, const std::vector<std::string>& columns,
                 const std::vector<std::string>& column_values, const std::string& where_expression) const
 {
+    if(columns.size() != column_values.size())
+        DatabaseLog::error("UPDATE script failure (different vector sizes)");
 
+    std::vector<std::string> pairs;
+    for(size_t i=0; i<columns.size(); i++)
+    {
+        pairs.push_back(columns[i] + " = " + column_values[i]);
+    }
+    std::string setString = SQLiteService::commasList(pairs);
+
+    std::string command = "UPDATE '" + table_name + "'\n"
+                        + "SET " + setString + "\n"
+                        + "WHERE " + where_expression + ";";
+    return SQLiteAdapter::exec(command);
 }
 
 bool SQLiteAdapter::execDelete(const std::string& table_name, const std::string& where_expression) const
 {
-
+    std::string command = "DELETE FROM '" + table_name + "'\n"
+                        + "WHERE " + where_expression + ";";
+    return SQLiteAdapter::exec(command);
 }
 
 bool SQLiteAdapter::closeDatabase(sqlite3** db)

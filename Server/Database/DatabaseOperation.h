@@ -10,7 +10,7 @@ public:
     virtual ~DatabaseOperation() {};
     virtual bool initDatabase() const;
     virtual bool execInsert(const std::string& table_name, const std::vector<std::string>& columns, const std::vector<std::string>& values) const;
-    virtual std::vector<std::vector<std::string>> execSelect(const std::string& command_select) const;
+    virtual std::pair<bool, std::vector<std::vector<std::string>>> execSelect(const std::string& command_select, size_t n) const;
     virtual bool execUpdate(const std::string& table_name, const std::vector<std::string>& columns,
                     const std::vector<std::string>& column_values, const std::string& where_expression) const;
     virtual bool execDelete(const std::string& table_name, const std::string& where_expression) const;

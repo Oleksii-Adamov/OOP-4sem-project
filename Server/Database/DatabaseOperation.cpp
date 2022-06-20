@@ -14,10 +14,10 @@ bool DatabaseOperation::execInsert(const std::string& table_name, const std::vec
     return false;
 }
 
-std::vector<std::vector<std::string>> DatabaseOperation::execSelect(const std::string& command_select) const
+std::pair<bool, std::vector<std::vector<std::string>>> DatabaseOperation::execSelect(const std::string& command_select, size_t n) const
 {
     DatabaseLog::error("An empty function is called");
-    return {};
+    return {false, {}};
 }
 
 bool DatabaseOperation::execUpdate(const std::string& table_name, const std::vector<std::string>& columns,

@@ -26,14 +26,11 @@ add_executable(${PROJECT_NAME}
                 ../common_src/Entities/AssignmentSession.h
                 ../common_src/Entities/StudentAssignmentSession.h
 
-                Database/Tables/Table.cpp
-                Database/Tables/Table.h
-                Database/Tables/UserTable.cpp
-                Database/Tables/UserTable.h
-
                 Database/SQLite/DatabasePath.h
                 Database/SQLite/SQLiteAdapter.cpp
                 Database/SQLite/SQLiteAdapter.h
+                Database/SQLite/SQLiteService.cpp
+                Database/SQLite/SQLiteService.h
 
                 Database/SQLite/sqlite_src/sqlite3.c
                 Database/SQLite/sqlite_src/sqlite3.h)
