@@ -82,14 +82,15 @@ void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
 
 void ClassroomsListWindow::GetStudentClassroomsData()
 {
-    net::message<CustomMsgTypes> message;
+/*    net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::GET_STUDENT_CLASSROOMS;
-    Client::GetInstance()->Send(message);
+    Client::GetInstance()->Send(message);*/
 }
 void ClassroomsListWindow::GetTeacherClassroomsData()
 {
     net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::GET_TEACHER_CLASSROOMS;
+    message << Client::GetInstance()->GetUser().getUserId();
     Client::GetInstance()->Send(message);
 }
 

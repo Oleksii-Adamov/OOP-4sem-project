@@ -1,13 +1,13 @@
 # OOP-4sem-project
 ## Naming convensions: https://google.github.io/styleguide/cppguide.html#Naming
-## Реалізовані паттерни (4-5):
+## Реалізовані паттерни (10):
 - ### Builder (Client - AssignmentBuilder)
 
 - ### Singleton(2)(Client - SubmitAssignment, Client - Client)
 
 - ### Command (Client - Command)
 
-- ### Strategy (sketch)
+- ### Strategy (Client - ClassroomWindowStrategy)
 
 - ### MVC (not Gof, and using Qt tools for MVC) (Client - AssignmentsListModel - QListView)
 
@@ -17,7 +17,9 @@
 
 - ### Facade (client_interface & server_interface connection/disconnection/sending methods)
 
-- ### Adapter (SQLiteAdapter <- sqlite3 library)
+- ### Adapter (SQLiteAdapter <- sqlite3 library)-
+
+- ### Observer(Client - Client, ClientSubscriber)
 
 ## TO DO (General):
 ### 1. Клієнт-серверна архітектура.
