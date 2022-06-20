@@ -4,9 +4,11 @@
 #include "messagetypes.h"
 #include <QDebug>
 #include "clientsubscriber.h"
+#include <QObject>
 
-class Client : public net::client_interface<CustomMsgTypes>
+class Client : public net::client_interface<CustomMsgTypes>, public QObject
 {
+    Q_OBJECT
 private:
     bool key[3] = { false, false, false };
     bool old_key[3] = { false, false, false };
@@ -16,11 +18,11 @@ public:
     static Client* GetInstance();
     Client(const Client&) = delete;
     Client& operator=(const Client& other) = delete;
-    void Update();
     void Subscribe(ClientSubscriber* subscriber);
     void UnSubscribe(ClientSubscriber* subscriber);
     void NotifySubscribers(net::message<CustomMsgTypes>& msg);
-
+public slots:
+    void Update();
     /*void PingServer()
     {
         net::message<CustomMsgTypes> msg;

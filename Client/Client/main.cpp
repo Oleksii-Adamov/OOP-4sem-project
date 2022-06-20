@@ -10,8 +10,7 @@
 #include "sendassignmentwindow.h"
 #include "studentassignmentsessionswindow.h"
 #include "teacherassignmentcheckingwindow.h"
-//#include "Assignment.h"
-//#include "AssignmentSession.h"
+#include "checkclientthread.h"
 
 using namespace std::chrono_literals;
 
@@ -49,25 +48,31 @@ int main(int argc, char *argv[])
 {
     Client* client = Client::GetInstance();
     client->Connect("127.0.0.1", 60000);
-//    ts_client.push_front(client);
-    std::thread checkClientThread(CheckClient);
-    std::thread mainThread(Main, argc, argv);
+    CheckClientThread check_client_thread;
+    connect(check_client_thread, SIGNAL(TimeToUpdate()), client, SLOT(Update()));
+    //QObject::connect(&check_client_thread, &CheckClientThread::TimeToUpdate,
+    //                     &client, &Client::Update);
+    check_client_thread.start();
+  //  std::thread checkClientThread(CheckClient);
+  //  std::thread mainThread(Main, argc, argv);
     
-    checkClientThread.join();
-    mainThread.join();
-return 0;
+    //checkClientThread.join();
+    //mainThread.join();
+//return 0;
 
-//    QApplication a(argc, argv);
+    QApplication a(argc, argv);
     //MainWindow w;
     //AssignmentCreationWindow w;
     //AuthorizationWindow w;
     //ClassroomWindow w;
     //ClassroomsListWindow w;
-//    MainMenuWindow w;
+    MainMenuWindow w;
     //SendAssignmentWindow w;
     //StudentAssignmentSessionsWindow w;
     //TeacherAssignmentCheckingWindow w;
-//    w.show();
-//    return a.exec();
+    w.show();
+    int ret = a.exec();
+    check_client_thread.wait();
+    return ret;
 
 }

@@ -83,7 +83,7 @@ AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment,
         //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
         this->setWindowTitle(QString::fromStdString(assignment_.getAssignmentName()));
         //Client::GetInstance()->Subscribe(this);
-        FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
+        //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
         GetData();
     }
 }
@@ -103,7 +103,7 @@ void AssignmentCreationWindow::Update(net::message<CustomMsgTypes> msg)
     if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
     {
         //FromJSON(QJsonDocumentFromServerMessage(msg));
-//        FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
+        FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
     }
 }
 
