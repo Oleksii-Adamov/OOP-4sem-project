@@ -3,6 +3,7 @@
 
 #include "../../common_src/Entities/Entities.h"
 #include "../../common_src/studentassignmentsessioninfo.h"
+#include "../../common_src/studentassignmentsessioninfoforteacher.h"
 #include <string>
 #include <vector>
 
@@ -16,7 +17,7 @@ public:
     static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsTeacher(ID UserId);
 
     //!
-    //static std::vector<StudentAssignmentSessionInfo> select
+    //
 
     //!
     //
@@ -29,6 +30,12 @@ public:
 
     //! Creates a new Classroom with a specific name
     static bool createNewClassroom(ID TeacherUserId, const std::string& ClassroomName);
+
+    //! Returns Student's answer to the Assignment Session
+    static std::pair<bool, std::string> getStudentAssignmentSessionAnswer(ID StudentUserId, ID AssignmentSessionId);
+
+    //! Returns all Student's answers to the specific Assignment Session
+    static std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> getAllStudentAssignmentSessionAnswers(ID AssignmentSessionId);
 };
 
 

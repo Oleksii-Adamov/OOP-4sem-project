@@ -80,3 +80,62 @@ bool Database::createNewClassroom(ID TeacherUserId, const std::string& Classroom
         return false;
     return true;
 }
+
+std::pair<bool, std::string> Database::getStudentAssignmentSessionAnswer(ID StudentUserId, ID AssignmentSessionId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT Student_AssignmentSession.StudentAssignmentSessionAnswer\n"
+                         "FROM 'Student_AssignmentSession'\n"
+                         "WHERE (Student_AssignmentSession.StudentUserID = " + std::to_string(StudentUserId)
+                         + " and Student_AssignmentSession.AssignmentSessionId = " + std::to_string(AssignmentSessionId) + ");";
+    auto commandResFull = db->execSelect(script, 1);
+    delete db;
+    if(!commandResFull.first)
+        return {false, ""};
+    const auto& commandRes = commandResFull.second;
+
+    if(!commandRes[0].empty())
+        return {true, commandRes[0][0]};
+    else
+        return {false, ""};
+}
+
+std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> Database::getAllStudentAssignmentSessionAnswers(ID AssignmentSessionId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT *\n"
+                         "FROM ('User' INNER JOIN 'Student_AssignmentSession' ON (Student_AssignmentSession.StudentUserID = User.UserID))\n"
+                         "INNER JOIN 'AssignmentSession' ON (Student_AssignmentSession.AssignmentSessionID = AssignmentSession.AssignmentSessionID)\n"
+                         "WHERE (AssignmentSession.AssignmentSessionId = " + std::to_string(AssignmentSessionId) + ");";
+    auto commandResFull = db->execSelect(script, 13);
+    delete db;
+    if(!commandResFull.first)
+        return {false, {}};
+    const auto& commandRes = commandResFull.second;
+
+    std::vector<StudentAssignmentSessionInfoForTeacher> res;
+    User currUser;
+    StudentAssignmentSession currStudentAssignmentSession;
+    for(size_t i=0; i<commandRes[0].size(); i++)
+    {
+        currUser.setUserId(std::stoi(commandRes[0][i]));
+        currUser.setLogin(commandRes[1][i]);
+        currUser.setUserName(commandRes[2][i]);
+
+        currStudentAssignmentSession.setStudentUserId(std::stoi(commandRes[3][i]));
+        currStudentAssignmentSession.setAssignmentSessionId(std::stoi(commandRes[4][i]));
+        switch(std::stoi(commandRes[5][i]))
+        {
+            case 0: currStudentAssignmentSession.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::not_submitted);
+                break;
+            case 1: currStudentAssignmentSession.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::submitted);
+                break;
+            case 2: currStudentAssignmentSession.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::checked);
+                break;
+        }
+        currStudentAssignmentSession.setStudentAssignmentSessionScore(std::stoi(commandRes[7][i]));
+        currStudentAssignmentSession.setStudentAssignmentSessionFinishDate(commandRes[8][i]);
+        res.emplace_back(currStudentAssignmentSession, currUser);
+    }
+    return {true, res};
+}

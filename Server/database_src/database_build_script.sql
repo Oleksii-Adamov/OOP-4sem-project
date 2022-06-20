@@ -51,7 +51,7 @@ CREATE INDEX IF NOT EXISTS `fk_Assignment_User1_idx` ON `Assignment`(`TeacherUse
 -- Table `Student_Classroom`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Student_Classroom` (
-  `StudentUserID` INTEGER NOT NULL PRIMARY KEY,
+  `StudentUserID` INTEGER NOT NULL,
   `ClassroomID` INTEGER NOT NULL,
   FOREIGN KEY (`StudentUserID`) REFERENCES `User`(`UserID`) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`ClassroomID`) REFERENCES `Classroom`(`ClassroomID`) ON UPDATE CASCADE ON DELETE CASCADE);
@@ -76,7 +76,7 @@ CREATE INDEX IF NOT EXISTS `fk_AssignmentSession_Assignment1_idx` ON `Assignment
 -- Table `Student_AssignmentSession`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Student_AssignmentSession` (
-  `StudentUserID` INTEGER NOT NULL PRIMARY KEY,
+  `StudentUserID` INTEGER NOT NULL,
   `AssignmentSessionID` INTEGER NOT NULL,
   `StudentAssignmentSessionStatus` INTEGER NOT NULL,
   `StudentAssignmentSessionAnswer` TEXT NULL,
