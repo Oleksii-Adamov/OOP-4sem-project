@@ -38,7 +38,6 @@ void CreateClassroomDialog::on_pushButton_create_clicked()
     }
 }
 
-
 void CreateClassroomDialog::on_pushButton_cancel_clicked()
 {
     this->close();

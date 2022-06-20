@@ -18,6 +18,8 @@ public:
 private slots:
     void on_pushButton_create_clicked();
 
+    void on_pushButton_cancel_clicked();
+
 private:
     Ui::CreateClassroomDialog *ui;
 };
