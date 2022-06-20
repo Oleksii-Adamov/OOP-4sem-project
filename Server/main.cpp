@@ -7,6 +7,51 @@
 
 namespace bpt = boost::property_tree;
 
+std::string ParseToJson(const std::vector<Classroom>& classrooms) {
+	std::stringstream text;
+	bpt::ptree json;
+	bpt::ptree array;
+	
+	for (const Classroom& classroom : classrooms) {
+		bpt::ptree element;
+		element.put("classroom_id", classroom.getClassroomId());
+		element.put("teacher_user_id", classroom.getTeacherUserId());
+		element.put("name", classroom.getName());
+		array.push_back(bpt::ptree::value_type("", element));
+	}
+	json.put_child("Classrooms", array);
+	bpt::write_json(text, json);
+	
+	return text.str();
+}
+
+void GetTeacherClassrooms(
+const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+net::message<CustomMsgTypes> &msg) {
+	ID UserId;
+	// Get user id
+	msg >> UserId;
+	// Make sql request
+	std::pair<bool, std::vector<Classroom>> classrooms =
+	Database::selectAllClassroomsWhereUserIsTeacher(UserId);
+	// If request is success -> parse vector of classrooms in text json
+	if (classrooms.first) {
+		// Parsing vector of classrooms in text json
+		std::string text = ParseToJson(classrooms.second);
+		uint64_t size = text.size();
+		
+		// Writing text json in outgoing message
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::RETURN_TEACHER_CLASSROOMS;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+		
+		// Send to client
+		client->Send(OutgoingMsg);
+	}
+}
+
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
 	CustomServer(uint16_t nPort) : net::server_interface<CustomMsgTypes>(nPort) {
@@ -36,7 +81,7 @@ protected:
 
 				client->Send(msg);
 			}
-				break;
+			break;
 
 			case CustomMsgTypes::MessageAll: {
 				std::cout << "[" << client->GetID() << "]: Message All\n";
@@ -47,7 +92,7 @@ protected:
 				MessageAllClients(msg, client);
 
 			}
-				break;
+			break;
 
 			case CustomMsgTypes::ServerMessage: {
 				try {
@@ -56,7 +101,7 @@ protected:
 					std::cout << "Exception: " << e.what();
 				}
 			}
-				break;
+			break;
 			
 			case CustomMsgTypes::GET_TEST_ASSIGNMENT: {
 				std::cout << "GETTING TEST ASSIGMENT..." << std::endl;
@@ -90,13 +135,18 @@ protected:
 					client->Send(msg);
 				}
 			}
+				break;
+			
+			case CustomMsgTypes::GET_TEACHER_CLASSROOMS:
+				GetTeacherClassrooms(client, msg);
+				break;
 		}
 	}
 };
 
 int main()
 {
-    Database::init();
+	Database::init();
 	CustomServer server(60000);
 	server.Start();
 

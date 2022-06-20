@@ -17,6 +17,8 @@
 
 - ### Facade (client_interface & server_interface connection/disconnection/sending methods)
 
+- ### Adapter (SQLiteAdapter <- sqlite3 library)
+
 ## TO DO (General):
 ### 1. Клієнт-серверна архітектура.
 ### 2. Графічний інтерфейс для учня.

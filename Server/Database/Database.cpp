@@ -15,6 +15,7 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
                          "FROM 'Classroom' INNER JOIN 'User' ON (TeacherUserID = UserID)\n"
                          "WHERE (User.UserID = " + std::to_string(UserId) + ");";
     auto commandResFull = db->execSelect(script, 3);
+    delete db;
     if(!commandResFull.first)
         return {false, {}};
     const auto& commandRes = commandResFull.second;
@@ -27,6 +28,114 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
         currRes.setTeacherUserId(std::stoi(commandRes[1][i]));
         currRes.setName(commandRes[2][i]);
         res.push_back(currRes);
+    }
+    return {true, res};
+}
+
+std::pair<bool, std::vector<Assignment>> Database::selectAllAssignmentUserCreated(ID UserId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT Assignment.AssignmentID, Assignment.TeacherUserID, "
+                         "Assignment.AssignmentName, Assignment.AssignmentCreationDate, Assignment.AssignmentMaxScore\n"
+                         "FROM 'Assignment' INNER JOIN 'User' ON (TeacherUserID = UserID)\n"
+                         "WHERE (User.UserID = " + std::to_string(UserId) + ");";
+    auto commandResFull = db->execSelect(script, 5);
+    delete db;
+    if(!commandResFull.first)
+        return {false, {}};
+    const auto& commandRes = commandResFull.second;
+
+    std::vector<Assignment> res;
+    Assignment currRes;
+    for(size_t i=0; i<commandRes[0].size(); i++)
+    {
+        currRes.setAssignmentId(std::stoi(commandRes[0][i]));
+        currRes.setTeacherUserId(std::stoi(commandRes[1][i]));
+        currRes.setAssignmentName(commandRes[2][i]);
+        currRes.setAssignmentCreationDate(commandRes[3][i]);
+        currRes.setAssignmentMaxScore(std::stoi(commandRes[4][i]));
+        res.push_back(currRes);
+    }
+    return {true, res};
+}
+
+bool Database::joinUserToClassroom(ID UserId, ID ClassroomId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    auto flag = db->execInsert("Student_Classroom", {"ClassroomID", "StudentUserID"},
+                                         {std::to_string(ClassroomId), std::to_string(UserId)});
+    delete db;
+    if(!flag)
+        return false;
+    return true;
+}
+
+bool Database::createNewClassroom(ID TeacherUserId, const std::string& ClassroomName)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    auto flag = db->execInsert("Classroom", {"TeacherUserID", "ClassroomName"},
+                               {std::to_string(TeacherUserId), '"'+ClassroomName+'"'});
+    delete db;
+    if(!flag)
+        return false;
+    return true;
+}
+
+std::pair<bool, std::string> Database::getStudentAssignmentSessionAnswer(ID StudentUserId, ID AssignmentSessionId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT Student_AssignmentSession.StudentAssignmentSessionAnswer\n"
+                         "FROM 'Student_AssignmentSession'\n"
+                         "WHERE (Student_AssignmentSession.StudentUserID = " + std::to_string(StudentUserId)
+                         + " and Student_AssignmentSession.AssignmentSessionId = " + std::to_string(AssignmentSessionId) + ");";
+    auto commandResFull = db->execSelect(script, 1);
+    delete db;
+    if(!commandResFull.first)
+        return {false, ""};
+    const auto& commandRes = commandResFull.second;
+
+    if(!commandRes[0].empty())
+        return {true, commandRes[0][0]};
+    else
+        return {false, ""};
+}
+
+std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> Database::getAllStudentAssignmentSessionAnswers(ID AssignmentSessionId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT *\n"
+                         "FROM ('User' INNER JOIN 'Student_AssignmentSession' ON (Student_AssignmentSession.StudentUserID = User.UserID))\n"
+                         "INNER JOIN 'AssignmentSession' ON (Student_AssignmentSession.AssignmentSessionID = AssignmentSession.AssignmentSessionID)\n"
+                         "WHERE (AssignmentSession.AssignmentSessionId = " + std::to_string(AssignmentSessionId) + ");";
+    auto commandResFull = db->execSelect(script, 13);
+    delete db;
+    if(!commandResFull.first)
+        return {false, {}};
+    const auto& commandRes = commandResFull.second;
+
+    std::vector<StudentAssignmentSessionInfoForTeacher> res;
+    User currUser;
+    StudentAssignmentSession currStudentAssignmentSession;
+    for(size_t i=0; i<commandRes[0].size(); i++)
+    {
+        currUser.setUserId(std::stoi(commandRes[0][i]));
+        currUser.setLogin(commandRes[1][i]);
+        currUser.setUserName(commandRes[2][i]);
+
+        currStudentAssignmentSession.setStudentUserId(std::stoi(commandRes[3][i]));
+        currStudentAssignmentSession.setAssignmentSessionId(std::stoi(commandRes[4][i]));
+        switch(std::stoi(commandRes[5][i]))
+        {
+            case 0: currStudentAssignmentSession.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::not_submitted);
+                break;
+            case 1: currStudentAssignmentSession.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::submitted);
+                break;
+            case 2: currStudentAssignmentSession.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::checked);
+                break;
+        }
+        currStudentAssignmentSession.setStudentAssignmentSessionScore(std::stoi(commandRes[7][i]));
+        currStudentAssignmentSession.setStudentAssignmentSessionFinishDate(commandRes[8][i]);
+        res.emplace_back(currStudentAssignmentSession, currUser);
     }
     return {true, res};
 }
