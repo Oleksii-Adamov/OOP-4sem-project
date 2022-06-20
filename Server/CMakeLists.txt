@@ -16,6 +16,29 @@ add_executable(${PROJECT_NAME}
                 Database/DatabaseOperation.h
                 Database/DatabaseOperation.cpp
 
+                ../common_src/assignmentinfo.cpp
+                ../common_src/assignmentinfo.h
+                ../common_src/assignmentsessioninfo.cpp
+                ../common_src/assignmentsessioninfo.h
+                ../common_src/classroominfo.cpp
+                ../common_src/classroominfo.h
+                ../common_src/client.h
+                ../common_src/common_net.h
+                ../common_src/connection.h
+                ../common_src/message.h
+                ../common_src/messagetypes.h
+                ../common_src/net.h
+                ../common_src/server.h
+                ../common_src/studentassignmentsessioninfo.cpp
+                ../common_src/studentassignmentsessioninfo.h
+                ../common_src/studentassignmentsessioninfoforteacher.cpp
+                ../common_src/studentassignmentsessioninfoforteacher.h
+                ../common_src/testanswer.cpp
+                ../common_src/testanswer.h
+                ../common_src/testassignment.cpp
+                ../common_src/testassignment.h
+                ../common_src/tsqueue.h
+
                 ../common_src/Entities/Entities.h
                 ../common_src/Entities/Entity.h
                 ../common_src/Entities/User.h

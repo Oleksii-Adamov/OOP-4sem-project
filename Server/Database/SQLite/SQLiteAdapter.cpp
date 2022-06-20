@@ -144,6 +144,7 @@ std::pair<bool, std::vector<std::vector<std::string>>> SQLiteAdapter::execSelect
 {
     sqlite3* db = nullptr;
     sqlite3_stmt * stmt;
+    bool flag;
     std::vector<std::vector<std::string>> result;
 
     for(size_t i=0; i<n; i++)
@@ -166,6 +167,8 @@ std::pair<bool, std::vector<std::vector<std::string>>> SQLiteAdapter::execSelect
         }
         else
         {
+            DatabaseLog::error("Execution failure: " + std::string(sqlite3_errmsg(db)));
+            DatabaseLog::error("Script: " + command_select);
             SQLiteAdapter::closeDatabase(&db);
             return {false, {}};
         }
