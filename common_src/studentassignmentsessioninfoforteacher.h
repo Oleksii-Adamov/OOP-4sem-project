@@ -1,8 +1,8 @@
 #ifndef STUDENTASSIGNMENTSESSIONINFOFORTEACHER_H
 #define STUDENTASSIGNMENTSESSIONINFOFORTEACHER_H
 
-#include "StudentAssignmentSession.h"
-#include "User.h"
+#include "Entities/StudentAssignmentSession.h"
+#include "Entities/User.h"
 
 struct StudentAssignmentSessionInfoForTeacher
 {

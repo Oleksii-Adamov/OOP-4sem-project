@@ -1,8 +1,8 @@
 #ifndef CLASSROOMINFO_H
 #define CLASSROOMINFO_H
 
-#include "Classroom.h"
-#include "User.h"
+#include "Entities/Classroom.h"
+#include "Entities/User.h"
 
 struct ClassroomInfo
 {
