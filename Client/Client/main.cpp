@@ -27,6 +27,7 @@ void CheckClient() {
 }
 
 int Main(int argc, char *argv[]) {
+    std::this_thread::sleep_for(500ms);
 //    while (!mlock.try_lock()) {}
 //    qDebug() << "Thread2 :" << Client::GetInstance();
 //    mlock.unlock();
