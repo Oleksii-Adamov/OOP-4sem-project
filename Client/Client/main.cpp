@@ -50,11 +50,24 @@ int main(int argc, char *argv[])
     Client* client = Client::GetInstance();
     client->Connect("127.0.0.1", 60000);
 //    ts_client.push_front(client);
-    std::thread checkClientThread(CheckClient);
-    std::thread mainThread(Main, argc, argv);
+//    std::thread checkClientThread(CheckClient);
+//    std::thread mainThread(Main, argc, argv);
     
-    checkClientThread.join();
-    mainThread.join();
+//    checkClientThread.join();
+//    mainThread.join();
+//return 0;
 
-    return 0;
+    QApplication a(argc, argv);
+    //MainWindow w;
+    //AssignmentCreationWindow w;
+    //AuthorizationWindow w;
+    //ClassroomWindow w;
+    //ClassroomsListWindow w;
+    MainMenuWindow w;
+    //SendAssignmentWindow w;
+    //StudentAssignmentSessionsWindow w;
+    //TeacherAssignmentCheckingWindow w;
+    w.show();
+    return a.exec();
+
 }
