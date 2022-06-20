@@ -1,7 +1,14 @@
 #include "DatabaseService.h"
+#include "DatabaseOperation.h"
+#include "DatabaseLog.h"
+#include "SQLite/SQLiteAdapter.h"
 
 
-void DatabaseService::initDatabase(const std::string& path)
+void DatabaseService::initDatabase()
 {
-    // call adapter to build the database here
+    DatabaseOperation* db = new SQLiteAdapter();
+    if(db->initDatabase())
+        DatabaseLog::out("Database started!");
+    else
+        DatabaseLog::error("Failed to start database!");
 }

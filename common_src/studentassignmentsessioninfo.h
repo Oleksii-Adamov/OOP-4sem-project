@@ -1,9 +1,9 @@
 #ifndef STUDENTASSIGNMENTSESSIONINFO_H
 #define STUDENTASSIGNMENTSESSIONINFO_H
 
-#include "StudentAssignmentSession.h"
-#include "AssignmentSession.h"
-#include "Assignment.h"
+#include "Entities/StudentAssignmentSession.h"
+#include "Entities/AssignmentSession.h"
+#include "Entities/Assignment.h"
 
 struct StudentAssignmentSessionInfo
 {

@@ -96,7 +96,7 @@ protected:
 
 int main()
 {
-    Database::init("Database.db");
+    Database::init();
 	CustomServer server(60000);
 	server.Start();
 
