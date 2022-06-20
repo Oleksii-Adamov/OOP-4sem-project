@@ -17,7 +17,7 @@ public:
     explicit AuthorizationWindow(QWidget *parent = nullptr);
     ~AuthorizationWindow();
     void closeEvent (QCloseEvent *event) override;
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 private slots:
     void on_pushButtonLogIn_clicked();
 

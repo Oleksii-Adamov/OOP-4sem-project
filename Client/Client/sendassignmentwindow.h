@@ -17,7 +17,7 @@ class SendAssignmentWindow : public QMainWindow, ClientSubscriber
 public:
     explicit SendAssignmentWindow(QWidget *parent = nullptr);
     ~SendAssignmentWindow();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 private:
     Ui::SendAssignmentWindow *ui;

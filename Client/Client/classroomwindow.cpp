@@ -46,7 +46,7 @@ void ClassroomWindow::OnAssignmentClicked(const QModelIndex& index) {
    strategy_->OnAssignmentClicked(index, assignments_list_model);
 }
 
-void ClassroomWindow::Update(net::message<CustomMsgTypes>& msg)
+void ClassroomWindow::Update(net::message<CustomMsgTypes> msg)
 {
     strategy_->Update(msg, assignments_list_model);
 }

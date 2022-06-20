@@ -17,7 +17,7 @@ class TeacherAssignmentCheckingWindow : public QMainWindow, ClientSubscriber
 public:
     explicit TeacherAssignmentCheckingWindow(const StudentAssignmentSessionInfoForTeacher& student_assignment_session_info_for_teacher, const Assignment& assignment, QWidget *parent = nullptr);
     ~TeacherAssignmentCheckingWindow();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 private:
     Ui::TeacherAssignmentCheckingWindow *ui;

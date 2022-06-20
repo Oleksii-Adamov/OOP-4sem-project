@@ -13,6 +13,7 @@ QJsonDocument QJsonDocumentFromServerMessage(net::message<CustomMsgTypes>& messa
       message >> c;
       json_string = c + json_string;
     }
+    qDebug() << json_string;
     QByteArray json_bytes = json_string.toLocal8Bit();
 
     QJsonDocument json_doc = QJsonDocument::fromJson(json_bytes);
@@ -38,6 +39,7 @@ QJsonDocument QJsonDocumentFromJsonFile(const std::string& file_path)
     QString json_string;
     json_string = file_text.readAll();
     file_obj.close();
+    qDebug() << "File:\n" + json_string + "\n";
     QByteArray json_bytes = json_string.toLocal8Bit();
 
     QJsonDocument json_doc = QJsonDocument::fromJson(json_bytes);

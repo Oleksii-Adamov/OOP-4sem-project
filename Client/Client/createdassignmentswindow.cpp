@@ -27,7 +27,7 @@ CreatedAssignmentsWindow::CreatedAssignmentsWindow(QWidget *parent) :
     assignments_list_model->PushBack(Assignment(1,1,"Name","12321","",5));
 }
 
-void CreatedAssignmentsWindow::Update(net::message<CustomMsgTypes>& msg)
+void CreatedAssignmentsWindow::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

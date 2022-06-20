@@ -17,7 +17,7 @@ class ClassroomsListWindow : public QMainWindow, ClientSubscriber
 public:
     explicit ClassroomsListWindow(QWidget *parent = nullptr);
     ~ClassroomsListWindow();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 public slots:
     void OnStudentClassroomClicked(const QModelIndex& classroom_index);

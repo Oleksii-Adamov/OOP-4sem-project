@@ -16,7 +16,7 @@ class StudentAssignmentWindow : public QMainWindow, ClientSubscriber
 public:
     explicit StudentAssignmentWindow(const StudentAssignmentSessionInfo& student_assignment_session_info, QWidget *parent = nullptr);
     ~StudentAssignmentWindow();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 private:
     Ui::StudentAssignmentWindow *ui;

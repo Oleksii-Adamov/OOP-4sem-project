@@ -51,7 +51,7 @@ TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAs
                                           QJsonDocumentFromJsonFile("Assignments/from_teacher_to_server.json"));
 }
 
-void TeacherAssignmentCheckingWindow::Update(net::message<CustomMsgTypes>& msg)
+void TeacherAssignmentCheckingWindow::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

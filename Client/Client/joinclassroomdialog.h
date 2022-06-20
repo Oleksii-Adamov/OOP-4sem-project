@@ -15,7 +15,7 @@ class JoinClassroomDialog : public QDialog, ClientSubscriber
 public:
     explicit JoinClassroomDialog(QWidget *parent = nullptr);
     ~JoinClassroomDialog();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 private slots:
     void on_pushButton_join_clicked();

@@ -30,7 +30,7 @@ RegisterWindow::RegisterWindow(const QString& login, const QString& password, QW
 }
 
 
-void RegisterWindow::Update(net::message<CustomMsgTypes>& msg)
+void RegisterWindow::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

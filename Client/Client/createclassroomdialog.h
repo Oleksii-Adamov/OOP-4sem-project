@@ -15,7 +15,7 @@ class CreateClassroomDialog : public QDialog, ClientSubscriber
 public:
     explicit CreateClassroomDialog(QWidget *parent = nullptr);
     ~CreateClassroomDialog();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 private slots:
     void on_pushButton_create_clicked();

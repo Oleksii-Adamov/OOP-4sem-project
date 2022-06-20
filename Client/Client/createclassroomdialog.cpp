@@ -38,7 +38,7 @@ void CreateClassroomDialog::on_pushButton_create_clicked()
     }
 }
 
-void CreateClassroomDialog::Update(net::message<CustomMsgTypes>& msg)
+void CreateClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

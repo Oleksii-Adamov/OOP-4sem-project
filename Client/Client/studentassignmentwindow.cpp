@@ -37,7 +37,7 @@ StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionI
     assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
 }
 
-void StudentAssignmentWindow::Update(net::message<CustomMsgTypes>& msg)
+void StudentAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

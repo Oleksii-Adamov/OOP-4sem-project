@@ -43,7 +43,7 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(3, "OOP", "Zhereb"));
 }
 
-void ClassroomsListWindow::Update(net::message<CustomMsgTypes>& msg)
+void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

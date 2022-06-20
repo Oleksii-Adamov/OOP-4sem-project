@@ -32,7 +32,7 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
 //    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
 }
 
-void SendAssignmentWindow::Update(net::message<CustomMsgTypes>& msg)
+void SendAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

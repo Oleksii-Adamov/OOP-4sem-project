@@ -21,7 +21,7 @@ JoinClassroomDialog::~JoinClassroomDialog()
     delete ui;
 }
 
-void JoinClassroomDialog::Update(net::message<CustomMsgTypes>& msg)
+void JoinClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
 
 }

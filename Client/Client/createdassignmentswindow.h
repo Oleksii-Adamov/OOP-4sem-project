@@ -16,7 +16,7 @@ class CreatedAssignmentsWindow : public QMainWindow, ClientSubscriber
 public:
     explicit CreatedAssignmentsWindow(QWidget *parent = nullptr);
     ~CreatedAssignmentsWindow();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 public slots:
     void OnAssignmentClicked(const QModelIndex& index);

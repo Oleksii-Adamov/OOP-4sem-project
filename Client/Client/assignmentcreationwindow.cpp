@@ -16,19 +16,21 @@
 #include "jsonfile.h"
 #include "font.h"
 #include <algorithm>
+#include "client.h"
 
 AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment, QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::AssignmentCreationWindow),
+    QMainWindow(parent), ClientSubscriber(), ui(new Ui::AssignmentCreationWindow),
     assignment_(assignment)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
     InitAssignmentDir();
 
-    QLayout* layout = ui->centralwidget->layout();
+    //QLayout* layout = ui->centralwidget->layout();
+    QVBoxLayout* layout = new QVBoxLayout(ui->centralwidget);
 
-    ui->label_max_score->setFont(Font::RegularListViewFont());
-    ui->spinBox_max_score->setFont(Font::RegularListViewFont());
+//    ui->label_max_score->setFont(Font::RegularListViewFont());
+//    ui->spinBox_max_score->setFont(Font::RegularListViewFont());
 
     auto * scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
@@ -78,17 +80,29 @@ AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment,
     );
 
     if (assignment.getAssignmentId() != 0) {
-        ui->spinBox_max_score->setValue(assignment_.getAssignmentMaxScore());
-        FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
+//        ui->spinBox_max_score->setValue(assignment_.getAssignmentMaxScore());
+        //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
         this->setWindowTitle(QString::fromStdString(assignment_.getAssignmentName()));
+        //Client::GetInstance()->Subscribe(this);
+        GetData();
     }
 }
 
-void AssignmentCreationWindow::Update(net::message<CustomMsgTypes>& msg)
+void AssignmentCreationWindow::GetData()
+{
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_TEST_ASSIGNMENT;
+    Client::GetInstance()->Send(message);
+//    Client::GetInstance()->Update();
+//    Client::GetInstance()->Update();
+}
+
+void AssignmentCreationWindow::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
     {
-        FromJSON(QJsonDocumentFromServerMessage(msg));
+        //FromJSON(QJsonDocumentFromServerMessage(msg));
+        FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
     }
 }
 

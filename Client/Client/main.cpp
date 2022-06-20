@@ -18,9 +18,9 @@ using namespace std::chrono_literals;
 std::recursive_mutex mlock;
 
 void CheckClient() {
-    std::this_thread::sleep_for(500ms);
+    std::this_thread::sleep_for(50ms);
     while (!mlock.try_lock()) {}
-//    Client::GetInstance()->Update();
+    Client::GetInstance()->Update();
 //    qDebug() << "Thread1 :" << Client::GetInstance();
     mlock.unlock();
     CheckClient();

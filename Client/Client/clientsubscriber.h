@@ -9,7 +9,7 @@ class ClientSubscriber
 public:
     ClientSubscriber();
     virtual ~ClientSubscriber();
-    virtual void Update(net::message<CustomMsgTypes>& msg) = 0;
+    virtual void Update(net::message<CustomMsgTypes> msg) = 0;
 };
 
 #endif // CLIENTSUBSCRIBER_H

@@ -19,7 +19,7 @@ class ClassroomWindow : public QMainWindow, ClientSubscriber
 public:
     explicit ClassroomWindow(const ClassroomInfo& classroom_info, QSharedPointer<ClassroomWindowStrategy> strategy, QWidget *parent = nullptr);
     ~ClassroomWindow();
-    void Update(net::message<CustomMsgTypes>& msg) override;
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 public slots:
     void OnAssignmentClicked(const QModelIndex& index);
