@@ -13,23 +13,24 @@
 //#include "Assignment.h"
 //#include "AssignmentSession.h"
 
-void CheckClient(Client* client) {
-  std::this_thread::sleep_for(500ms);
-  client->Update();
-  CheckClient(client);
+using namespace std::chrono_literals;
+
+std::recursive_mutex mlock;
+
+void CheckClient() {
+    std::this_thread::sleep_for(500ms);
+    while (!mlock.try_lock()) {}
+    Client::GetInstance()->Update();
+//    qDebug() << "Thread1 :" << Client::GetInstance();
+    mlock.unlock();
+    CheckClient();
 }
 
-int main(int argc, char *argv[])
-{
+int Main(int argc, char *argv[]) {
+//    while (!mlock.try_lock()) {}
+//    qDebug() << "Thread2 :" << Client::GetInstance();
+//    mlock.unlock();
     QApplication a(argc, argv);
-
-    Client* client = Client::GetInstance();
-    client->Connect("127.0.0.1", 60000);
-    std::thread checkClientThread(CheckClient, client);
-
-    // Client::GetInstance()->Connect("127.0.0.1", 60000);
-    // Client::GetInstance()->Update();
-    
     //MainWindow w;
     //AssignmentCreationWindow w;
     //AuthorizationWindow w;
@@ -40,8 +41,19 @@ int main(int argc, char *argv[])
     //StudentAssignmentSessionsWindow w;
     //TeacherAssignmentCheckingWindow w;
     w.show();
-
-    checkClientThread.join();
-
     return a.exec();
+}
+
+int main(int argc, char *argv[])
+{
+    Client* client = Client::GetInstance();
+    client->Connect("127.0.0.1", 60000);
+//    ts_client.push_front(client);
+    std::thread checkClientThread(CheckClient);
+    std::thread mainThread(Main, argc, argv);
+    
+    checkClientThread.join();
+    mainThread.join();
+
+    return 0;
 }
