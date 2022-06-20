@@ -34,8 +34,18 @@ public:
     //! Returns Student's answer to the Assignment Session
     static std::pair<bool, std::string> getStudentAssignmentSessionAnswer(ID StudentUserId, ID AssignmentSessionId);
 
-    //! Returns all Student's answers to the specific Assignment Session
+    //! Returns all Student's answers to the Assignment Session
     static std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> getAllStudentAssignmentSessionAnswers(ID AssignmentSessionId);
+
+    //! Returns data of the Assignment
+    static std::pair<bool, std::string> getAssignmentData(ID AssignmentId);
+
+    /*!
+     * \brief Updates Student's Assignment Session information
+     * \param UpdatedInfo New information of StudentAssignmentSession to update. Its fields student_user_id_ and assignment_session_id_
+     * are used to determine a specific record to update (not changeable!)
+     */
+    static bool updateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo);
 };
 
 

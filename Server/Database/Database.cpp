@@ -139,3 +139,48 @@ std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> Database::g
     }
     return {true, res};
 }
+
+std::pair<bool, std::string> Database::getAssignmentData(ID AssignmentId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT Assignment.AssignmentData\n"
+                         "FROM 'Assignment'\n"
+                         "WHERE (Assignment.AssignmentID = " + std::to_string(AssignmentId) + ");";
+    auto commandResFull = db->execSelect(script, 1);
+    delete db;
+    if(!commandResFull.first)
+        return {false, ""};
+    const auto& commandRes = commandResFull.second;
+
+    if(!commandRes[0].empty())
+        return {true, commandRes[0][0]};
+    else
+        return {false, ""};
+}
+
+bool Database::updateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    int status;
+    switch(UpdatedInfo.getStudentAssignmentSessionStatus())
+    {
+        case StudentAssignmentSessionStatus::not_submitted: status = 0;
+            break;
+        case StudentAssignmentSessionStatus::submitted: status = 1;
+            break;
+        case StudentAssignmentSessionStatus::checked: status = 2;
+            break;
+    }
+
+    auto flag = db->execUpdate("Student_AssignmentSession",
+                               {"StudentAssignmentSessionStatus", "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore",
+                                "StudentAssignmentSessionFinishDate"},
+                               {std::to_string(status), UpdatedInfo.getStudentAssignmentSessionAnswer(),
+                                std::to_string(UpdatedInfo.getStudentAssignmentSessionScore()), UpdatedInfo.getStudentAssignmentSessionFinishDate()},
+                               "Student_AssignmentSession.StudentUserID = " + std::to_string(UpdatedInfo.getStudentUserId())
+                               + " and Student_AssignmentSession.AssignmentSessionID = " + std::to_string(UpdatedInfo.getAssignmentSessionId()) + ");");
+    delete db;
+    if(!flag)
+        return false;
+    return true;
+}
