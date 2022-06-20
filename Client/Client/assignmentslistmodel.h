@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include "assignmentsessioninfo.h"
-
+/*
 class AssignmentsListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -25,5 +25,5 @@ public:
 protected:
     std::vector<AssignmentSessionInfo> list_;
 };
-
+*/
 #endif // ASSIGNMENTSLISTMODEL_H

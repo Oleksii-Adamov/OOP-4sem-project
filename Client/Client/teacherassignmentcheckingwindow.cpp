@@ -9,7 +9,7 @@
 #include "assignmentguidirector.h"
 
 
-TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(QWidget *parent) :
+TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAssignmentSessionInfoForTeacher& student_assignment_session_info_for_teacher, const Assignment& assignment, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TeacherAssignmentCheckingWindow)
 {
@@ -20,8 +20,11 @@ TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(QWidget *parent
     ui->label_max_score->setFont(Font::RegularListViewFont());
     ui->label_final_score->setFont(Font::RegularListViewFont());
     ui->spinBox_final_score->setFont(Font::RegularListViewFont());
-    //ui->spinBox_final_score->setMaximum(max_score);
-    // set title according to name
+    ui->pushButton_rate->setFont(Font::RegularFont());
+    ui->spinBox_final_score->setMaximum(assignment.getAssignmentMaxScore());
+    ui->label_max_score->setText("Max score: " + QString::number(assignment.getAssignmentMaxScore()));
+    this->setWindowTitle(QString::fromStdString(student_assignment_session_info_for_teacher.student.getUserName()) + " " +
+                         QString::fromStdString(assignment.getAssignmentName()));
 
     CheckAssignment assignment_checker;
 

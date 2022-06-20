@@ -1,5 +1,5 @@
 #include "assignmentsnamelistmodel.h"
-
+/*
 AssignmentsNameListModel::AssignmentsNameListModel(QObject *parent)
     : AssignmentsListModel(parent)
 {
@@ -14,3 +14,4 @@ QVariant AssignmentsNameListModel::data(const QModelIndex &index, int role) cons
         return QVariant(QString::fromStdString(list_[std::size_t(index.row())].getName()));
     return QVariant();
 }
+*/

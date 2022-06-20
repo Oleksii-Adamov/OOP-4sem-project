@@ -7,7 +7,9 @@ class ClassroomWindowStudentStrategy : public ClassroomWindowStrategy
 {
 public:
     ClassroomWindowStudentStrategy();
-    void OnAssignmentClicked(unsigned long long id) override;
+    void OnAssignmentClicked(const QModelIndex& index, QSharedPointer<QAbstractListModel>& model, QWidget* parent = nullptr) override;
+    void SetModel(QSharedPointer<QAbstractListModel>& model) override;
+    void Update(net::message<CustomMsgTypes>& msg, QSharedPointer<QAbstractListModel>& model) override;
 };
 
 #endif // CLASSROOMWINDOWSTUDENTSTRATEGY_H
