@@ -29,9 +29,9 @@ SOURCES += \
     assignmentguidirector.cpp \
     assignmentsessionslistmodel.cpp \
     assignmentslistmodel.cpp \
-    assignmentsnamelistmodel.cpp \
     authorizationwindow.cpp \
     checkassignment.cpp \
+    checkclientthread.cpp \
     classroomslistmodel.cpp \
     classroomslistwindow.cpp \
     classroomsnamelistmodel.cpp \
@@ -39,6 +39,7 @@ SOURCES += \
     classroomwindowstudentstrategy.cpp \
     classroomwindowteacherstrategy.cpp \
     client.cpp \
+    clientsubscriber.cpp \
     command.cpp \
     commandhistory.cpp \
     createclassroomdialog.cpp \
@@ -89,9 +90,9 @@ HEADERS += \
     assignmentguidirector.h \
     assignmentsessionslistmodel.h \
     assignmentslistmodel.h \
-    assignmentsnamelistmodel.h \
     authorizationwindow.h \
     checkassignment.h \
+    checkclientthread.h \
     classroomslistmodel.h \
     classroomslistwindow.h \
     classroomsnamelistmodel.h \
@@ -100,6 +101,7 @@ HEADERS += \
     classroomwindowstudentstrategy.h \
     classroomwindowteacherstrategy.h \
     client.h \
+    clientsubscriber.h \
     command.h \
     commandhistory.h \
     createclassroomdialog.h \

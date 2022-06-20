@@ -50,3 +50,8 @@ AssignmentSessionInfo AssignmentSessionsListModel::GetData(const QModelIndex &in
         return list_[std::size_t(index.row())];
     return AssignmentSessionInfo();
 }
+
+void AssignmentSessionsListModel::Clear()
+{
+    list_.clear();
+}

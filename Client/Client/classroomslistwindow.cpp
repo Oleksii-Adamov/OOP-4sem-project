@@ -6,10 +6,14 @@
 #include "classroomwindowteacherstrategy.h"
 #include "joinclassroomdialog.h"
 #include "createclassroomdialog.h"
+#include "client.h"
+#include "jsonfile.h"
+#include <QJsonObject>
+#include <QJsonArray>
 
 ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::ClassroomsListWindow)
+    ClientSubscriber(), ui(new Ui::ClassroomsListWindow)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
@@ -34,10 +38,60 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     connect(ui->classromms_list_view_as_student, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnStudentClassroomClicked(QModelIndex)));
     connect(ui->classromms_list_view_as_teacher, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTeacherClassroomClicked(QModelIndex)));
 
+//    Client::GetInstance()->Subscribe(this);
+
     classrooms_list_as_student_model_->PushBack(ClassroomInfo(Classroom(2,2,"Probability theory"), User(2, "rozora", "Rozora")));
     classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(2, "Probability theory", "Rozora"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(3, "OOP", "Zhereb"));
+    //GetStudentClassroomsData();
+    //GetTeacherClassroomsData();
+}
+
+void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
+{
+    if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_CLASSROOMS)
+    {
+        //classrooms_list_as_teacher_model_->Clear();
+        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonArray classrooms =  json_doc_obj.take("Classrooms").toArray();
+        for (int i = 0; i < classrooms.size(); i++)
+        {
+            QJsonObject classroom_object = classrooms.at(i).toObject();
+            classrooms_list_as_teacher_model_->PushBack(Classroom(classroom_object.take("classroom_id").toInt(),
+                                         classroom_object.take("teacher_user_id").toInt(),
+                                         classroom_object.take("name").toString().toStdString()));
+        }
+    }
+    if (msg.header.id == CustomMsgTypes::RETURN_STUDENT_CLASSROOMS)
+    {
+        //classrooms_list_as_student_model_->Clear();
+        /*QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonArray classrooms =  json_doc_obj.take("Classrooms").toArray();
+        for (int i = 0; i < classrooms.size(); i++)
+        {
+            QJsonObject classroom_object = classrooms.at(i).toObject();
+            classrooms_list_as_teacher_model_->PushBack(Classroom(classroom_object.take("classroom_id").toInt(),
+                                         classroom_object.take("teacher_user_id").toInt(),
+                                         classroom_object.take("name").toString().toStdString()));
+        }*/
+    }
+}
+
+void ClassroomsListWindow::GetStudentClassroomsData()
+{
+/*    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_STUDENT_CLASSROOMS;
+    Client::GetInstance()->Send(message);*/
+}
+void ClassroomsListWindow::GetTeacherClassroomsData()
+{
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_TEACHER_CLASSROOMS;
+    message << Client::GetInstance()->GetUser().getUserId();
+    Client::GetInstance()->Send(message);
 }
 
 void ClassroomsListWindow::OnStudentClassroomClicked(const QModelIndex& classroom_index)
@@ -56,6 +110,7 @@ void ClassroomsListWindow::OnTeacherClassroomClicked(const QModelIndex& classroo
 
 ClassroomsListWindow::~ClassroomsListWindow()
 {
+    //Client::GetInstance()->UnSubscribe(this);
     delete ui;
 }
 
@@ -72,3 +127,8 @@ void ClassroomsListWindow::on_pushButton_create_clicked()
     new_window->show();
 }
 
+
+void ClassroomsListWindow::on_actionUpdate_triggered()
+{
+
+}

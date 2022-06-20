@@ -3,7 +3,7 @@
 #include "font.h"
 
 SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent), ClientSubscriber(),
     ui(new Ui::SendAssignmentWindow)
 {
     ui->setupUi(this);
@@ -30,6 +30,11 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
 //    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
+}
+
+void SendAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
+{
+
 }
 
 SendAssignmentWindow::~SendAssignmentWindow()

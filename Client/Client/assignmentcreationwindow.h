@@ -6,13 +6,14 @@
 #include "commandhistory.h"
 #include <QVBoxLayout>
 #include "Assignment.h"
+#include "clientsubscriber.h"
 
 namespace Ui {
 class AssignmentCreationWindow;
 }
 
 
-class AssignmentCreationWindow : public QMainWindow
+class AssignmentCreationWindow : public QMainWindow, ClientSubscriber
 {
     Q_OBJECT
 
@@ -33,9 +34,11 @@ private:
     void AddHeader(const QString& text, bool is_needed_to_save = true);
     void AddTest(const QString& text, bool is_needed_to_save = true);
     void AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save = true, bool is_checked = false);
+    void GetData();
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);
+    void Update(net::message<CustomMsgTypes> msg) override;
 private slots:
     void OnAddHeaderButtonClicked();
     void OnUndoButtonClicked();

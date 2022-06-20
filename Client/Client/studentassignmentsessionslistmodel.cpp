@@ -66,3 +66,8 @@ StudentAssignmentSessionInfo StudentAssignmentSessionsListModel::GetData(const Q
         return list_[std::size_t(index.row())];
     return StudentAssignmentSessionInfo();
 }
+
+void StudentAssignmentSessionsListModel::Clear()
+{
+    list_.clear();
+}
