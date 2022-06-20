@@ -3,8 +3,8 @@
 #include "font.h"
 #include <QCheckBox>
 
-AddEditableTestAnswerCommand::AddEditableTestAnswerCommand(QLayout* layout, QWidget* widget, const QString& answer_text)
-    : layout_(layout), widget_(widget), answer_text_(answer_text)
+AddEditableTestAnswerCommand::AddEditableTestAnswerCommand(QLayout* layout, QWidget* widget, const QString& answer_text, bool is_checked)
+    : layout_(layout), widget_(widget), answer_text_(answer_text), is_checked_(is_checked)
 {
 
 }
@@ -17,6 +17,7 @@ bool AddEditableTestAnswerCommand::execute()
     group_box->setFont(Font::TestAnswerFont());
     QHBoxLayout* h_layout = new QHBoxLayout(group_box);
     QCheckBox* option = new QCheckBox(group_box);
+    option->setChecked(is_checked_);
     EditableLabel* answer = new EditableLabel(answer_text_, group_box);
     h_layout->addWidget(option);
     h_layout->addWidget(answer);

@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include "assignmentsessioninfo.h"
-/*
+
 class AssignmentsListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -15,15 +15,14 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /// Get displayed data
-    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    /// Push data to beggining
-    bool Push(const AssignmentSessionInfo &value, int role = Qt::EditRole);
+    bool PushBack(const Assignment &value, int role = Qt::EditRole);
 
-    unsigned long long GetId(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    Assignment GetData(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
 protected:
-    std::vector<AssignmentSessionInfo> list_;
+    std::vector<Assignment> list_;
 };
-*/
+
 #endif // ASSIGNMENTSLISTMODEL_H

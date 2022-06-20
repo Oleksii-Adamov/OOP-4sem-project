@@ -13,8 +13,9 @@ private:
     QWidget* widget_;
     QWidget* added_widget_ = nullptr;
     const QString& answer_text_;
+    bool is_checked_;
 public:
-    AddEditableTestAnswerCommand(QLayout* layout, QWidget* widget, const QString& answer_text = "Answer");
+    AddEditableTestAnswerCommand(QLayout* layout, QWidget* widget, const QString& answer_text = "Answer", bool is_checked = false);
     bool execute() override;
     void undo() override;
 };
