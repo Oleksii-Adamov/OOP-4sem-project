@@ -21,6 +21,11 @@ public slots:
     void OnStudentClassroomClicked(const QModelIndex& classroom_index);
     void OnTeacherClassroomClicked(const QModelIndex& classroom_index);
 
+private slots:
+    void on_pushButton_join_clicked();
+
+    void on_pushButton_create_clicked();
+
 private:
     Ui::ClassroomsListWindow *ui;
     QSharedPointer<ClassroomsListModel> classrooms_list_as_student_model_;

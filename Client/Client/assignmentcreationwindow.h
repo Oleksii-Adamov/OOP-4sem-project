@@ -3,9 +3,9 @@
 
 #include <QMainWindow>
 #include <QJsonDocument>
-//#include "assignmentcreationwindowmemento.h"
 #include "commandhistory.h"
 #include <QVBoxLayout>
+#include "Assignment.h"
 
 namespace Ui {
 class AssignmentCreationWindow;
@@ -17,8 +17,7 @@ class AssignmentCreationWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit AssignmentCreationWindow(QWidget *parent = nullptr);
-    explicit AssignmentCreationWindow(const QJsonDocument& json_doc,QWidget *parent = nullptr);
+    explicit AssignmentCreationWindow(const Assignment& assignment, QWidget *parent = nullptr);
     ~AssignmentCreationWindow();
 
 private:
@@ -27,13 +26,13 @@ private:
     QVBoxLayout* assignment_layout_;
     QWidget* assignment_container_;
     unsigned long long cur_assignment_id = 0;
-    QString assignment_name_ = "";
+    Assignment assignment_;
 
     void execute_command(Command* command, bool is_needed_to_save = true);
     void undo();
     void AddHeader(const QString& text, bool is_needed_to_save = true);
     void AddTest(const QString& text, bool is_needed_to_save = true);
-    void AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save = true);
+    void AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save = true, bool is_checked = false);
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);

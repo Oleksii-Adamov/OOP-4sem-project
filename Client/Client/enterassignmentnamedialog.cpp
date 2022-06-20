@@ -19,10 +19,8 @@ EnterAssignmentNameDialog::EnterAssignmentNameDialog(QWidget *parent) :
 
     ui->lineEdit_name->setFont(Font::RegularFont());
     ui->label_name->setFont(Font::RegularFont());
-    ui->label_max_score->setFont(Font::RegularFont());
     ui->pushButton_Save->setFont(Font::RegularFont());
     ui->pushButton_Cancel->setFont(Font::RegularFont());
-    ui->spinBox_max_score->setFont(Font::RegularFont());
 }
 
 EnterAssignmentNameDialog::~EnterAssignmentNameDialog()

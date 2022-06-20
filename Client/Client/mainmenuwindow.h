@@ -20,6 +20,8 @@ private slots:
 
     void on_pushButton_send_assignment_clicked();
 
+    void on_pushButton_created_assignments_clicked();
+
 private:
     Ui::MainMenuWindow *ui;
 };

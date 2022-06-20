@@ -19,6 +19,9 @@ public:
 public slots:
     void OnAssignmentClicked(const QModelIndex& index);
 
+private slots:
+    void on_pushButton_create_new_clicked();
+
 private:
     Ui::CreatedAssignmentsWindow *ui;
     QSharedPointer<AssignmentsListModel> assignments_list_model;
