@@ -6,13 +6,14 @@
 #include "commandhistory.h"
 #include <QVBoxLayout>
 #include "Assignment.h"
+#include "clientsubscriber.h"
 
 namespace Ui {
 class AssignmentCreationWindow;
 }
 
 
-class AssignmentCreationWindow : public QMainWindow
+class AssignmentCreationWindow : public QMainWindow, ClientSubscriber
 {
     Q_OBJECT
 
@@ -36,6 +37,7 @@ private:
 public:
     QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);
+    void Update(net::message<CustomMsgTypes>& msg) override;
 private slots:
     void OnAddHeaderButtonClicked();
     void OnUndoButtonClicked();

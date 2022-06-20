@@ -84,6 +84,14 @@ AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment,
     }
 }
 
+void AssignmentCreationWindow::Update(net::message<CustomMsgTypes>& msg)
+{
+    if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
+    {
+        FromJSON(QJsonDocumentFromServerMessage(msg));
+    }
+}
+
 AssignmentCreationWindow::~AssignmentCreationWindow()
 {
     delete ui;

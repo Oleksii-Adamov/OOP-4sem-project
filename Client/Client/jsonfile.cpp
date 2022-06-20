@@ -3,6 +3,30 @@
 #include "client.h"
 #include <cstdint>
 
+QJsonDocument QJsonDocumentFromServerMessage(net::message<CustomMsgTypes>& message)
+{
+    uint64_t size;
+    message >> size;
+    QString json_string = "";
+    for (uint64_t i = 0; i < size; i++) {
+      char c;
+      message >> c;
+      json_string = c + json_string;
+    }
+    QByteArray json_bytes = json_string.toLocal8Bit();
+
+    QJsonDocument json_doc = QJsonDocument::fromJson(json_bytes);
+
+    if (json_doc.isNull()) {
+        throw std::runtime_error(std::string("JSON doc is null"));
+    }
+    if (!json_doc.isObject()) {
+        throw std::runtime_error(std::string("JSON is not an object "));
+    }
+
+    return json_doc;
+}
+
 QJsonDocument QJsonDocumentFromJsonFile(const std::string& file_path)
 {
     QFile file_obj(QString::fromStdString(file_path));
