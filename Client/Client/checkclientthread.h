@@ -7,13 +7,17 @@ class CheckClientThread : public QThread
 {
     Q_OBJECT
 public:
-    CheckClientThread();
+    CheckClientThread(QObject* parent = nullptr)
+        : QThread(parent)
+    {}
 signals:
         void TimeToUpdate();
 private:
     void run() override {
-        QThread::msleep(50);
-        emit TimeToUpdate();
+        while(true) {
+            QThread::msleep(50);
+            emit TimeToUpdate();
+        }
     }
 };
 

@@ -49,13 +49,13 @@ int main(int argc, char *argv[])
     Client* client = Client::GetInstance();
     client->Connect("127.0.0.1", 60000);
     CheckClientThread check_client_thread;
-    connect(check_client_thread, SIGNAL(TimeToUpdate()), client, SLOT(Update()));
-    //QObject::connect(&check_client_thread, &CheckClientThread::TimeToUpdate,
-    //                     &client, &Client::Update);
+//    connect(check_client_thread, SIGNAL(TimeToUpdate()), client, SLOT(Update()));
+    QObject::connect(&check_client_thread, &CheckClientThread::TimeToUpdate,
+                         client, &Client::Update);
     check_client_thread.start();
   //  std::thread checkClientThread(CheckClient);
   //  std::thread mainThread(Main, argc, argv);
-    
+
     //checkClientThread.join();
     //mainThread.join();
 //return 0;
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     //TeacherAssignmentCheckingWindow w;
     w.show();
     int ret = a.exec();
-    check_client_thread.wait();
+    check_client_thread.quit();
     return ret;
 
 }

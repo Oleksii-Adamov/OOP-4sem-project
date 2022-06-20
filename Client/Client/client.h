@@ -6,7 +6,7 @@
 #include "clientsubscriber.h"
 #include <QObject>
 
-class Client : public net::client_interface<CustomMsgTypes>, public QObject
+class Client : public QObject, public net::client_interface<CustomMsgTypes>
 {
     Q_OBJECT
 private:
@@ -21,6 +21,7 @@ public:
     void Subscribe(ClientSubscriber* subscriber);
     void UnSubscribe(ClientSubscriber* subscriber);
     void NotifySubscribers(net::message<CustomMsgTypes>& msg);
+    ~Client(){}
 public slots:
     void Update();
     /*void PingServer()
