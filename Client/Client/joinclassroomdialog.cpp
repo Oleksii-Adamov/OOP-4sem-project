@@ -5,7 +5,7 @@
 #include <QRegularExpression>
 
 JoinClassroomDialog::JoinClassroomDialog(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent), ClientSubscriber(),
     ui(new Ui::JoinClassroomDialog)
 {
     ui->setupUi(this);
@@ -19,6 +19,11 @@ JoinClassroomDialog::JoinClassroomDialog(QWidget *parent) :
 JoinClassroomDialog::~JoinClassroomDialog()
 {
     delete ui;
+}
+
+void JoinClassroomDialog::Update(net::message<CustomMsgTypes>& msg)
+{
+
 }
 
 void JoinClassroomDialog::on_pushButton_join_clicked()

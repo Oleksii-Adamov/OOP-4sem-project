@@ -4,18 +4,20 @@
 #include <QMainWindow>
 #include "classroomslistmodel.h"
 #include "classroomsnamelistmodel.h"
+#include "clientsubscriber.h"
 
 namespace Ui {
 class ClassroomsListWindow;
 }
 
-class ClassroomsListWindow : public QMainWindow
+class ClassroomsListWindow : public QMainWindow, ClientSubscriber
 {
     Q_OBJECT
 
 public:
     explicit ClassroomsListWindow(QWidget *parent = nullptr);
     ~ClassroomsListWindow();
+    void Update(net::message<CustomMsgTypes>& msg) override;
 
 public slots:
     void OnStudentClassroomClicked(const QModelIndex& classroom_index);
@@ -25,6 +27,8 @@ private slots:
     void on_pushButton_join_clicked();
 
     void on_pushButton_create_clicked();
+
+    void on_actionUpdate_triggered();
 
 private:
     Ui::ClassroomsListWindow *ui;

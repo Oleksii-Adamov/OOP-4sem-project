@@ -6,7 +6,7 @@
 #include "jsonfile.h"
 
 StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionInfo& student_assignment_session_info, QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent), ClientSubscriber(),
     ui(new Ui::StudentAssignmentWindow)
 {
     ui->setupUi(this);
@@ -35,6 +35,11 @@ StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionI
     AssignmentGUIDirector assignment_GUI_director;
     assignment_GUI_director.set_builder(&assignment_GUI_builder);
     assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
+}
+
+void StudentAssignmentWindow::Update(net::message<CustomMsgTypes>& msg)
+{
+
 }
 
 StudentAssignmentWindow::~StudentAssignmentWindow()

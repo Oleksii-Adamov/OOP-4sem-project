@@ -27,6 +27,11 @@ CreatedAssignmentsWindow::CreatedAssignmentsWindow(QWidget *parent) :
     assignments_list_model->PushBack(Assignment(1,1,"Name","12321","",5));
 }
 
+void CreatedAssignmentsWindow::Update(net::message<CustomMsgTypes>& msg)
+{
+
+}
+
 void CreatedAssignmentsWindow::OnAssignmentClicked(const QModelIndex& index)
 {
     AssignmentCreationWindow* new_window = new AssignmentCreationWindow(assignments_list_model->GetData(index), this);

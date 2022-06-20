@@ -4,7 +4,7 @@
 #include "teacherassignmentcheckingwindow.h"
 
 StudentAssignmentSessionsWindow::StudentAssignmentSessionsWindow(const AssignmentSessionInfo& assignment_session_info, QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::StudentAssignmentSessionsWindow),
+    QMainWindow(parent), ClientSubscriber(), ui(new Ui::StudentAssignmentSessionsWindow),
     assignment_session_info_(assignment_session_info)
 {
     ui->setupUi(this);
@@ -28,6 +28,11 @@ StudentAssignmentSessionsWindow::StudentAssignmentSessionsWindow(const Assignmen
     student_assignments_list_model->PushBack(StudentAssignmentSessionInfoForTeacher(StudentAssignmentSession(1,1,StudentAssignmentSessionStatus::submitted, "", 0, "19.06.2022 23:21"), User(1,"login", "student name")));
 //    student_assignments_list_model->PushBack(StudentAssignmentSessionInfo(2, StudentAssignmentSessionStatus::checked, "17:59 18.06.2022", "User name2", 3));
 //    student_assignments_list_model->PushBack(StudentAssignmentSessionInfo(3, StudentAssignmentSessionStatus::not_submitted, "17:59 18.06.2022", "User name3"));
+}
+
+void StudentAssignmentSessionsWindow::Update(net::message<CustomMsgTypes>& msg)
+{
+
 }
 
 void StudentAssignmentSessionsWindow::OnStudentAssignmentClicked(const QModelIndex& student_assignment)

@@ -39,6 +39,7 @@ SOURCES += \
     classroomwindowstudentstrategy.cpp \
     classroomwindowteacherstrategy.cpp \
     client.cpp \
+    clientsubscriber.cpp \
     command.cpp \
     commandhistory.cpp \
     createclassroomdialog.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     classroomwindowstudentstrategy.h \
     classroomwindowteacherstrategy.h \
     client.h \
+    clientsubscriber.h \
     command.h \
     commandhistory.h \
     createclassroomdialog.h \

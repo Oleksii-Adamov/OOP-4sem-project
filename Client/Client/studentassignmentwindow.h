@@ -3,18 +3,20 @@
 
 #include <QMainWindow>
 #include "studentassignmentsessioninfo.h"
+#include "clientsubscriber.h"
 
 namespace Ui {
 class StudentAssignmentWindow;
 }
 
-class StudentAssignmentWindow : public QMainWindow
+class StudentAssignmentWindow : public QMainWindow, ClientSubscriber
 {
     Q_OBJECT
 
 public:
     explicit StudentAssignmentWindow(const StudentAssignmentSessionInfo& student_assignment_session_info, QWidget *parent = nullptr);
     ~StudentAssignmentWindow();
+    void Update(net::message<CustomMsgTypes>& msg) override;
 
 private:
     Ui::StudentAssignmentWindow *ui;

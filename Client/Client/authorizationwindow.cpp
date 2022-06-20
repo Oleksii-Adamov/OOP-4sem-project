@@ -57,6 +57,11 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
     }
 }
 
+void AuthorizationWindow::Update(net::message<CustomMsgTypes>& msg)
+{
+
+}
+
 
 void AuthorizationWindow::on_pushButton_register_clicked()
 {

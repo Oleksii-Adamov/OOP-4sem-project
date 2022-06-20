@@ -3,24 +3,25 @@
 #include "net.h"
 #include "messagetypes.h"
 #include <QDebug>
+#include "clientsubscriber.h"
 
 class Client : public net::client_interface<CustomMsgTypes>
 {
 private:
     bool key[3] = { false, false, false };
     bool old_key[3] = { false, false, false };
+    std::vector<ClientSubscriber*> subscribers_;
     Client();
 public:
-    static Client* GetInstance()
-    {
-        // first time it will be instancieted, than referenced
-        static Client instance;
-        return &instance;
-    }
+    static Client* GetInstance();
     Client(const Client&) = delete;
     Client& operator=(const Client& other) = delete;
+    void Update();
+    void Subscribe(ClientSubscriber* subscriber);
+    void UnSubscribe(ClientSubscriber* subscriber);
+    void NotifySubscribers(net::message<CustomMsgTypes>& msg);
 
-    void PingServer()
+    /*void PingServer()
     {
         net::message<CustomMsgTypes> msg;
         msg.header.id = CustomMsgTypes::ServerPing;
@@ -36,39 +37,9 @@ public:
         net::message<CustomMsgTypes> msg;
         msg.header.id = CustomMsgTypes::MessageAll;
         Send(msg);
-    }
+    }*/
 
-    void Update()
-    {
-        if (!Incoming().empty()) {
-            auto message = Incoming().pop_front().msg;
-            switch(message.header.id)
-            {
-                case CustomMsgTypes::ServerPing : {
-                    std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();
-                    std::chrono::system_clock::time_point timeThen;
-                    message >> timeThen;
-                    qDebug() << "Ping: " << std::chrono::duration<double>(timeNow - timeThen).count() << "\n";
-                    break;
-                }
-                case CustomMsgTypes::RETURN_TEST_ASSIGMENT:
-                {
-                  uint64_t size;
-                  message >> size;
-                  std::string json = "";
-                  for (uint64_t i = 0; i < size; i++) {
-                    char c;
-                    message >> c;
-                    json = c + json;
-                  }
-                  qDebug() << QString::fromStdString(json);
-                  break;
-                }
-            }
 
-        }
-
-    }
 };
 
 #endif // CLIENT_H

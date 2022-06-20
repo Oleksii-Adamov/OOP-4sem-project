@@ -4,12 +4,13 @@
 #include <QMainWindow>
 #include "studentassignmentsessionsforteacherlistmodel.h"
 #include "assignmentsessioninfo.h"
+#include "clientsubscriber.h"
 
 namespace Ui {
 class StudentAssignmentSessionsWindow;
 }
 
-class StudentAssignmentSessionsWindow : public QMainWindow
+class StudentAssignmentSessionsWindow : public QMainWindow, ClientSubscriber
 {
     Q_OBJECT
 
@@ -19,7 +20,7 @@ public:
 
 public slots:
     void OnStudentAssignmentClicked(const QModelIndex& student_assignment);
-
+    void Update(net::message<CustomMsgTypes>& msg) override;
 private:
     Ui::StudentAssignmentSessionsWindow *ui;
     QSharedPointer<StudentAssignmentSessionsForTeacherListModel> student_assignments_list_model;

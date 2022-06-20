@@ -6,10 +6,11 @@
 #include "classroomwindowteacherstrategy.h"
 #include "joinclassroomdialog.h"
 #include "createclassroomdialog.h"
+#include "client.h"
 
 ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::ClassroomsListWindow)
+    ClientSubscriber(), ui(new Ui::ClassroomsListWindow)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
@@ -34,10 +35,17 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     connect(ui->classromms_list_view_as_student, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnStudentClassroomClicked(QModelIndex)));
     connect(ui->classromms_list_view_as_teacher, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTeacherClassroomClicked(QModelIndex)));
 
+//    Client::GetInstance()->Subscribe(this);
+
     classrooms_list_as_student_model_->PushBack(ClassroomInfo(Classroom(2,2,"Probability theory"), User(2, "rozora", "Rozora")));
     classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(2, "Probability theory", "Rozora"));
 //    classrooms_list_as_student_model_->PushBack(ClassroomInfo(3, "OOP", "Zhereb"));
+}
+
+void ClassroomsListWindow::Update(net::message<CustomMsgTypes>& msg)
+{
+
 }
 
 void ClassroomsListWindow::OnStudentClassroomClicked(const QModelIndex& classroom_index)
@@ -56,6 +64,7 @@ void ClassroomsListWindow::OnTeacherClassroomClicked(const QModelIndex& classroo
 
 ClassroomsListWindow::~ClassroomsListWindow()
 {
+    //Client::GetInstance()->UnSubscribe(this);
     delete ui;
 }
 
@@ -70,5 +79,11 @@ void ClassroomsListWindow::on_pushButton_create_clicked()
 {
     CreateClassroomDialog* new_window = new CreateClassroomDialog(this);
     new_window->show();
+}
+
+
+void ClassroomsListWindow::on_actionUpdate_triggered()
+{
+
 }
 

@@ -89,19 +89,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionMain_Menu"/>
    <addaction name="actionUpdate"/>
   </widget>
-  <action name="actionMain_Menu">
-   <property name="text">
-    <string>Main Menu</string>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>15</pointsize>
-    </font>
-   </property>
-  </action>
   <action name="actionUpdate">
    <property name="text">
     <string>Update</string>
