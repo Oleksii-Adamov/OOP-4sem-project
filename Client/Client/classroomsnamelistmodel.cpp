@@ -47,4 +47,7 @@ Classroom ClassroomsNameListModel::GetClassroom(const QModelIndex &index, int ro
     return Classroom();
 }
 
-
+void ClassroomsNameListModel::Clear()
+{
+    list_.clear();
+}

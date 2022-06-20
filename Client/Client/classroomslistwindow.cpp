@@ -7,6 +7,9 @@
 #include "joinclassroomdialog.h"
 #include "createclassroomdialog.h"
 #include "client.h"
+#include "jsonfile.h"
+#include <QJsonObject>
+#include <QJsonArray>
 
 ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -45,7 +48,31 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
 
 void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
 {
+    if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_CLASSROOMS)
+    {
+        //classrooms_list_as_teacher_model_->Clear();
+        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonArray classrooms =  json_doc_obj.take("Classrooms").toArray();
+        for (int i = 0; i < classrooms.size(); i++)
+        {
+            QJsonObject classroom_object = classrooms.at(i).toObject();
+            classrooms_list_as_teacher_model_->PushBack(Classroom(classroom_object.take("classroom_id").toInt(),
+                                         classroom_object.take("teacher_user_id").toInt(),
+                                         classroom_object.take("name").toString().toStdString()));
+        }
+    }
+}
 
+void GetStudentClassroomsData()
+{
+
+}
+void ClassroomsListWindow::GetTeacherClassroomsData()
+{
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_TEACHER_CLASSROOMS;
+    Client::GetInstance()->Send(message);
 }
 
 void ClassroomsListWindow::OnStudentClassroomClicked(const QModelIndex& classroom_index)
@@ -86,4 +113,3 @@ void ClassroomsListWindow::on_actionUpdate_triggered()
 {
 
 }
-

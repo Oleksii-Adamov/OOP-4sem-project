@@ -34,6 +34,8 @@ private:
     Ui::ClassroomsListWindow *ui;
     QSharedPointer<ClassroomsListModel> classrooms_list_as_student_model_;
     QSharedPointer<ClassroomsNameListModel> classrooms_list_as_teacher_model_;
+    void GetStudentClassroomsData();
+    void GetTeacherClassroomsData();
 };
 
 #endif // CLASSROOMSLISTWINDOW_H
