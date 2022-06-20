@@ -35,27 +35,19 @@
      <widget class="QListView" name="assignments_list_view"/>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="pushButton_delete">
-        <property name="text">
-         <string>Delete</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_edit">
-        <property name="text">
-         <string>Edit</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <layout class="QHBoxLayout" name="horizontalLayout"/>
     </item>
     <item>
      <widget class="QPushButton" name="pushButton_create_new">
       <property name="text">
        <string>Create new</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_delete">
+      <property name="text">
+       <string>Delete</string>
       </property>
      </widget>
     </item>

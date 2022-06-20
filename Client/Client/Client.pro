@@ -41,11 +41,13 @@ SOURCES += \
     client.cpp \
     command.cpp \
     commandhistory.cpp \
+    createclassroomdialog.cpp \
     createdassignmentswindow.cpp \
     editablelabel.cpp \
     enterassignmentnamedialog.cpp \
     filepath.cpp \
     font.cpp \
+    joinclassroomdialog.cpp \
     jsonfile.cpp \
     main.cpp \
     mainmenuwindow.cpp \
@@ -100,11 +102,13 @@ HEADERS += \
     client.h \
     command.h \
     commandhistory.h \
+    createclassroomdialog.h \
     createdassignmentswindow.h \
     editablelabel.h \
     enterassignmentnamedialog.h \
     filepath.h \
     font.h \
+    joinclassroomdialog.h \
     jsonfile.h \
     mainmenuwindow.h \
     mainwindow.h \
@@ -135,8 +139,10 @@ FORMS += \
     authorizationwindow.ui \
     classroomslistwindow.ui \
     classroomwindow.ui \
+    createclassroomdialog.ui \
     createdassignmentswindow.ui \
     enterassignmentnamedialog.ui \
+    joinclassroomdialog.ui \
     mainmenuwindow.ui \
     mainwindow.ui \
     registerwindow.ui \

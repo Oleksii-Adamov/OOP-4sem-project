@@ -13,14 +13,22 @@
 #include "saveeditableassignmentcommand.h"
 #include "enterassignmentnamedialog.h"
 #include "filepath.h"
+#include "jsonfile.h"
+#include "font.h"
+#include <algorithm>
 
-AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::AssignmentCreationWindow)
+AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment, QWidget *parent) :
+    QMainWindow(parent), ui(new Ui::AssignmentCreationWindow),
+    assignment_(assignment)
 {
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowMaximized);
     InitAssignmentDir();
-    QVBoxLayout* layout = new QVBoxLayout(ui->centralwidget);
+
+    QLayout* layout = ui->centralwidget->layout();
+
+    ui->label_max_score->setFont(Font::RegularListViewFont());
+    ui->spinBox_max_score->setFont(Font::RegularListViewFont());
 
     auto * scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
@@ -36,6 +44,7 @@ AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     QPushButton* add_header_button = new QPushButton("Add Header", command_buttons_container);
     command_buttons_layout->addWidget(add_header_button);
     add_header_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    add_header_button->setFont(Font::RegularFont());
     QAbstractButton::connect(
         add_header_button, &QPushButton::clicked,
         this, &AssignmentCreationWindow::OnAddHeaderButtonClicked
@@ -44,6 +53,7 @@ AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     QPushButton* undo_button = new QPushButton("Undo (structure)", command_buttons_container);
     command_buttons_layout->addWidget(undo_button);
     undo_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    undo_button->setFont(Font::RegularFont());
     QAbstractButton::connect(
         undo_button, &QPushButton::clicked,
         this, &AssignmentCreationWindow::OnUndoButtonClicked
@@ -52,6 +62,7 @@ AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     QPushButton* add_test_button = new QPushButton("Add test", command_buttons_container);
     command_buttons_layout->addWidget(add_test_button);
     add_test_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    add_test_button->setFont(Font::RegularFont());
     QAbstractButton::connect(
         add_test_button, &QPushButton::clicked,
         this, &AssignmentCreationWindow::OnAddTestButtonClicked
@@ -60,16 +71,17 @@ AssignmentCreationWindow::AssignmentCreationWindow(QWidget *parent) :
     QPushButton* save_button = new QPushButton("Save", command_buttons_container);
     command_buttons_layout->addWidget(save_button);
     save_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    save_button->setFont(Font::RegularFont());
     QAbstractButton::connect(
         save_button, &QPushButton::clicked,
         this, &AssignmentCreationWindow::OnSaveButtonClicked
     );
-}
 
-AssignmentCreationWindow::AssignmentCreationWindow(const QJsonDocument& json_doc, QWidget *parent)
-    : AssignmentCreationWindow(parent)
-{
-    FromJSON(json_doc);
+    if (assignment.getAssignmentId() != 0) {
+        ui->spinBox_max_score->setValue(assignment_.getAssignmentMaxScore());
+        FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
+        this->setWindowTitle(QString::fromStdString(assignment_.getAssignmentName()));
+    }
 }
 
 AssignmentCreationWindow::~AssignmentCreationWindow()
@@ -108,9 +120,9 @@ void AssignmentCreationWindow::AddTest(const QString& text, bool is_needed_to_sa
     cur_assignment_id++;
 }
 
-void AssignmentCreationWindow::AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save)
+void AssignmentCreationWindow::AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save, bool is_checked)
 {
-    execute_command(new AddEditableTestAnswerCommand(layout, container, text), is_needed_to_save);
+    execute_command(new AddEditableTestAnswerCommand(layout, container, text, is_checked), is_needed_to_save);
 }
 
 void AssignmentCreationWindow::OnAddHeaderButtonClicked()
@@ -184,13 +196,13 @@ QJsonDocument AssignmentCreationWindow::ToJSON()
     }
     QJsonObject main_json_obj;
     main_json_obj.insert("Assignment", content_array);
-    main_json_obj.insert("Assignment_name", QJsonValue(assignment_name_));
+    //main_json_obj.insert("Assignment_name", QJsonValue(assignment_name_));
     return QJsonDocument(main_json_obj);
 }
 
 void AssignmentCreationWindow::OnSaveButtonClicked()
 {
-    if (assignment_name_ == "") {
+    /*if (assignment_name_ == "") {
         EnterAssignmentNameDialog* new_dialog  = new EnterAssignmentNameDialog(this);
         connect(new_dialog, SIGNAL(NameChanged(const QString&)), this, SLOT(NameChanged(const QString&)));
         new_dialog->setModal(true);
@@ -198,12 +210,12 @@ void AssignmentCreationWindow::OnSaveButtonClicked()
     }
     else {
         execute_command(new SaveEditableAssignmentCommand(ToJSON(), assignment_name_));
-    }
+    }*/
 }
 
 void AssignmentCreationWindow::NameChanged(const QString& name)
 {
-    QString prev_name = assignment_name_;
+    /*QString prev_name = assignment_name_;
     assignment_name_ = name;
     this->setWindowTitle(assignment_name_);
     if (prev_name == "") {
@@ -213,12 +225,11 @@ void AssignmentCreationWindow::NameChanged(const QString& name)
     else {
         RenameFile(QString::fromStdString(GetAssignmentPath(prev_name.toStdString())),
                     QString::fromStdString(GetAssignmentPath(assignment_name_.toStdString())));
-    }
+    }*/
 }
 void AssignmentCreationWindow::FromJSON(const QJsonDocument& json_doc)
 {
     QJsonObject json_document_object = json_doc.object();
-    assignment_name_ = json_document_object.take("Assignment_name").toString();
     QJsonArray assignment_layout =  json_document_object.take("Assignment").toArray();
     foreach (QJsonValue item, assignment_layout)
     {
@@ -231,7 +242,8 @@ void AssignmentCreationWindow::FromJSON(const QJsonDocument& json_doc)
         else if (type == "test_assignment")
         {
             QJsonObject test_assignment_obj = cur_object.take("content").toObject();
-            long long id = (long long) test_assignment_obj.take("id").toDouble();
+            unsigned long long id = (unsigned long long) test_assignment_obj.take("id").toDouble();
+            cur_assignment_id = std::max(cur_assignment_id, id);
             QString question = test_assignment_obj.take("question").toString();
             QJsonArray answers = test_assignment_obj.take("answers").toArray();
             // create command and get widget
@@ -241,8 +253,9 @@ void AssignmentCreationWindow::FromJSON(const QJsonDocument& json_doc)
             foreach(QJsonValue answer, answers)
             {
                 AddTestAnswer(answer.toObject().take("answer_text").toString(),
-                              add_test_command->GetAddedWidget(), add_test_command->GetAddedWidget()->layout());
+                              add_test_command->GetAddedWidget(), add_test_command->GetAddedWidget()->layout(), false, answer.toObject().take("is_correct").toBool());
             }
         }
     }
+    cur_assignment_id++;
 }

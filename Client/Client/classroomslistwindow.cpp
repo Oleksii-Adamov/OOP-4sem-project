@@ -4,6 +4,8 @@
 #include "classroomwindow.h"
 #include "classroomwindowstudentstrategy.h"
 #include "classroomwindowteacherstrategy.h"
+#include "joinclassroomdialog.h"
+#include "createclassroomdialog.h"
 
 ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,3 +58,17 @@ ClassroomsListWindow::~ClassroomsListWindow()
 {
     delete ui;
 }
+
+void ClassroomsListWindow::on_pushButton_join_clicked()
+{
+    JoinClassroomDialog* new_window = new JoinClassroomDialog(this);
+    new_window->show();
+}
+
+
+void ClassroomsListWindow::on_pushButton_create_clicked()
+{
+    CreateClassroomDialog* new_window = new CreateClassroomDialog(this);
+    new_window->show();
+}
+

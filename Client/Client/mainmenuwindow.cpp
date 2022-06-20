@@ -4,6 +4,7 @@
 #include "authorizationwindow.h"
 #include "classroomslistwindow.h"
 #include "sendassignmentwindow.h"
+#include "createdassignmentswindow.h"
 
 MainMenuWindow::MainMenuWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -36,6 +37,13 @@ void MainMenuWindow::on_pushButton_classrooms_clicked()
 void MainMenuWindow::on_pushButton_send_assignment_clicked()
 {
     SendAssignmentWindow* new_window  = new SendAssignmentWindow(this);
+    new_window->show();
+}
+
+
+void MainMenuWindow::on_pushButton_created_assignments_clicked()
+{
+    CreatedAssignmentsWindow* new_window  = new CreatedAssignmentsWindow(this);
     new_window->show();
 }
 
