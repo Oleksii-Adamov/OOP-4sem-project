@@ -197,7 +197,7 @@ bool SQLiteAdapter::execUpdate(const std::string& table_name, const std::vector<
     std::vector<std::string> pairs;
     for(size_t i=0; i<columns.size(); i++)
     {
-        pairs.push_back(columns[i] + " = " + column_values[i]);
+        pairs.push_back(columns[i] + " = '" + column_values[i] + "'");
     }
     std::string setString = SQLiteService::commasList(pairs);
 
@@ -218,7 +218,7 @@ std::pair<bool, bool> SQLiteAdapter::checkUniqueRecord(const std::string& table_
 {
     std::string command = "SELECT " + table_name + "." + column + "\n"
                         + "FROM '" + table_name + "'\n"
-                        + "WHERE " + table_name + "." + column + " = " + column_value + ";";
+                        + "WHERE " + table_name + "." + column + " = '" + column_value + "';";
     auto commandResFull = execSelect(command, 1);
     if(!commandResFull.first)
         return {false, false};

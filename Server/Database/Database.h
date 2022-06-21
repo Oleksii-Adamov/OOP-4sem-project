@@ -59,7 +59,7 @@ public:
     /*!
      * \brief Updates Assignment's information
      *
-     * If there are already Assignment Sessions of this Assignment, the new Assignment will be created instead of updating of existing
+     * If there are already Assignment Sessions of this Assignment, the new Assignment will be created instead of updating the existing
      *
      * \param UpdatedInfo New information of Assignment to update. Its field assignment_id_
      * are used to determine a specific record to update (not changeable!).

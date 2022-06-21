@@ -44,7 +44,7 @@ std::pair<bool, bool> Database::checkLogIn(const std::string& login, const std::
 
     std::string script1 = "SELECT UserID\n"
                           "FROM 'User'\n"
-                          "WHERE (User.Login = " + login + ");";
+                          "WHERE (User.Login = '" + login + "');";
     auto commandResFull1 = db->execSelect(script1, 1);
     if(!commandResFull1.first)
         return {false, false};
@@ -53,7 +53,7 @@ std::pair<bool, bool> Database::checkLogIn(const std::string& login, const std::
 
     std::string script2 = "SELECT Password\n"
                           "FROM 'Authorization'\n"
-                          "WHERE (Authorization.UserID = " + commandResFull1.second[0][0] + ");";
+                          "WHERE (Authorization.UserID = '" + commandResFull1.second[0][0] + "');";
     auto commandResFull2 = db->execSelect(script2, 1);
     if(!commandResFull2.first || commandResFull2.second[0].empty())
         return {false, false};
@@ -67,7 +67,7 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
     DatabaseOperation* db = new SQLiteAdapter();
     std::string script = "SELECT ClassroomID, TeacherUserID, ClassroomName\n"
                          "FROM 'Classroom' INNER JOIN 'User' ON (TeacherUserID = UserID)\n"
-                         "WHERE (User.UserID = " + std::to_string(UserId) + ");";
+                         "WHERE (User.UserID = '" + std::to_string(UserId) + "');";
     auto commandResFull = db->execSelect(script, 3);
     delete db;
     if(!commandResFull.first)
@@ -92,7 +92,7 @@ std::pair<bool, std::vector<Assignment>> Database::selectAllAssignmentUserCreate
     std::string script = "SELECT Assignment.AssignmentID, Assignment.TeacherUserID, "
                          "Assignment.AssignmentName, Assignment.AssignmentCreationDate, Assignment.AssignmentMaxScore\n"
                          "FROM 'Assignment' INNER JOIN 'User' ON (TeacherUserID = UserID)\n"
-                         "WHERE (User.UserID = " + std::to_string(UserId) + ");";
+                         "WHERE (User.UserID = '" + std::to_string(UserId) + "');";
     auto commandResFull = db->execSelect(script, 5);
     delete db;
     if(!commandResFull.first)
@@ -140,8 +140,8 @@ std::pair<bool, std::string> Database::getStudentAssignmentSessionAnswer(ID Stud
     DatabaseOperation* db = new SQLiteAdapter();
     std::string script = "SELECT Student_AssignmentSession.StudentAssignmentSessionAnswer\n"
                          "FROM 'Student_AssignmentSession'\n"
-                         "WHERE (Student_AssignmentSession.StudentUserID = " + std::to_string(StudentUserId)
-                         + " and Student_AssignmentSession.AssignmentSessionId = " + std::to_string(AssignmentSessionId) + ");";
+                         "WHERE (Student_AssignmentSession.StudentUserID = '" + std::to_string(StudentUserId)
+                         + "' and Student_AssignmentSession.AssignmentSessionId = '" + std::to_string(AssignmentSessionId) + "');";
     auto commandResFull = db->execSelect(script, 1);
     delete db;
     if(!commandResFull.first)
@@ -160,7 +160,7 @@ std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> Database::g
     std::string script = "SELECT *\n"
                          "FROM ('User' INNER JOIN 'Student_AssignmentSession' ON (Student_AssignmentSession.StudentUserID = User.UserID))\n"
                          "INNER JOIN 'AssignmentSession' ON (Student_AssignmentSession.AssignmentSessionID = AssignmentSession.AssignmentSessionID)\n"
-                         "WHERE (AssignmentSession.AssignmentSessionId = " + std::to_string(AssignmentSessionId) + ");";
+                         "WHERE (AssignmentSession.AssignmentSessionId = '" + std::to_string(AssignmentSessionId) + "');";
     auto commandResFull = db->execSelect(script, 13);
     delete db;
     if(!commandResFull.first)
@@ -199,7 +199,7 @@ std::pair<bool, std::string> Database::getAssignmentData(ID AssignmentId)
     DatabaseOperation* db = new SQLiteAdapter();
     std::string script = "SELECT Assignment.AssignmentData\n"
                          "FROM 'Assignment'\n"
-                         "WHERE (Assignment.AssignmentID = " + std::to_string(AssignmentId) + ");";
+                         "WHERE (Assignment.AssignmentID = '" + std::to_string(AssignmentId) + "');";
     auto commandResFull = db->execSelect(script, 1);
     delete db;
     if(!commandResFull.first)
