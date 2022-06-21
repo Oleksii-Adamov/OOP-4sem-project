@@ -20,7 +20,7 @@ public:
     static bool createNewUser(const User& NewUser, const std::string& password);
 
     //! Checks if login and password are correct
-    static std::pair<bool, bool> checkLogIn(const std::string& login, const std::string& password);
+    static std::pair<bool, User> checkLogIn(const std::string& login, const std::string& password);
 
     //! Returns all the User's Classrooms in which he is a teacher
     static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsTeacher(ID UserId);
@@ -59,7 +59,7 @@ public:
     /*!
      * \brief Updates Assignment's information
      *
-     * If there are already Assignment Sessions of this Assignment, the new Assignment will be created instead of updating of existing
+     * If there are already Assignment Sessions of this Assignment, the new Assignment will be created instead of updating the existing
      *
      * \param UpdatedInfo New information of Assignment to update. Its field assignment_id_
      * are used to determine a specific record to update (not changeable!).
