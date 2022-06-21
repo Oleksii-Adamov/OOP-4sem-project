@@ -51,7 +51,7 @@ std::string ParseToJson(const std::vector<Assignment>& assignments) {
 }
 
 std::string ParseToJson(
-	const std::vector<StudentAssignmentSessionInfoForTeacher> objects) {
+	const std::vector<StudentAssignmentSessionInfoForTeacher>& objects) {
 	std::stringstream text;
 	bpt::ptree json;
 	bpt::ptree array;
@@ -89,5 +89,20 @@ std::string ParseToJson(
 	json.put_child("StudentAssignmentSessionInfosForTeacher", array);
 	bpt::write_json(text, json);
 	
+	return text.str();
+}
+
+std::string ParseToJson(const Assignment& assignment) {
+	std::stringstream text;
+	bpt::ptree json;
+	json.put("Assignment.assignment_id", assignment.getAssignmentId());
+	json.put("Assignment.teacher_user_id", assignment.getTeacherUserId());
+	json.put("Assignment.assignment_name", assignment.getAssignmentName());
+	json.put("Assignment.assignment_creation_date",
+					 assignment.getAssignmentCreationDate());
+	json.put("Assignment.assignment_data", assignment.getAssignmentData());
+	json.put("Assignment.assignment_max_score",
+					 assignment.getAssignmentMaxScore());
+	bpt::write_json(text, json);
 	return text.str();
 }

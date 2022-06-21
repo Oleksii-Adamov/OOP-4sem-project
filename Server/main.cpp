@@ -2,6 +2,7 @@
 #include "../common_src/messagetypes.h"
 #include "server_src/custom_json_parser.h"
 #include "Database/Database.h"
+#include "Database/DatabaseLog.h"
 
 void GetTeacherClassrooms(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
@@ -27,6 +28,13 @@ void GetTeacherClassrooms(
 		
 		// Send to client
 		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'SELECT_ALL_CLASSROOMS_WHERE_USER_IS_TEACHER' RETURNS FALSE");
+		
+		client->Send(OutgoingMsg);
 	}
 }
 
@@ -51,6 +59,13 @@ void GetTeacherAssignments(
 		OutgoingMsg << size;
 		
 		// Send to client
+		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+			"SQL REQUEST 'SELECT_ALL_ASSIGNMENT_USER_CREATED' RETURNS FALSE");
+		
 		client->Send(OutgoingMsg);
 	}
 }
@@ -121,6 +136,13 @@ void GetStudentAssignmentSessionAnswer(
 		OutgoingMsg << size;
 		
 		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+			"REQUEST 'GET_STUDENT_ASSIGNMENT_SESSION_ANSWER' RETURNS FALSE");
+		
+		client->Send(OutgoingMsg);
 	}
 }
 
@@ -133,6 +155,7 @@ void GetAllStudentAssignmentSessionAnswers(
 		StudentAssignmentSessionInfosForTeacher;
 	StudentAssignmentSessionInfosForTeacher =
 		Database::getAllStudentAssignmentSessionAnswers(AssignmentSessionId);
+	
 	if (StudentAssignmentSessionInfosForTeacher.first) {
 		std::string text =
 			ParseToJson(StudentAssignmentSessionInfosForTeacher.second);
@@ -144,6 +167,13 @@ void GetAllStudentAssignmentSessionAnswers(
 		for (char c : text)
 			OutgoingMsg << c;
 		OutgoingMsg << size;
+		
+		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+			"REQUEST 'GET_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS' RETURNS FALSE");
 		
 		client->Send(OutgoingMsg);
 	}
@@ -274,9 +304,125 @@ void GetCreatedAssignment(
 		OutgoingMsg << size;
 		
 		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'GET_ASSIGNMENT_DATA' RETURNS FALSE");
+		
+		client->Send(OutgoingMsg);
 	}
 }
 
+void SubmitStudentAssignment(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static bool submitStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo);
+	ID StudentUserId;
+	ID AssignmentSessionId;
+	uint64_t sizeStudentAssignmentSessionAnswer;
+	std::string StudentAssignmentSessionAnswer;
+	
+	StudentAssignmentSession UpdatedInfo;
+	
+	msg >> StudentUserId;
+	msg >> AssignmentSessionId;
+	msg >> sizeStudentAssignmentSessionAnswer;
+	for (uint64_t i = 0; i < sizeStudentAssignmentSessionAnswer; i++) {
+		char c;
+		msg >> c;
+		StudentAssignmentSessionAnswer = c + StudentAssignmentSessionAnswer;
+	}
+	
+	UpdatedInfo.setStudentUserId(StudentUserId);
+	UpdatedInfo.setAssignmentSessionId(AssignmentSessionId);
+	UpdatedInfo.setStudentAssignmentSessionAnswer(StudentAssignmentSessionAnswer);
+	
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (Database::submitStudentAssignmentSession(UpdatedInfo))
+		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_SUBMIT_STUDENT_ASSIGNMENT;
+	else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+			"SQL REQUEST 'SUBMIT_STUDENT_ASSIGNMENT_SESSION' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
+}
+
+void EvaluateStudentAssignment(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static bool evaluateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo);
+	ID StudentUserId;
+	ID AssignmentSessionId;
+	int StudentAssignmentSessionScore;
+	
+	StudentAssignmentSession UpdatedInfo;
+	
+	msg >> StudentUserId;
+	msg >> AssignmentSessionId;
+	msg >> StudentAssignmentSessionScore;
+	
+	UpdatedInfo.setStudentUserId(StudentUserId);
+	UpdatedInfo.setAssignmentSessionId(AssignmentSessionId);
+	UpdatedInfo.setStudentAssignmentSessionScore(StudentAssignmentSessionScore);
+	
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (Database::evaluateStudentAssignmentSession(UpdatedInfo))
+		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_EVALUATE_STUDENT_ASSIGNMENT;
+	else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'EVALUATE_STUDENT_ASSIGNMENT_SESSION' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
+}
+
+void UpdateAssignment(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, Assignment> updateAssignment(const Assignment& UpdatedInfo);
+	ID AssignmentId;
+	ID TeacherUserId;
+	uint64_t sizeAssignmentData;
+	std::string AssignmentData;
+	
+	Assignment UpdatedInfo;
+	std::pair<bool, Assignment> assignment;
+	
+	msg >> AssignmentId;
+	msg >> TeacherUserId;
+	msg >> sizeAssignmentData;
+	for (uint64_t i = 0; i < sizeAssignmentData; i++) {
+		char c;
+		msg >> c;
+		AssignmentData = c + AssignmentData;
+	}
+	
+	UpdatedInfo.setAssignmentId(AssignmentId);
+	UpdatedInfo.setTeacherUserId(TeacherUserId);
+	UpdatedInfo.setAssignmentData(AssignmentData);
+	
+	assignment = Database::updateAssignment(UpdatedInfo);
+	
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (assignment.first) {
+		std::string text = ParseToJson(assignment.second);
+		uint64_t size = text.size();
+		
+		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_UPDATE_ASSIGNMENT;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error("SQL REQUEST 'UPDATE_ASSIGNMENT' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
+}
 
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
@@ -302,33 +448,6 @@ protected:
 	OnMessage(std::shared_ptr<net::connection<CustomMsgTypes>> client,
 						net::message<CustomMsgTypes> &msg) {
 		switch (msg.header.id) {
-			case CustomMsgTypes::ServerPing: {
-				std::cout << "[" << client->GetID() << "]: Server Ping\n";
-
-				client->Send(msg);
-			}
-			break;
-
-			case CustomMsgTypes::MessageAll: {
-				std::cout << "[" << client->GetID() << "]: Message All\n";
-
-				net::message<CustomMsgTypes> msg;
-				msg.header.id = CustomMsgTypes::ServerMessage;
-				msg << client->GetID();
-				MessageAllClients(msg, client);
-
-			}
-			break;
-
-			case CustomMsgTypes::ServerMessage: {
-				try {
-				}
-				catch (std::exception &e) {
-					std::cout << "Exception: " << e.what();
-				}
-			}
-			break;
-			
 			case CustomMsgTypes::GET_TEST_ASSIGNMENT: {
 				std::cout << "GETTING TEST ASSIGMENT..." << std::endl;
 				std::ifstream file("../../from_teacher_to_server.json");
@@ -397,6 +516,18 @@ protected:
 				
 			case CustomMsgTypes::GET_CREATED_ASSIGNMENT:
 				GetCreatedAssignment(client, msg);
+				break;
+				
+			case CustomMsgTypes::SUBMIT_STUDENT_ASSIGNMENT:
+				SubmitStudentAssignment(client, msg);
+				break;
+			
+			case CustomMsgTypes::EVALUATE_STUDENT_ASSIGNMENT:
+				EvaluateStudentAssignment(client, msg);
+				break;
+				
+			case CustomMsgTypes::UPDATE_ASSIGNMENT:
+				UpdateAssignment(client, msg);
 				break;
 		}
 	}

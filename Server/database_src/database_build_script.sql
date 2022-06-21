@@ -64,11 +64,14 @@ CREATE INDEX IF NOT EXISTS `fk_User_has_Classroom_Classroom1_idx` ON `Student_Cl
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `AssignmentSession` (
   `AssignmentSessionID` INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `ClassroomID` INTEGER NOT NULL,
   `AssignmentID` INTEGER NOT NULL,
   `AssignmentSessionStartDate` DATETIME NOT NULL DEFAULT current_timestamp,
   `AssignmentSessionFinishDate` DATETIME NULL,
+  FOREIGN KEY (`ClassroomID`) REFERENCES `Classroom`(`ClassroomID`) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`AssignmentID`) REFERENCES `Assignment`(`AssignmentID`) ON UPDATE CASCADE ON DELETE CASCADE);
 CREATE UNIQUE INDEX IF NOT EXISTS `AssignmentSessionID_UNIQUE` ON `AssignmentSession`(`AssignmentSessionID`);
+CREATE INDEX IF NOT EXISTS `fk_AssignmentSession_Classroom1_idx` ON `AssignmentSession`(`ClassroomID`);
 CREATE INDEX IF NOT EXISTS `fk_AssignmentSession_Assignment1_idx` ON `AssignmentSession`(`AssignmentID`);
 
 

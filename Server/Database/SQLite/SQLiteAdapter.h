@@ -8,9 +8,9 @@ class SQLiteAdapter : public DatabaseOperation
 {
     static bool openDatabase(sqlite3** db);
     static bool closeDatabase(sqlite3** db);
-    static bool exec(const std::string& command);
 public:
     bool initDatabase() const override;
+    bool exec(const std::string& command) const override;
     bool execInsert(const std::string& table_name, const std::vector<std::string>& columns, const std::vector<std::string>& values) const override;
     std::pair<bool, std::vector<std::vector<std::string>>> execSelect(const std::string& command_select, size_t n) const override;
     bool execUpdate(const std::string& table_name, const std::vector<std::string>& columns,
