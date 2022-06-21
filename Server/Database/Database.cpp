@@ -1,11 +1,65 @@
 #include "Database.h"
-#include "DatabaseService.h"
+#include "DatabaseLog.h"
 #include "SQLite/SQLiteAdapter.h"
 
 
 void Database::init()
 {
-    DatabaseService::initDatabase();
+    DatabaseOperation* db = new SQLiteAdapter();
+    if(db->initDatabase())
+        DatabaseLog::out("Started!");
+    else
+        DatabaseLog::error("Failed to start database!");
+}
+
+std::pair<bool, bool> Database::checkUniqueLogin(const std::string& login)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    auto commandResFull = db->checkUniqueRecord("User", "Login", login);
+    delete db;
+    return commandResFull;
+}
+
+bool Database::createNewUser(const User& NewUser, const std::string& password)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    auto flag = db->execInsert("User", {"Login", "UserName"},
+                               {NewUser.getLogin(), NewUser.getUserName()});
+    if(!flag)
+        return false;
+    auto commandResFull = db->getLastTableID("User", "UserID");
+    if(!commandResFull.first)
+        return false;
+    flag = db->execInsert("Authorization", {"UserID", "Password"},
+                          {std::to_string(commandResFull.second), password});
+    delete db;
+    if(!flag)
+        return false;
+    return true;
+}
+
+std::pair<bool, bool> Database::checkLogIn(const std::string& login, const std::string& password)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+
+    std::string script1 = "SELECT UserID\n"
+                          "FROM 'User'\n"
+                          "WHERE (User.Login = " + login + ");";
+    auto commandResFull1 = db->execSelect(script1, 1);
+    if(!commandResFull1.first)
+        return {false, false};
+    if(commandResFull1.second[0].empty())
+        return {true, false};
+
+    std::string script2 = "SELECT Password\n"
+                          "FROM 'Authorization'\n"
+                          "WHERE (Authorization.UserID = " + commandResFull1.second[0][0] + ");";
+    auto commandResFull2 = db->execSelect(script2, 1);
+    if(!commandResFull2.first || commandResFull2.second[0].empty())
+        return {false, false};
+    delete db;
+
+    return {true, password == commandResFull2.second[0][0]};
 }
 
 std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIsTeacher(ID UserId)

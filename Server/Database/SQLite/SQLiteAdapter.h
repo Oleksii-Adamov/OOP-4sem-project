@@ -16,6 +16,8 @@ public:
     bool execUpdate(const std::string& table_name, const std::vector<std::string>& columns,
                             const std::vector<std::string>& column_values, const std::string& where_expression) const override;
     bool execDelete(const std::string& table_name, const std::string& where_expression) const override;
+    std::pair<bool, bool> checkUniqueRecord(const std::string& table_name, const std::string& column, const std::string& column_value) const override;
+    std::pair<bool, unsigned long long> getLastTableID(const std::string& table_name, const std::string& id_name) const override;
 };
 
 
