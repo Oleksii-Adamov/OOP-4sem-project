@@ -9,6 +9,7 @@ CreateClassroomDialog::CreateClassroomDialog(QWidget *parent) :
     QDialog(parent), ClientSubscriber(),
     ui(new Ui::CreateClassroomDialog)
 {
+    //comment
     ui->setupUi(this);
     ui->label_classroom_name->setFont(Font::RegularListViewFont());
     ui->lineEdit_classroom_name->setFont(Font::RegularListViewFont());
