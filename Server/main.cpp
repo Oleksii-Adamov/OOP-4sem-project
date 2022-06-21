@@ -1,6 +1,6 @@
 #include "../common_src/net.h"
 #include "../common_src/messagetypes.h"
-#include "server_src/json_parser.h"
+#include "server_src/custom_json_parser.h"
 #include "Database/Database.h"
 
 void GetTeacherClassrooms(
@@ -11,7 +11,7 @@ void GetTeacherClassrooms(
 	msg >> UserId;
 	// Make sql request
 	std::pair<bool, std::vector<Classroom>> classrooms =
-	Database::selectAllClassroomsWhereUserIsTeacher(UserId);
+		Database::selectAllClassroomsWhereUserIsTeacher(UserId);
 	// If request is success -> parse vector of classrooms in text json
 	if (classrooms.first) {
 		// Parsing vector of classrooms in text json
@@ -34,9 +34,12 @@ void GetTeacherAssignments(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes> &msg) {
 	ID UserId;
+	// Get user id
 	msg >> UserId;
+	// Make sql request
 	std::pair<bool, std::vector<Assignment>> assignments =
-	Database::selectAllAssignmentUserCreated(UserId);
+		Database::selectAllAssignmentUserCreated(UserId);
+	// if request is success -> parse vector of assignments in text json
 	if (assignments.first) {
 		std::string text = ParseToJson(assignments.second);
 		uint64_t size = text.size();
@@ -57,9 +60,12 @@ void JoinClassroomRequest(
 	net::message<CustomMsgTypes>& msg) {
 	ID UserId;
 	ID ClassroomId;
-	net::message<CustomMsgTypes> OutgoingMsg;
+	// Get user and classroom id
 	msg >> UserId;
 	msg >> ClassroomId;
+	// if request is success -> send success message
+	// else -> failure
+	net::message<CustomMsgTypes> OutgoingMsg;
 	if (Database::joinUserToClassroom(UserId, ClassroomId))
 		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_JOIN_CLASSROOM;
 	else
@@ -71,7 +77,27 @@ void JoinClassroomRequest(
 void CreateClassroomRequest(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
+	ID TeacherUserId;
+	uint64_t size;
+	std::string ClassroomName;
 	
+	// get teacher user id and classroom name
+	msg >> TeacherUserId;
+	msg >> size;
+	for (uint64_t i = 0; i < size; i++) {
+		char c;
+		msg >> c;
+		ClassroomName = c + ClassroomName;
+	}
+	// if request is success -> send success message
+	// else -> failure
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (Database::createNewClassroom(TeacherUserId, ClassroomName))
+		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_CREATE_CLASSROOM;
+	else
+		OutgoingMsg.header.id = CustomMsgTypes::FAILURE_CREATE_CLASSROOM;
+
+	client->Send(OutgoingMsg);
 }
 
 class CustomServer : public net::server_interface<CustomMsgTypes> {
