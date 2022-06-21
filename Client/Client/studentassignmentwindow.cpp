@@ -46,3 +46,8 @@ StudentAssignmentWindow::~StudentAssignmentWindow()
 {
     delete ui;
 }
+
+void StudentAssignmentWindow::GetData()
+{
+
+}

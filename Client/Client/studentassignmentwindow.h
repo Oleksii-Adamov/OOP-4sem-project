@@ -19,6 +19,7 @@ public:
     void Update(net::message<CustomMsgTypes> msg) override;
 
 private:
+    void GetData();
     Ui::StudentAssignmentWindow *ui;
 };
 

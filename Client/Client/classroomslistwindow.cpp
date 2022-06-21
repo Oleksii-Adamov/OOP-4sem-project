@@ -126,5 +126,6 @@ void ClassroomsListWindow::on_pushButton_create_clicked()
 
 void ClassroomsListWindow::on_actionUpdate_triggered()
 {
-
+    GetStudentClassroomsData();
+    GetTeacherClassroomsData();
 }
