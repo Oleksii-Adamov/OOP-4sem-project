@@ -127,7 +127,6 @@ void GetStudentAssignmentSessionAnswer(
 void GetAllStudentAssignmentSessionAnswers(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
-//	static std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> getAllStudentAssignmentSessionAnswers(ID AssignmentSessionId);
 	ID AssignmentSessionId;
 	msg >> AssignmentSessionId;
 	std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>>
@@ -150,6 +149,57 @@ void GetAllStudentAssignmentSessionAnswers(
 	}
 }
 
+void RegistrationRequest(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+	uint64_t sizeLogin;
+	std::string login;
+	std::pair<bool, bool> UniqueLogin;
+	
+	msg >> sizeLogin;
+	for (uint64_t i = 0; i < sizeLogin; i++) {
+		char c;
+		msg >> c;
+		login = c + login;
+	}
+	
+	UniqueLogin = Database::checkLogIn(login);
+	if (UniqueLogin.first) {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		if (UniqueLogin.second) {
+			uint64_t sizePassword;
+			std::string password;
+			uint64_t sizeUserName;
+			std::string userName;
+			
+			User newUser;
+			newUser.setLogin(login);
+			
+			msg >> sizePassword;
+			for (uint64_t i = 0; i < sizePassword; i++) {
+				char c;
+				msg >> c;
+				password = c + password;
+			}
+			
+			msg >> sizeUserName;
+			for (uint64_t i = 0; i < sizeUserName; i++) {
+				char c;
+				msg >> c;
+				userName = c + userName;
+			}
+			newUser.setUserName(userName);
+			
+			if (Database::createNewUser(newUser, password)) {
+				OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_REGISTRATION_REQUEST;
+				client->Send(OutgoingMsg);
+			}
+		} else {
+			OutgoingMsg.header.id = CustomMsgTypes::FAILURE_REGISTRATION_REQUEST;
+			client->Send(OutgoingMsg);
+		}
+	}
+}
 
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
@@ -258,6 +308,10 @@ protected:
 				
 			case CustomMsgTypes::GET_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS:
 				GetAllStudentAssignmentSessionAnswers(client, msg);
+				break;
+				
+			case CustomMsgTypes::REGISTRATION_REQUEST:
+				RegistrationRequest(client, msg);
 				break;
 		}
 	}
