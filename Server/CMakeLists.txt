@@ -11,8 +11,6 @@ add_executable(${PROJECT_NAME}
                 Database/Database.h
                 Database/DatabaseLog.cpp
                 Database/DatabaseLog.h
-                Database/DatabaseService.cpp
-                Database/DatabaseService.h
                 Database/DatabaseOperation.h
                 Database/DatabaseOperation.cpp
 
