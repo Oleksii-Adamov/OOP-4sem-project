@@ -57,22 +57,44 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
         QMessageBox::critical(this, "Log in error", "Password has forbidden symbols! Only digits, latin letters of any case, _,^,- allowed");
     }
     else {
-        is_succesuful_ = true;
-        this->close();
+        LogInRequest();
+        //is_succesuful_ = true;
+        //this->close();
     }
 }
 
 void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
 {
-    if (msg.header.id == CustomMsgTypes::SUCCESS_CREATE_CLASSROOM)
+    if (msg.header.id == CustomMsgTypes::SUCCESS_LOGIN_REQUEST)
     {
-        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
-        QJsonObject json_doc_obj = json_doc.object();
-        QJsonObject user_object = json_doc_obj.take("User").toObject();
-        User user(user_object.take("user_id").toInteger(),
-                     user_object.take("login").toString().toStdString(),
-                     user_object.take("user_name").toString().toStdString());
-        Client::GetInstance()->SetUser(user);
+//        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+//        QJsonObject json_doc_obj = json_doc.object();
+//        QJsonObject user_object = json_doc_obj.take("User").toObject();
+//        User user(user_object.take("user_id").toInteger(),
+//                     user_object.take("login").toString().toStdString(),
+//                     user_object.take("user_name").toString().toStdString());
+//        Client::GetInstance()->SetUser(user);
+        ID id;
+        std::string login = "";
+        std::string user_name = "";
+        msg >> id;
+        uint32_t login_size;
+        msg >> login_size;
+        for (uint32_t i = 0; i < login_size; i++)
+        {
+            char c;
+            msg >> c;
+            login = c + login;
+        }
+        uint32_t user_name_size;
+        msg >> user_name_size;
+        for (uint32_t i = 0; i < user_name_size; i++)
+        {
+            char c;
+            msg >> c;
+            user_name = c + user_name;
+        }
+        Client::GetInstance()->SetUser(User(id,login,user_name));
         is_succesuful_ = true;
         this->close();
     }
@@ -85,7 +107,7 @@ void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
 void AuthorizationWindow::LogInRequest()
 {
     net::message<CustomMsgTypes> msg;
-    msg.header.id = CustomMsgTypes::JOIN_CLASSROOM_REQUEST;
+    msg.header.id = CustomMsgTypes::LOGIN_REQUEST;
 
     QString password = ui->lineEdit_password->text();
     for (int i = 0; i < password.size(); i++)
