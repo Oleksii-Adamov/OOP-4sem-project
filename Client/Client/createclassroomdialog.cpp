@@ -43,6 +43,7 @@ void CreateClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::SUCCESS_CREATE_CLASSROOM)
     {
+        QMessageBox::information(this, "Create classrom info", "Created classroom successfully!");
         this->close();
     }
     if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)
@@ -55,11 +56,12 @@ void CreateClassroomDialog::CreateRequest()
 {
     net::message<CustomMsgTypes> msg;
     msg.header.id = CustomMsgTypes::CREATE_CLASSROOM_REQUEST;
-    for (int i = 0; i < ui->lineEdit_classroom_name->text().size(); i++)
+    QString classroom_name = ui->lineEdit_classroom_name->text();
+    for (int i = 0; i < classroom_name.size(); i++)
     {
-        msg << ui->lineEdit_classroom_name->text()[i];
+        msg << classroom_name[i];
     }
-    msg << ui->lineEdit_classroom_name->text().size() << Client::GetInstance()->GetUser().getUserId();
+    msg << classroom_name.size() << Client::GetInstance()->GetUser().getUserId();
     Client::GetInstance()->Send(msg);
 }
 
