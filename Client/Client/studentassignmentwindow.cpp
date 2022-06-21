@@ -63,3 +63,9 @@ void StudentAssignmentWindow::FromJSON(const QJsonDocument& json_doc)
     assignment_GUI_director.set_builder(&assignment_GUI_builder);
     assignment_GUI_director.BuildFromJSON(json_doc);
 }
+
+void StudentAssignmentWindow::on_actionUpdate_triggered()
+{
+    GetData();
+}
+

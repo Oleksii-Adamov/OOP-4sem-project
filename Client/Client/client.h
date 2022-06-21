@@ -24,6 +24,7 @@ public:
     void Subscribe(ClientSubscriber* subscriber);
     void UnSubscribe(ClientSubscriber* subscriber);
     User GetUser() const;
+    void SetUser(User user);
     ~Client(){}
 public slots:
     void Update();
