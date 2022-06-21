@@ -2,6 +2,7 @@
 #include "../common_src/messagetypes.h"
 #include "server_src/custom_json_parser.h"
 #include "Database/Database.h"
+#include "Database/DatabaseLog.h"
 
 void GetTeacherClassrooms(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
@@ -27,6 +28,13 @@ void GetTeacherClassrooms(
 		
 		// Send to client
 		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'SELECT_ALL_CLASSROOMS_WHERE_USER_IS_TEACHER' RETURNS FALSE");
+		
+		client->Send(OutgoingMsg);
 	}
 }
 
@@ -51,6 +59,13 @@ void GetTeacherAssignments(
 		OutgoingMsg << size;
 		
 		// Send to client
+		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+			"SQL REQUEST 'SELECT_ALL_ASSIGNMENT_USER_CREATED' RETURNS FALSE");
+		
 		client->Send(OutgoingMsg);
 	}
 }
@@ -121,6 +136,13 @@ void GetStudentAssignmentSessionAnswer(
 		OutgoingMsg << size;
 		
 		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+			"REQUEST 'GET_STUDENT_ASSIGNMENT_SESSION_ANSWER' RETURNS FALSE");
+		
+		client->Send(OutgoingMsg);
 	}
 }
 
@@ -133,6 +155,7 @@ void GetAllStudentAssignmentSessionAnswers(
 		StudentAssignmentSessionInfosForTeacher;
 	StudentAssignmentSessionInfosForTeacher =
 		Database::getAllStudentAssignmentSessionAnswers(AssignmentSessionId);
+	
 	if (StudentAssignmentSessionInfosForTeacher.first) {
 		std::string text =
 			ParseToJson(StudentAssignmentSessionInfosForTeacher.second);
@@ -144,6 +167,13 @@ void GetAllStudentAssignmentSessionAnswers(
 		for (char c : text)
 			OutgoingMsg << c;
 		OutgoingMsg << size;
+		
+		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+			"REQUEST 'GET_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS' RETURNS FALSE");
 		
 		client->Send(OutgoingMsg);
 	}
@@ -272,6 +302,13 @@ void GetCreatedAssignment(
 		for (char c : assignment)
 			OutgoingMsg << c;
 		OutgoingMsg << size;
+		
+		client->Send(OutgoingMsg);
+	} else {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'GET_ASSIGNMENT_DATA' RETURNS FALSE");
 		
 		client->Send(OutgoingMsg);
 	}
