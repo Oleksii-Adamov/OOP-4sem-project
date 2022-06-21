@@ -47,7 +47,7 @@ bool Database::createNewUser(const User& NewUser, const std::string& password)
 std::pair<bool, User> Database::checkLogIn(const std::string& login, const std::string& password)
 {
     DatabaseOperation* db = new SQLiteAdapter();
-    std::string script1 = "SELECT (User.UserID, User.Login, User.UserName)\n"
+    std::string script1 = "SELECT User.UserID, User.Login, User.UserName\n"
                           "FROM 'User'\n"
                           "WHERE (User.Login = '" + login + "');";
     auto commandResFull1 = db->execSelect(script1, 3);
