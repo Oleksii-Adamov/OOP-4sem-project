@@ -163,7 +163,7 @@ void RegistrationRequest(
 		login = c + login;
 	}
 	
-	UniqueLogin = Database::checkLogIn(login);
+	UniqueLogin = Database::checkUniqueLogin(login);
 	if (UniqueLogin.first) {
 		net::message<CustomMsgTypes> OutgoingMsg;
 		if (UniqueLogin.second) {
