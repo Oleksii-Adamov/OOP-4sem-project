@@ -30,7 +30,7 @@ CreatedAssignmentsWindow::CreatedAssignmentsWindow(QWidget *parent) :
 
     assignments_list_model->PushBack(Assignment(1,1,"Name","12321","",5));
 
-    GetData();
+    //GetData();
 }
 
 void CreatedAssignmentsWindow::Update(net::message<CustomMsgTypes> msg)
