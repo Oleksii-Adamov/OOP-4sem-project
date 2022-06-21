@@ -3,6 +3,7 @@
 #include <QRegularExpression>
 #include <QMessageBox>
 #include "font.h"
+#include "client.h"
 
 CreateClassroomDialog::CreateClassroomDialog(QWidget *parent) :
     QDialog(parent), ClientSubscriber(),
@@ -31,16 +32,35 @@ void CreateClassroomDialog::on_pushButton_create_clicked()
     }
     else if (!rx.match(ui->lineEdit_classroom_name->text()).hasMatch())
     {
-        QMessageBox::critical(this, "Log in error", "Clasroom name has forbidden symbols!");
+        QMessageBox::critical(this, "Create classrom error", "Clasroom name has forbidden symbols!");
     }
     else {
-        this->close();
+        CreateRequest();
     }
 }
 
 void CreateClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
+    if (msg.header.id == CustomMsgTypes::SUCCESS_CREATE_CLASSROOM)
+    {
+        this->close();
+    }
+    if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)
+    {
+        QMessageBox::critical(this, "Create classrom error", "Failed to create classroom");
+    }
+}
 
+void CreateClassroomDialog::CreateRequest()
+{
+    net::message<CustomMsgTypes> msg;
+    msg.header.id = CustomMsgTypes::CREATE_CLASSROOM_REQUEST;
+    for (int i = 0; i < ui->lineEdit_classroom_name->text().size(); i++)
+    {
+        msg << ui->lineEdit_classroom_name->text()[i];
+    }
+    msg << ui->lineEdit_classroom_name->text().size() << Client::GetInstance()->GetUser().getUserId();
+    Client::GetInstance()->Send(msg);
 }
 
 void CreateClassroomDialog::on_pushButton_cancel_clicked()

@@ -32,9 +32,9 @@ void Client::NotifySubscribers(net::message<CustomMsgTypes>& msg)
 void Client::Update()
 {
     if(!IsConnected()) {
-        net::message<CustomMsgTypes> message;
-        message.header.id = CustomMsgTypes::SERVER_DOWN;
-        Incoming().push_back(message);
+        //net::message<CustomMsgTypes> message;
+        //message.header.id = CustomMsgTypes::SERVER_DOWN;
+        //Incoming().push_back(message);
     }
     if (!Incoming().empty()) {
         net::message<CustomMsgTypes> message = Incoming().pop_front().msg;

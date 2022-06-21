@@ -24,6 +24,7 @@ private slots:
 
 private:
     Ui::JoinClassroomDialog *ui;
+    void JoinRequest();
 };
 
 #endif // JOINCLASSROOMDIALOG_H

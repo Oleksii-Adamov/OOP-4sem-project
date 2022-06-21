@@ -3,6 +3,7 @@
 #include "font.h"
 #include <QMessageBox>
 #include <QRegularExpression>
+#include "client.h"
 
 JoinClassroomDialog::JoinClassroomDialog(QWidget *parent) :
     QDialog(parent), ClientSubscriber(),
@@ -23,16 +24,13 @@ JoinClassroomDialog::~JoinClassroomDialog()
 
 void JoinClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
-    if (msg.header.id == CustomMsgTypes::RETURN_STUDENT_CLASSROOMS)
+    if (msg.header.id == CustomMsgTypes::SUCCESS_JOIN_CLASSROOM)
     {
-        bool is_success;
-        msg >> is_success;
-        if (is_success) {
-            this->close();
-        }
-        else {
-            QMessageBox::critical(this, "Classroom join error", "Failed to join classroom, check the id");
-        }
+        this->close();
+    }
+    if (msg.header.id == CustomMsgTypes::FAILURE_JOIN_CLASSROOM)
+    {
+        QMessageBox::critical(this, "Classroom join error", "Failed to join classroom, check the id");
     }
 }
 
@@ -59,6 +57,9 @@ void JoinClassroomDialog::on_pushButton_cancel_clicked()
 
 void JoinClassroomDialog::JoinRequest()
 {
-
+    net::message<CustomMsgTypes> msg;
+    msg.header.id = CustomMsgTypes::JOIN_CLASSROOM_REQUEST;
+    msg << ui->lineEdit_classroom_id->text().toInt() << Client::GetInstance()->GetUser().getUserId();
+    Client::GetInstance()->Send(msg);
 }
 
