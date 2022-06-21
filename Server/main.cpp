@@ -201,6 +201,59 @@ void RegistrationRequest(
 	}
 }
 
+void LoginRequest(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+	uint64_t sizeLogin;
+	std::string login;
+	uint64_t sizePassword;
+	std::string password;
+	std::pair<bool, User> checkLogIn;
+	
+	msg >> sizeLogin;
+	for (uint64_t i = 0; i < sizeLogin; i++) {
+		char c;
+		msg >> c;
+		login = c + login;
+	}
+	
+	msg >> sizePassword;
+	for (uint64_t i = 0; i < sizePassword; i++) {
+		char c;
+		msg >> c;
+		password = c + password;
+	}
+	
+	checkLogIn = Database::checkLogIn(login, password);
+	if (checkLogIn.first) {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		if (checkLogIn.second.getUserId()) {
+			OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_LOGIN_REQUEST;
+			ID UserId = checkLogIn.second.getUserId();
+			std::string UserLogin = checkLogIn.second.getLogin();
+			uint64_t sizeUserLogin = UserLogin.size();
+			std::string UserName = checkLogIn.second.getUserName();
+			uint64_t sizeUserName = UserName.size();
+			
+			for (char c : UserName)
+				msg << c;
+			msg << sizeUserName;
+			
+			for (char c : UserLogin)
+				msg << c;
+			msg << sizeUserLogin;
+			
+			msg << UserId;
+			
+			client->Send(OutgoingMsg);
+		} else {
+			OutgoingMsg.header.id = CustomMsgTypes::FAILURE_LOGIN_REQUEST;
+			client->Send(OutgoingMsg);
+		}
+	}
+}
+
+
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
 	CustomServer(uint16_t nPort) : net::server_interface<CustomMsgTypes>(nPort) {
@@ -312,6 +365,10 @@ protected:
 				
 			case CustomMsgTypes::REGISTRATION_REQUEST:
 				RegistrationRequest(client, msg);
+				break;
+				
+			case CustomMsgTypes::LOGIN_REQUEST:
+				LoginRequest(client, msg);
 				break;
 		}
 	}
