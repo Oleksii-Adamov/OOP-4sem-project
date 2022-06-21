@@ -73,6 +73,7 @@ void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
                      user_object.take("login").toString().toStdString(),
                      user_object.take("user_name").toString().toStdString());
         Client::GetInstance()->SetUser(user);
+        is_succesuful_ = true;
         this->close();
     }
     if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)

@@ -33,12 +33,12 @@ RegisterWindow::RegisterWindow(const QString& login, const QString& password, QW
 
 void RegisterWindow::Update(net::message<CustomMsgTypes> msg)
 {
-    if (msg.header.id == CustomMsgTypes::SUCCESS_CREATE_CLASSROOM)
+    if (msg.header.id == CustomMsgTypes::SUCCESS_REGISTRATION_REQUEST)
     {
         QMessageBox::information(this, "Registraion info", "Registraion is successful!");
         this->close();
     }
-    if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)
+    if (msg.header.id == CustomMsgTypes::FAILURE_REGISTRATION_REQUEST)
     {
         QMessageBox::critical(this, "Registraion error", "Failed to register. User with this login already exists!");
     }
@@ -47,7 +47,7 @@ void RegisterWindow::Update(net::message<CustomMsgTypes> msg)
 void RegisterWindow::RegisterRequest()
 {
     net::message<CustomMsgTypes> msg;
-    msg.header.id = CustomMsgTypes::JOIN_CLASSROOM_REQUEST;
+    msg.header.id = CustomMsgTypes::REGISTRATION_REQUEST;
 
     QString user_name = ui->lineEdit_user_name->text();
     for (int i = 0; i < user_name.size(); i++)
@@ -112,7 +112,8 @@ void RegisterWindow::on_pushButton_register_clicked()
         QMessageBox::critical(this, "Registraion error", "Password has forbidden symbols! Only digits, latin letters of any case, _,^,- allowed");
     }
     else {
-        this->close();
+        RegisterRequest();
+        //this->close();
     }
 }
 
