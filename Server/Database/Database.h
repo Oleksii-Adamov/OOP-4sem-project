@@ -20,7 +20,7 @@ public:
     static bool createNewUser(const User& NewUser, const std::string& password);
 
     //! Checks if login and password are correct
-    static std::pair<bool, bool> checkLogIn(const std::string& login, const std::string& password);
+    static std::pair<bool, User> checkLogIn(const std::string& login, const std::string& password);
 
     //! Returns all the User's Classrooms in which he is a teacher
     static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsTeacher(ID UserId);

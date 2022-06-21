@@ -26,10 +26,16 @@ bool Database::createNewUser(const User& NewUser, const std::string& password)
     auto flag = db->execInsert("User", {"Login", "UserName"},
                                {NewUser.getLogin(), NewUser.getUserName()});
     if(!flag)
+    {
+        delete db;
         return false;
+    }
     auto commandResFull = db->getLastTableID("User", "UserID");
     if(!commandResFull.first)
+    {
+        delete db;
         return false;
+    }
     flag = db->execInsert("Authorization", {"UserID", "Password"},
                           {std::to_string(commandResFull.second), password});
     delete db;
@@ -38,28 +44,37 @@ bool Database::createNewUser(const User& NewUser, const std::string& password)
     return true;
 }
 
-std::pair<bool, bool> Database::checkLogIn(const std::string& login, const std::string& password)
+std::pair<bool, User> Database::checkLogIn(const std::string& login, const std::string& password)
 {
     DatabaseOperation* db = new SQLiteAdapter();
-
-    std::string script1 = "SELECT UserID\n"
+    std::string script1 = "SELECT (User.UserID, User.Login, User.UserName)\n"
                           "FROM 'User'\n"
                           "WHERE (User.Login = '" + login + "');";
-    auto commandResFull1 = db->execSelect(script1, 1);
+    auto commandResFull1 = db->execSelect(script1, 3);
+    delete db;
     if(!commandResFull1.first)
-        return {false, false};
+        return {false, User()};
     if(commandResFull1.second[0].empty())
-        return {true, false};
+        return {true, User{0,"",""}};
 
+    db = new SQLiteAdapter();
     std::string script2 = "SELECT Password\n"
                           "FROM 'Authorization'\n"
                           "WHERE (Authorization.UserID = '" + commandResFull1.second[0][0] + "');";
     auto commandResFull2 = db->execSelect(script2, 1);
-    if(!commandResFull2.first || commandResFull2.second[0].empty())
-        return {false, false};
     delete db;
+    if(!commandResFull2.first || commandResFull2.second[0].empty())
+        return {false, User()};
 
-    return {true, password == commandResFull2.second[0][0]};
+    if(password == commandResFull2.second[0][0])
+    {
+        User result;
+        result.setUserId(std::stoull(commandResFull1.second[0][0]));
+        result.setLogin(commandResFull1.second[0][1]);
+        result.setUserName(commandResFull1.second[0][2]);
+        return {true, result};
+    }
+    return {true, User{0,"",""}};
 }
 
 std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIsTeacher(ID UserId)
@@ -78,8 +93,8 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
     Classroom currRes;
     for(size_t i=0; i<commandRes[0].size(); i++)
     {
-        currRes.setClassroomId(std::stoi(commandRes[0][i]));
-        currRes.setTeacherUserId(std::stoi(commandRes[1][i]));
+        currRes.setClassroomId(std::stoull(commandRes[0][i]));
+        currRes.setTeacherUserId(std::stoull(commandRes[1][i]));
         currRes.setName(commandRes[2][i]);
         res.push_back(currRes);
     }
@@ -103,8 +118,8 @@ std::pair<bool, std::vector<Assignment>> Database::selectAllAssignmentUserCreate
     Assignment currRes;
     for(size_t i=0; i<commandRes[0].size(); i++)
     {
-        currRes.setAssignmentId(std::stoi(commandRes[0][i]));
-        currRes.setTeacherUserId(std::stoi(commandRes[1][i]));
+        currRes.setAssignmentId(std::stoull(commandRes[0][i]));
+        currRes.setTeacherUserId(std::stoull(commandRes[1][i]));
         currRes.setAssignmentName(commandRes[2][i]);
         currRes.setAssignmentCreationDate(commandRes[3][i]);
         currRes.setAssignmentMaxScore(std::stoi(commandRes[4][i]));
@@ -172,12 +187,12 @@ std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> Database::g
     StudentAssignmentSession currStudentAssignmentSession;
     for(size_t i=0; i<commandRes[0].size(); i++)
     {
-        currUser.setUserId(std::stoi(commandRes[0][i]));
+        currUser.setUserId(std::stoull(commandRes[0][i]));
         currUser.setLogin(commandRes[1][i]);
         currUser.setUserName(commandRes[2][i]);
 
-        currStudentAssignmentSession.setStudentUserId(std::stoi(commandRes[3][i]));
-        currStudentAssignmentSession.setAssignmentSessionId(std::stoi(commandRes[4][i]));
+        currStudentAssignmentSession.setStudentUserId(std::stoull(commandRes[3][i]));
+        currStudentAssignmentSession.setAssignmentSessionId(std::stoull(commandRes[4][i]));
         switch(std::stoi(commandRes[5][i]))
         {
             case 0: currStudentAssignmentSession.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::not_submitted);
@@ -237,4 +252,35 @@ bool Database::updateStudentAssignmentSession(const StudentAssignmentSession& Up
     if(!flag)
         return false;
     return true;
+}
+
+bool Database::updateAssignment(const Assignment& UpdatedInfo)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT Assignment.AssignmentID\n"
+                         "FROM 'Assignment' INNER JOIN 'AssignmentSession' ON (Assignment.AssignmentID = AssignmentSession.AssignmentID)\n"
+                         "WHERE (Assignment.AssignmentID = '" + std::to_string(UpdatedInfo.getAssignmentId()) + "');";
+    auto commandResFull = db->execSelect(script, 1);
+    if(!commandResFull.first)
+    {
+        delete db;
+        return false;
+    }
+    if(commandResFull.second[0].empty())
+    {
+        // no assignment sessions, can be updated
+
+
+    }
+    else
+    {
+        // there are assignment sessions, can't be updated
+
+
+    }
+
+    delete db;
+
+
+
 }

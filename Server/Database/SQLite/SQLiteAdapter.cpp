@@ -231,11 +231,11 @@ std::pair<bool, bool> SQLiteAdapter::checkUniqueRecord(const std::string& table_
 
 std::pair<bool, unsigned long long> SQLiteAdapter::getLastTableID(const std::string& table_name, const std::string& id_name) const
 {
-    std::string command = "SELECT " + table_name + "." + id_name + "\n"
+    std::string command = "SELECT MAX(" + table_name + "." + id_name + ")\n"
                         + "FROM '" + table_name + "'\n";
     auto commandResFull = execSelect(command, 1);
     if(!commandResFull.first)
         return {false, 0};
     const auto& commandRes = commandResFull.second;
-    return {true, std::stoull(commandRes[0].back())};
+    return {true, std::stoull(commandRes[0][0])};
 }
