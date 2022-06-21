@@ -100,6 +100,31 @@ void CreateClassroomRequest(
 	client->Send(OutgoingMsg);
 }
 
+void GetStudentAssignmentSessionAnswer(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, std::string> getStudentAssignmentSessionAnswer(ID StudentUserId, ID AssignmentSessionId);
+	ID StudentUserId;
+	ID AssignmentSessionId;
+	msg >> StudentUserId;
+	msg >> AssignmentSessionId;
+	std::pair<bool, std::string> StudentAssignmentSessionAnswer =
+		Database::getStudentAssignmentSessionAnswer(StudentUserId,
+																								AssignmentSessionId);
+	if (StudentAssignmentSessionAnswer.first) {
+		uint64_t size = StudentAssignmentSessionAnswer.second.size();
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id =
+			CustomMsgTypes::RETURN_STUDENT_ASSIGNMENT_SESSION_ANSWER;
+		for (char c : StudentAssignmentSessionAnswer.second)
+			msg << c;
+		msg << size;
+		
+		client->Send(OutgoingMsg);
+	}
+}
+
+
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
 	CustomServer(uint16_t nPort) : net::server_interface<CustomMsgTypes>(nPort) {
@@ -199,6 +224,10 @@ protected:
 				
 			case CustomMsgTypes::CREATE_CLASSROOM_REQUEST:
 				CreateClassroomRequest(client, msg);
+				break;
+				
+			case CustomMsgTypes::GET_STUDENT_ASSIGNMENT_SESSION_ANSWER:
+				GetStudentAssignmentSessionAnswer(client, msg);
 				break;
 		}
 	}
