@@ -2,23 +2,27 @@
 #include "client.h"
 #include "mainmenuwindow.h"
 #include "checkclientthread.h"
-
+#include <QTimer>
 int main(int argc, char *argv[])
 {
     Client* client = Client::GetInstance();
     QApplication a(argc, argv);
     client->SetApp(&a);
     client->Connect("127.0.0.1", 60000);
-    CheckClientThread* check_client_thread = new CheckClientThread;
+    /*CheckClientThread* check_client_thread = new CheckClientThread;
     QObject::connect(check_client_thread, &CheckClientThread::TimeToUpdate,
                          client, &Client::Update);
-    check_client_thread->start();
-
+    check_client_thread->start();*/
+    QTimer* timer = new QTimer;
+    QObject::connect(timer, &QTimer::timeout, client, &Client::Update);
+    timer->start(50);
 
     MainMenuWindow w;
     w.show();
     int ret = a.exec();
-    check_client_thread->exit(0);
+    timer->stop();
+    delete timer;
+    //check_client_thread->exit(0);
     return ret;
 
 }

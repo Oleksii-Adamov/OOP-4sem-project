@@ -91,18 +91,24 @@ AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment,
 void AssignmentCreationWindow::GetData()
 {
     net::message<CustomMsgTypes> message;
-    message.header.id = CustomMsgTypes::GET_CREATED_ASSIGNMENT;
-    message << assignment_.getAssignmentId();
+    /*message.header.id = CustomMsgTypes::GET_CREATED_ASSIGNMENT;
+    message << assignment_.getAssignmentId();*/
+    message.header.id = CustomMsgTypes::GET_TEST_ASSIGNMENT;
     Client::GetInstance()->Send(message);
 }
 
 void AssignmentCreationWindow::Update(net::message<CustomMsgTypes> msg)
 {
-    if (msg.header.id == CustomMsgTypes::RETURN_CREATED_ASSIGNMENT)
+    /*if (msg.header.id == CustomMsgTypes::RETURN_CREATED_ASSIGNMENT)
     {
         FromJSON(QJsonDocumentFromServerMessage(msg));
         //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
-    }
+    }*/
+    if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
+        {
+            FromJSON(QJsonDocumentFromServerMessage(msg));
+            //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
+        }
 }
 
 AssignmentCreationWindow::~AssignmentCreationWindow()
