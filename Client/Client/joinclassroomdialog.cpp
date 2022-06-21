@@ -23,7 +23,17 @@ JoinClassroomDialog::~JoinClassroomDialog()
 
 void JoinClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
-
+    if (msg.header.id == CustomMsgTypes::RETURN_STUDENT_CLASSROOMS)
+    {
+        bool is_success;
+        msg >> is_success;
+        if (is_success) {
+            this->close();
+        }
+        else {
+            QMessageBox::critical(this, "Classroom join error", "Failed to join classroom, check the id");
+        }
+    }
 }
 
 void JoinClassroomDialog::on_pushButton_join_clicked()
@@ -37,8 +47,7 @@ void JoinClassroomDialog::on_pushButton_join_clicked()
         QMessageBox::critical(this, "Classroom join error", "Id is not a positive integer!");
     }
     else {
-
-        this->close();
+        JoinRequest();
     }
 }
 
@@ -46,5 +55,10 @@ void JoinClassroomDialog::on_pushButton_join_clicked()
 void JoinClassroomDialog::on_pushButton_cancel_clicked()
 {
     this->close();
+}
+
+void JoinClassroomDialog::JoinRequest()
+{
+
 }
 

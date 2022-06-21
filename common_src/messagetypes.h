@@ -19,6 +19,8 @@ enum class CustomMsgTypes : uint32_t
 		
 		GET_TEACHER_ASSIGNMENTS,
 		RETURN_TEACHER_ASSIGNMENTS,
+    SERVER_DOWN,
+    ERROR_DATABASE
 };
 
 #endif // MESSAGETYPES_H

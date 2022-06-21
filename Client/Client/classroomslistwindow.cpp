@@ -38,14 +38,10 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     connect(ui->classromms_list_view_as_student, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnStudentClassroomClicked(QModelIndex)));
     connect(ui->classromms_list_view_as_teacher, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTeacherClassroomClicked(QModelIndex)));
 
-//    Client::GetInstance()->Subscribe(this);
-
     classrooms_list_as_student_model_->PushBack(ClassroomInfo(Classroom(2,2,"Probability theory"), User(2, "rozora", "Rozora")));
     classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
-//    classrooms_list_as_student_model_->PushBack(ClassroomInfo(2, "Probability theory", "Rozora"));
-//    classrooms_list_as_student_model_->PushBack(ClassroomInfo(3, "OOP", "Zhereb"));
-    //GetStudentClassroomsData();
-    //GetTeacherClassroomsData();
+    GetStudentClassroomsData();
+    GetTeacherClassroomsData();
 }
 
 void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
