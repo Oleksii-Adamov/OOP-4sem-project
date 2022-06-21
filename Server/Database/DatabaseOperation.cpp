@@ -32,3 +32,15 @@ bool DatabaseOperation::execDelete(const std::string& table_name, const std::str
     DatabaseLog::error("An empty function is called");
     return false;
 }
+
+std::pair<bool, bool> DatabaseOperation::checkUniqueRecord(const std::string& table_name, const std::string& column, const std::string& column_value) const
+{
+    DatabaseLog::error("An empty function is called");
+    return {false, false};
+}
+
+std::pair<bool, unsigned long long> DatabaseOperation::getLastTableID(const std::string& table_name, const std::string& id_name) const
+{
+    DatabaseLog::error("An empty function is called");
+    return {false, 0};
+}
