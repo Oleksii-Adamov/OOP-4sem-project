@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "jsonfile.h"
+#include "client.h"
 
 StudentAssignmentSessionsWindow::StudentAssignmentSessionsWindow(const AssignmentSessionInfo& assignment_session_info, QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(), ui(new Ui::StudentAssignmentSessionsWindow),
@@ -32,16 +33,20 @@ StudentAssignmentSessionsWindow::StudentAssignmentSessionsWindow(const Assignmen
     student_assignments_list_model->PushBack(StudentAssignmentSessionInfoForTeacher(StudentAssignmentSession(1,1,StudentAssignmentSessionStatus::submitted, "", 0, "19.06.2022 23:21"), User(1,"login", "student name")));
 //    student_assignments_list_model->PushBack(StudentAssignmentSessionInfo(2, StudentAssignmentSessionStatus::checked, "17:59 18.06.2022", "User name2", 3));
 //    student_assignments_list_model->PushBack(StudentAssignmentSessionInfo(3, StudentAssignmentSessionStatus::not_submitted, "17:59 18.06.2022", "User name3"));
+    //GetData();
 }
 
 void StudentAssignmentSessionsWindow::GetData()
 {
-
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS;
+    message << assignment_session_info_.assignment_session.getAssignmentSessionId();
+    Client::GetInstance()->Send(message);
 }
 
 void StudentAssignmentSessionsWindow::Update(net::message<CustomMsgTypes> msg)
 {
-    if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_CLASSROOMS)
+    if (msg.header.id == CustomMsgTypes::RETURN_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS)
     {
         //student_assignments_list_model->Clear();
         QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
