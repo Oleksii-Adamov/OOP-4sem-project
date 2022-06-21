@@ -380,6 +380,50 @@ void EvaluateStudentAssignment(
 	client->Send(OutgoingMsg);
 }
 
+void UpdateAssignment(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, Assignment> updateAssignment(const Assignment& UpdatedInfo);
+	ID AssignmentId;
+	ID TeacherUserId;
+	uint64_t sizeAssignmentData;
+	std::string AssignmentData;
+	
+	Assignment UpdatedInfo;
+	std::pair<bool, Assignment> assignment;
+	
+	msg >> AssignmentId;
+	msg >> TeacherUserId;
+	msg >> sizeAssignmentData;
+	for (uint64_t i = 0; i < sizeAssignmentData; i++) {
+		char c;
+		msg >> c;
+		AssignmentData = c + AssignmentData;
+	}
+	
+	UpdatedInfo.setAssignmentId(AssignmentId);
+	UpdatedInfo.setTeacherUserId(TeacherUserId);
+	UpdatedInfo.setAssignmentData(AssignmentData);
+	
+	assignment = Database::updateAssignment(UpdatedInfo);
+	
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (assignment.first) {
+		std::string text = ParseToJson(assignment.second);
+		uint64_t size = text.size();
+		
+		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_UPDATE_ASSIGNMENT;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error("SQL REQUEST 'UPDATE_ASSIGNMENT' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
+}
+
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
 	CustomServer(uint16_t nPort) : net::server_interface<CustomMsgTypes>(nPort) {
@@ -480,6 +524,10 @@ protected:
 			
 			case CustomMsgTypes::EVALUATE_STUDENT_ASSIGNMENT:
 				EvaluateStudentAssignment(client, msg);
+				break;
+				
+			case CustomMsgTypes::UPDATE_ASSIGNMENT:
+				UpdateAssignment(client, msg);
 				break;
 		}
 	}
