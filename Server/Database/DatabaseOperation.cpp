@@ -8,6 +8,12 @@ bool DatabaseOperation::initDatabase() const
     return false;
 }
 
+bool DatabaseOperation::exec(const std::string& command) const
+{
+    DatabaseLog::error("An empty function is called");
+    return false;
+}
+
 bool DatabaseOperation::execInsert(const std::string& table_name, const std::vector<std::string>& columns, const std::vector<std::string>& values) const
 {
     DatabaseLog::error("An empty function is called");
