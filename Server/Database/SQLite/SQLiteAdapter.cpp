@@ -27,7 +27,7 @@ bool SQLiteAdapter::closeDatabase(sqlite3** db)
     return true;
 }
 
-bool SQLiteAdapter::exec(const std::string& command)
+bool SQLiteAdapter::exec(const std::string& command) const
 {
     sqlite3* db = nullptr;
     bool flag;
@@ -204,14 +204,14 @@ bool SQLiteAdapter::execUpdate(const std::string& table_name, const std::vector<
     std::string command = "UPDATE '" + table_name + "'\n"
                         + "SET " + setString + "\n"
                         + "WHERE " + where_expression + ";";
-    return SQLiteAdapter::exec(command);
+    return exec(command);
 }
 
 bool SQLiteAdapter::execDelete(const std::string& table_name, const std::string& where_expression) const
 {
     std::string command = "DELETE FROM '" + table_name + "'\n"
                         + "WHERE " + where_expression + ";";
-    return SQLiteAdapter::exec(command);
+    return exec(command);
 }
 
 std::pair<bool, bool> SQLiteAdapter::checkUniqueRecord(const std::string& table_name, const std::string& column, const std::string& column_value) const

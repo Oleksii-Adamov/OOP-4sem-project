@@ -46,25 +46,50 @@ public:
     //! Returns all Student's answers to the Assignment Session
     static std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> getAllStudentAssignmentSessionAnswers(ID AssignmentSessionId);
 
-    //! Returns data of the Assignment
+    //! Returns Assignment without assignment_data_ (equals "")
+    static std::pair<bool, Assignment> getAssignmentWithoutData(ID AssignmentId);
+
+    //! Returns assignment_data_ of the Assignment
     static std::pair<bool, std::string> getAssignmentData(ID AssignmentId);
 
     /*!
-     * \brief Updates Student's Assignment Session information
+     * \brief Creates a new Assignment
+     *
+     * Returns inserted Assignment without assignment_data_ (equals "") as the second parameter of pair
+     */
+    static std::pair<bool, Assignment> createNewAssignment(const Assignment& NewAssignment);
+
+    /*!
+     * \brief Submit Student's Assignment Session
+     *
      * \param UpdatedInfo New information of StudentAssignmentSession to update. Its fields student_user_id_ and assignment_session_id_
      * are used to determine a specific record to update (not changeable!)
+     *
+     * Updates the following fields: student_assignment_session_status_, student_assignment_session_answer_, student_assignment_session_finish_date_
      */
-    static bool updateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo);
+    static bool submitStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo);
+
+    /*!
+     * \brief Evaluate Student's Assignment Session information
+     *
+     * \param UpdatedInfo New information of StudentAssignmentSession to update. Its fields student_user_id_ and assignment_session_id_
+     * are used to determine a specific record to update (not changeable!)
+     *
+     * Updates the following fields: student_assignment_session_status_, student_assignment_session_score_
+     */
+    static bool evaluateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo);
 
     /*!
      * \brief Updates Assignment's information
      *
-     * If there are already Assignment Sessions of this Assignment, the new Assignment will be created instead of updating the existing
+     * If there are already Assignment Sessions of this Assignment, the new Assignment will be created instead of updating of existing
      *
      * \param UpdatedInfo New information of Assignment to update. Its field assignment_id_
      * are used to determine a specific record to update (not changeable!).
+     *
+     * Returns inserted Assignment without assignment_data_ (equals "") as the second parameter of pair
      */
-    static bool updateAssignment(const Assignment& UpdatedInfo);
+    static std::pair<bool, Assignment> updateAssignment(const Assignment& UpdatedInfo);
 };
 
 

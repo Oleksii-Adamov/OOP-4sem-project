@@ -143,7 +143,7 @@ bool Database::createNewClassroom(ID TeacherUserId, const std::string& Classroom
 {
     DatabaseOperation* db = new SQLiteAdapter();
     auto flag = db->execInsert("Classroom", {"TeacherUserID", "ClassroomName"},
-                               {std::to_string(TeacherUserId), '"'+ClassroomName+'"'});
+                               {std::to_string(TeacherUserId), ClassroomName});
     delete db;
     if(!flag)
         return false;
@@ -209,6 +209,32 @@ std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> Database::g
     return {true, res};
 }
 
+std::pair<bool, Assignment> Database::getAssignmentWithoutData(ID AssignmentId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT Assignment.AssignmentID, Assignment.TeacherUserID, Assignment.AssignmentName, "
+                         "Assignment.AssignmentCreationDate, Assignment.AssignmentMaxScore\n"
+                         "FROM 'Assignment'\n"
+                         "WHERE (Assignment.AssignmentID = '" + std::to_string(AssignmentId) + "');";
+    auto commandResFull = db->execSelect(script, 1);
+    delete db;
+    if(!commandResFull.first)
+        return {false, Assignment()};
+    const auto& commandRes = commandResFull.second;
+
+    if(!commandRes[0].empty())
+    {
+        Assignment result;
+        result.setAssignmentId(std::stoull(commandRes[0][0]));
+        result.setTeacherUserId(std::stoull(commandRes[1][0]));
+        result.setAssignmentName(commandRes[2][0]);
+        result.setAssignmentCreationDate(commandRes[3][0]);
+        result.setAssignmentMaxScore(std::stoi(commandRes[4][0]));
+        return {true, result};
+    }
+    return {false, Assignment()};
+}
+
 std::pair<bool, std::string> Database::getAssignmentData(ID AssignmentId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
@@ -227,25 +253,41 @@ std::pair<bool, std::string> Database::getAssignmentData(ID AssignmentId)
         return {false, ""};
 }
 
-bool Database::updateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo)
+std::pair<bool, Assignment> Database::createNewAssignment(const Assignment& NewAssignment)
 {
     DatabaseOperation* db = new SQLiteAdapter();
-    int status;
-    switch(UpdatedInfo.getStudentAssignmentSessionStatus())
-    {
-        case StudentAssignmentSessionStatus::not_submitted: status = 0;
-            break;
-        case StudentAssignmentSessionStatus::submitted: status = 1;
-            break;
-        case StudentAssignmentSessionStatus::checked: status = 2;
-            break;
-    }
+    auto flag = db->execInsert("Assignment", {"TeacherUserID", "AssignmentName", "AssignmentData", "AssignmentMaxScore"},
+                               {std::to_string(NewAssignment.getTeacherUserId()), NewAssignment.getAssignmentName(),
+                                NewAssignment.getAssignmentData(), std::to_string(NewAssignment.getAssignmentMaxScore())});
+    auto lastIdResult = db->getLastTableID("Assignment", "AssignmentID");
+    delete db;
 
+    if(!flag || !lastIdResult.first)
+        return {false, Assignment()};
+    return Database::getAssignmentWithoutData(lastIdResult.second);
+}
+
+bool Database::submitStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    auto flag = db->exec("UPDATE Student_AssignmentSession SET "
+                         "StudentAssignmentSessionStatus = '1', \n"
+                         "StudentAssignmentSessionAnswer = '" + UpdatedInfo.getStudentAssignmentSessionAnswer() +"', \n"
+                         "StudentAssignmentSessionFinishDate = datetime('now')\n"
+                         "WHERE Student_AssignmentSession.StudentUserID = " + std::to_string(UpdatedInfo.getStudentUserId())
+                         + " and Student_AssignmentSession.AssignmentSessionID = " + std::to_string(UpdatedInfo.getAssignmentSessionId()) + ");");
+    delete db;
+    if(!flag)
+        return false;
+    return true;
+}
+
+bool Database::evaluateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
     auto flag = db->execUpdate("Student_AssignmentSession",
-                               {"StudentAssignmentSessionStatus", "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore",
-                                "StudentAssignmentSessionFinishDate"},
-                               {std::to_string(status), UpdatedInfo.getStudentAssignmentSessionAnswer(),
-                                std::to_string(UpdatedInfo.getStudentAssignmentSessionScore()), UpdatedInfo.getStudentAssignmentSessionFinishDate()},
+                               {"StudentAssignmentSessionStatus", "StudentAssignmentSessionScore"},
+                               {"2", std::to_string(UpdatedInfo.getStudentAssignmentSessionScore())},
                                "Student_AssignmentSession.StudentUserID = " + std::to_string(UpdatedInfo.getStudentUserId())
                                + " and Student_AssignmentSession.AssignmentSessionID = " + std::to_string(UpdatedInfo.getAssignmentSessionId()) + ");");
     delete db;
@@ -254,7 +296,7 @@ bool Database::updateStudentAssignmentSession(const StudentAssignmentSession& Up
     return true;
 }
 
-bool Database::updateAssignment(const Assignment& UpdatedInfo)
+std::pair<bool, Assignment> Database::updateAssignment(const Assignment& UpdatedInfo)
 {
     DatabaseOperation* db = new SQLiteAdapter();
     std::string script = "SELECT Assignment.AssignmentID\n"
@@ -264,23 +306,21 @@ bool Database::updateAssignment(const Assignment& UpdatedInfo)
     if(!commandResFull.first)
     {
         delete db;
-        return false;
+        return {false, Assignment()};
     }
+
+    Assignment result;
     if(commandResFull.second[0].empty())
     {
-        // no assignment sessions, can be updated
-
-
+        // No assignment sessions, can be updated
+        auto flag = db->execUpdate("Assignment",
+                                   {"AssignmentName", "AssignmentData", "AssignmentMaxScore"},
+                                   {UpdatedInfo.getAssignmentName(), UpdatedInfo.getAssignmentData(),
+                                    std::to_string(UpdatedInfo.getAssignmentMaxScore())},
+                                   "Assignment.AssignmentID = '" + std::to_string(UpdatedInfo.getAssignmentId()) + "';");
+        delete db;
+        return {flag, result};
     }
-    else
-    {
-        // there are assignment sessions, can't be updated
-
-
-    }
-
-    delete db;
-
-
-
+    // There are assignment sessions, can't be updated - cloning
+    return Database::createNewAssignment(UpdatedInfo);
 }
