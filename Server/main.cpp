@@ -117,8 +117,8 @@ void GetStudentAssignmentSessionAnswer(
 		OutgoingMsg.header.id =
 			CustomMsgTypes::RETURN_STUDENT_ASSIGNMENT_SESSION_ANSWER;
 		for (char c : StudentAssignmentSessionAnswer.second)
-			msg << c;
-		msg << size;
+			OutgoingMsg << c;
+		OutgoingMsg << size;
 		
 		client->Send(OutgoingMsg);
 	}
@@ -236,20 +236,44 @@ void LoginRequest(
 			uint64_t sizeUserName = UserName.size();
 			
 			for (char c : UserName)
-				msg << c;
-			msg << sizeUserName;
+				OutgoingMsg << c;
+			OutgoingMsg << sizeUserName;
 			
 			for (char c : UserLogin)
-				msg << c;
-			msg << sizeUserLogin;
+				OutgoingMsg << c;
+			OutgoingMsg << sizeUserLogin;
 			
-			msg << UserId;
+			OutgoingMsg << UserId;
 			
 			client->Send(OutgoingMsg);
 		} else {
 			OutgoingMsg.header.id = CustomMsgTypes::FAILURE_LOGIN_REQUEST;
 			client->Send(OutgoingMsg);
 		}
+	}
+}
+
+void GetCreatedAssignment(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, std::string> getAssignmentData(ID AssignmentId);
+	ID AssignmentId;
+	std::pair<bool, std::string> CreatedAssignment;
+	
+	msg >> AssignmentId;
+	
+	CreatedAssignment = Database::getAssignmentData(AssignmentId);
+	
+	if (CreatedAssignment.first) {
+		net::message<CustomMsgTypes> OutgoingMsg;
+		uint64_t size = CreatedAssignment.second.size();
+		std::string assignment = CreatedAssignment.second;
+		OutgoingMsg.header.id = CustomMsgTypes::RETURN_CREATED_ASSIGNMENT;
+		for (char c : assignment)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+		
+		client->Send(OutgoingMsg);
 	}
 }
 
@@ -369,6 +393,10 @@ protected:
 				
 			case CustomMsgTypes::LOGIN_REQUEST:
 				LoginRequest(client, msg);
+				break;
+				
+			case CustomMsgTypes::GET_CREATED_ASSIGNMENT:
+				GetCreatedAssignment(client, msg);
 				break;
 		}
 	}
