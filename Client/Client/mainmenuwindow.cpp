@@ -30,6 +30,7 @@ MainMenuWindow::~MainMenuWindow()
 void MainMenuWindow::on_pushButton_classrooms_clicked()
 {
     ClassroomsListWindow* new_window  = new ClassroomsListWindow(this);
+    new_window->setWindowModality(Qt::WindowModal);
     new_window->show();
 }
 

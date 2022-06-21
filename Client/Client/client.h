@@ -6,15 +6,15 @@
 #include "clientsubscriber.h"
 #include <QObject>
 #include "User.h"
+#include <QApplication>
 
 class Client : public QObject, public net::client_interface<CustomMsgTypes>
 {
     Q_OBJECT
 private:
-    bool key[3] = { false, false, false };
-    bool old_key[3] = { false, false, false };
     std::vector<ClientSubscriber*> subscribers_;
     User user_ = User(1,"login","user_name");
+    QApplication* app_ = nullptr;
     Client();
     void NotifySubscribers(net::message<CustomMsgTypes>& msg);
 public:
@@ -25,6 +25,8 @@ public:
     void UnSubscribe(ClientSubscriber* subscriber);
     User GetUser() const;
     void SetUser(User user);
+    QApplication* GetApp() const;
+    void SetApp(QApplication* app);
     ~Client(){}
 public slots:
     void Update();

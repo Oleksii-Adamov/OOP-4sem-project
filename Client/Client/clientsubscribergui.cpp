@@ -1,8 +1,9 @@
 #include "clientsubscribergui.h"
-#include <QMessageBox>
+#include "serverdowndialog.h"
+#include "client.h"
 
-ClientSubscriberGui::ClientSubscriberGui(QWidget *parent)
-    : ClientSubscriber(), QMainWindow(parent)
+ClientSubscriberGui::ClientSubscriberGui()
+    : ClientSubscriber()
 {
 }
 
@@ -15,7 +16,8 @@ void ClientSubscriberGui::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::ERROR_DATABASE || msg.header.id == CustomMsgTypes::SERVER_DOWN)
     {
-        QMessageBox::critical(this, "Server down", "Server is down! Try later");
-        this->close();
+        ServerDownDialog* dialog = new ServerDownDialog(Client::GetInstance()->GetApp()->activeWindow());
+        dialog->setModal(true);
+        dialog->show();
     }
 }

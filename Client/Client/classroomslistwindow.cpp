@@ -12,7 +12,7 @@
 #include <QJsonArray>
 
 ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
-    ClientSubscriberGui(), ui(new Ui::ClassroomsListWindow)
+    QMainWindow(parent), ClientSubscriberGui(), ui(new Ui::ClassroomsListWindow)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
@@ -42,9 +42,9 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     GetStudentClassroomsData();
     GetTeacherClassroomsData();
 
-    net::message<CustomMsgTypes> msg;
+    /*net::message<CustomMsgTypes> msg;
     msg.header.id = CustomMsgTypes::ERROR_DATABASE;
-    Update(msg);
+    Update(msg);*/
 }
 
 void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)

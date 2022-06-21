@@ -10,7 +10,7 @@ namespace Ui {
 class ClassroomsListWindow;
 }
 
-class ClassroomsListWindow : public ClientSubscriberGui
+class ClassroomsListWindow : public QMainWindow, public ClientSubscriberGui
 {
     Q_OBJECT
 

@@ -57,6 +57,7 @@ SOURCES += \
     registerwindow.cpp \
     saveeditableassignmentcommand.cpp \
     sendassignmentwindow.cpp \
+    serverdowndialog.cpp \
     studentassignmentsessionsforteacherlistmodel.cpp \
     studentassignmentsessionslistmodel.cpp \
     studentassignmentsessionswindow.cpp \
@@ -119,6 +120,7 @@ HEADERS += \
     registerwindow.h \
     saveeditableassignmentcommand.h \
     sendassignmentwindow.h \
+    serverdowndialog.h \
     studentassignmentsessionsforteacherlistmodel.h \
     studentassignmentsessionslistmodel.h \
     studentassignmentsessionswindow.h \
@@ -151,6 +153,7 @@ FORMS += \
     mainwindow.ui \
     registerwindow.ui \
     sendassignmentwindow.ui \
+    serverdowndialog.ui \
     studentassignmentsessionswindow.ui \
     studentassignmentwindow.ui \
     teacherassignmentcheckingwindow.ui

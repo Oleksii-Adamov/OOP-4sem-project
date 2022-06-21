@@ -51,3 +51,12 @@ void Client::SetUser(User user)
 {
     user_ = user;
 }
+
+QApplication* Client::GetApp() const
+{
+    return app_;
+}
+void Client::SetApp(QApplication* app)
+{
+    app_ = app;
+}

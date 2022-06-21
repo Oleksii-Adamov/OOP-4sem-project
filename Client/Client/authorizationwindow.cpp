@@ -57,9 +57,9 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
         QMessageBox::critical(this, "Log in error", "Password has forbidden symbols! Only digits, latin letters of any case, _,^,- allowed");
     }
     else {
-        LogInRequest();
-        //is_succesuful_ = true;
-        //this->close();
+        //LogInRequest();
+        is_succesuful_ = true;
+        this->close();
     }
 }
 
