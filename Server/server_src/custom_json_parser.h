@@ -49,3 +49,45 @@ std::string ParseToJson(const std::vector<Assignment>& assignments) {
 	
 	return text.str();
 }
+
+std::string ParseToJson(
+	const std::vector<StudentAssignmentSessionInfoForTeacher> objects) {
+	std::stringstream text;
+	bpt::ptree json;
+	bpt::ptree array;
+	for (const StudentAssignmentSessionInfoForTeacher& object : objects) {
+		bpt::ptree element;
+		auto r =
+			object.student_assignment_session.getStudentAssignmentSessionStatus();
+		std::string status;
+		if (r == StudentAssignmentSessionStatus::checked)
+			status = "checked";
+		else if (r == StudentAssignmentSessionStatus::not_submitted)
+			status = "not_submitted";
+		else if (r == StudentAssignmentSessionStatus::submitted)
+			status = "submitted";
+		
+		element.put("StudentAssignmentSession.student_user_id",
+								object.student_assignment_session.getStudentUserId());
+		element.put("StudentAssignmentSession.assignment_session_id",
+								object.student_assignment_session.getAssignmentSessionId());
+		element.put("StudentAssignmentSession.student_assignment_session_status",
+								status);
+		element.put("StudentAssignmentSession.student_assignment_session_answer",
+				object.student_assignment_session.getStudentAssignmentSessionAnswer());
+		element.put("StudentAssignmentSession.student_assignment_session_score",
+					object.student_assignment_session.getStudentAssignmentSessionScore());
+		element.put("StudentAssignmentSession.student_assignment_session_finish_date",
+			object.student_assignment_session.getStudentAssignmentSessionFinishDate());
+		
+		element.put("User.user_id", object.student.getUserId());
+		element.put("User.login", object.student.getLogin());
+		element.put("User.user_name", object.student.getUserId());
+		
+		array.push_back(bpt::ptree::value_type("", element));
+	}
+	json.put_child("StudentAssignmentSessionInfosForTeacher", array);
+	bpt::write_json(text, json);
+	
+	return text.str();
+}

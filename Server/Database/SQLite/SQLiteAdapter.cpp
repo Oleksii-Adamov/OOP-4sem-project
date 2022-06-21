@@ -16,6 +16,17 @@ bool SQLiteAdapter::openDatabase(sqlite3** db)
     return true;
 }
 
+bool SQLiteAdapter::closeDatabase(sqlite3** db)
+{
+    bool flag = sqlite3_close(*db);
+    if(flag)
+    {
+        DatabaseLog::error("Can't close database");
+        return false;
+    }
+    return true;
+}
+
 bool SQLiteAdapter::exec(const std::string& command)
 {
     sqlite3* db = nullptr;
@@ -203,13 +214,28 @@ bool SQLiteAdapter::execDelete(const std::string& table_name, const std::string&
     return SQLiteAdapter::exec(command);
 }
 
-bool SQLiteAdapter::closeDatabase(sqlite3** db)
+std::pair<bool, bool> SQLiteAdapter::checkUniqueRecord(const std::string& table_name, const std::string& column, const std::string& column_value) const
 {
-    bool flag = sqlite3_close(*db);
-    if(flag)
-    {
-        DatabaseLog::error("Can't close database");
-        return false;
-    }
-    return true;
+    std::string command = "SELECT " + table_name + "." + column + "\n"
+                        + "FROM '" + table_name + "'\n"
+                        + "WHERE " + table_name + "." + column + " = " + column_value + ";";
+    auto commandResFull = execSelect(command, 1);
+    if(!commandResFull.first)
+        return {false, false};
+    const auto& commandRes = commandResFull.second;
+
+    if(commandRes[0].empty())
+        return {true, true};
+    return {true, false};
+}
+
+std::pair<bool, unsigned long long> SQLiteAdapter::getLastTableID(const std::string& table_name, const std::string& id_name) const
+{
+    std::string command = "SELECT " + table_name + "." + id_name + "\n"
+                        + "FROM '" + table_name + "'\n";
+    auto commandResFull = execSelect(command, 1);
+    if(!commandResFull.first)
+        return {false, 0};
+    const auto& commandRes = commandResFull.second;
+    return {true, std::stoull(commandRes[0].back())};
 }

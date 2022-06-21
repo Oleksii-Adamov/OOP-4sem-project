@@ -124,6 +124,32 @@ void GetStudentAssignmentSessionAnswer(
 	}
 }
 
+void GetAllStudentAssignmentSessionAnswers(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>> getAllStudentAssignmentSessionAnswers(ID AssignmentSessionId);
+	ID AssignmentSessionId;
+	msg >> AssignmentSessionId;
+	std::pair<bool, std::vector<StudentAssignmentSessionInfoForTeacher>>
+		StudentAssignmentSessionInfosForTeacher;
+	StudentAssignmentSessionInfosForTeacher =
+		Database::getAllStudentAssignmentSessionAnswers(AssignmentSessionId);
+	if (StudentAssignmentSessionInfosForTeacher.first) {
+		std::string text =
+			ParseToJson(StudentAssignmentSessionInfosForTeacher.second);
+		uint64_t size = text.size();
+		
+		net::message<CustomMsgTypes> OutgoingMsg;
+		OutgoingMsg.header.id =
+			CustomMsgTypes::RETURN_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+		
+		client->Send(OutgoingMsg);
+	}
+}
+
 
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
@@ -228,6 +254,10 @@ protected:
 				
 			case CustomMsgTypes::GET_STUDENT_ASSIGNMENT_SESSION_ANSWER:
 				GetStudentAssignmentSessionAnswer(client, msg);
+				break;
+				
+			case CustomMsgTypes::GET_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS:
+				GetAllStudentAssignmentSessionAnswers(client, msg);
 				break;
 		}
 	}
