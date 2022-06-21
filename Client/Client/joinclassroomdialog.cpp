@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 #include "client.h"
+#include <QObject>
 
 JoinClassroomDialog::JoinClassroomDialog(QWidget *parent) :
     QDialog(parent), ClientSubscriber(),
@@ -26,6 +27,7 @@ void JoinClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::SUCCESS_JOIN_CLASSROOM)
     {
+        QMessageBox::information(this, "Classroom join info", "Joined to classroom successfully!");
         this->close();
     }
     if (msg.header.id == CustomMsgTypes::FAILURE_JOIN_CLASSROOM)

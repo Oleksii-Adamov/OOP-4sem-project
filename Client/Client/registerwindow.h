@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::RegisterWindow *ui;
+    void RegisterRequest();
 };
 
 #endif // REGISTERWINDOW_H

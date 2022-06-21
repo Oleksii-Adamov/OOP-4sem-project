@@ -25,6 +25,7 @@ private:
     Ui::StudentAssignmentSessionsWindow *ui;
     QSharedPointer<StudentAssignmentSessionsForTeacherListModel> student_assignments_list_model;
     AssignmentSessionInfo assignment_session_info_;
+    void GetData();
 };
 
 #endif // STUDENTASSIGNMENTSESSIONSWINDOW_H

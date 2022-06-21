@@ -93,17 +93,14 @@ void AssignmentCreationWindow::GetData()
     net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::GET_TEST_ASSIGNMENT;
     Client::GetInstance()->Send(message);
-//    for (std::size_t i = 0; i < 100; i++)
- //       Client::GetInstance()->Update();
-//    Client::GetInstance()->Update();
 }
 
 void AssignmentCreationWindow::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
     {
-        //FromJSON(QJsonDocumentFromServerMessage(msg));
-        FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
+        FromJSON(QJsonDocumentFromServerMessage(msg));
+        //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
     }
 }
 

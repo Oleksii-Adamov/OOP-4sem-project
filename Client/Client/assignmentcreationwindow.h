@@ -35,9 +35,9 @@ private:
     void AddTest(const QString& text, bool is_needed_to_save = true);
     void AddTestAnswer(const QString& text, QWidget* container, QLayout* layout, bool is_needed_to_save = true, bool is_checked = false);
     void GetData();
-public:
-    QJsonDocument ToJSON();
     void FromJSON(const QJsonDocument& json_doc);
+    QJsonDocument ToJSON();
+public:
     void Update(net::message<CustomMsgTypes> msg) override;
 private slots:
     void OnAddHeaderButtonClicked();

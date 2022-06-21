@@ -46,3 +46,8 @@ User Client::GetUser() const
 {
     return user_;
 }
+
+void Client::SetUser(User user)
+{
+    user_ = user;
+}

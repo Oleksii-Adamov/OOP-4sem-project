@@ -26,6 +26,7 @@ private slots:
 private:
     Ui::AuthorizationWindow *ui;
     bool is_succesuful_ = false;
+    void LogInRequest();
 };
 
 #endif // AUTHORIZATIONWINDOW_H

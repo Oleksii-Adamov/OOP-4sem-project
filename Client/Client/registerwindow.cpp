@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 #include "font.h"
+#include "client.h"
 
 RegisterWindow::RegisterWindow(QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(),
@@ -32,7 +33,44 @@ RegisterWindow::RegisterWindow(const QString& login, const QString& password, QW
 
 void RegisterWindow::Update(net::message<CustomMsgTypes> msg)
 {
+    if (msg.header.id == CustomMsgTypes::SUCCESS_CREATE_CLASSROOM)
+    {
+        QMessageBox::information(this, "Registraion info", "Registraion is successful!");
+        this->close();
+    }
+    if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)
+    {
+        QMessageBox::critical(this, "Registraion error", "Failed to register. User with this login already exists!");
+    }
+}
 
+void RegisterWindow::RegisterRequest()
+{
+    net::message<CustomMsgTypes> msg;
+    msg.header.id = CustomMsgTypes::JOIN_CLASSROOM_REQUEST;
+
+    QString user_name = ui->lineEdit_user_name->text();
+    for (int i = 0; i < user_name.size(); i++)
+    {
+        msg << user_name[i];
+    }
+    msg << user_name.size();
+
+    QString password = ui->lineEdit_password->text();
+    for (int i = 0; i < password.size(); i++)
+    {
+        msg << password[i];
+    }
+    msg << password.size();
+
+    QString login = ui->lineEdit_login->text();
+    for (int i = 0; i < login.size(); i++)
+    {
+        msg << login[i];
+    }
+    msg << login.size();
+
+    Client::GetInstance()->Send(msg);
 }
 
 RegisterWindow::~RegisterWindow()

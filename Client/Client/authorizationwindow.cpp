@@ -4,6 +4,11 @@
 #include <QRegularExpression>
 #include "registerwindow.h"
 #include "font.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include "jsonfile.h"
+#include "client.h"
+
 
 AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -59,7 +64,43 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
 
 void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
 {
+    if (msg.header.id == CustomMsgTypes::SUCCESS_CREATE_CLASSROOM)
+    {
+        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonObject user_object = json_doc_obj.take("User").toObject();
+        User user(user_object.take("user_id").toInteger(),
+                     user_object.take("login").toString().toStdString(),
+                     user_object.take("user_name").toString().toStdString());
+        Client::GetInstance()->SetUser(user);
+        this->close();
+    }
+    if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)
+    {
+        QMessageBox::critical(this, "Registraion error", "Failed to register. User with this login already exists!");
+    }
+}
 
+void AuthorizationWindow::LogInRequest()
+{
+    net::message<CustomMsgTypes> msg;
+    msg.header.id = CustomMsgTypes::JOIN_CLASSROOM_REQUEST;
+
+    QString password = ui->lineEdit_password->text();
+    for (int i = 0; i < password.size(); i++)
+    {
+        msg << password[i];
+    }
+    msg << password.size();
+
+    QString login = ui->lineEdit_login->text();
+    for (int i = 0; i < login.size(); i++)
+    {
+        msg << login[i];
+    }
+    msg << login.size();
+
+    Client::GetInstance()->Send(msg);
 }
 
 
