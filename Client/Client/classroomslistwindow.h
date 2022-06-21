@@ -4,13 +4,13 @@
 #include <QMainWindow>
 #include "classroomslistmodel.h"
 #include "classroomsnamelistmodel.h"
-#include "clientsubscriber.h"
+#include "clientsubscribergui.h"
 
 namespace Ui {
 class ClassroomsListWindow;
 }
 
-class ClassroomsListWindow : public QMainWindow, ClientSubscriber
+class ClassroomsListWindow : public ClientSubscriberGui
 {
     Q_OBJECT
 

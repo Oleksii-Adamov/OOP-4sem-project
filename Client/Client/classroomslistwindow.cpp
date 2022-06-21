@@ -12,8 +12,7 @@
 #include <QJsonArray>
 
 ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ClientSubscriber(), ui(new Ui::ClassroomsListWindow)
+    ClientSubscriberGui(), ui(new Ui::ClassroomsListWindow)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
@@ -42,10 +41,15 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
     GetStudentClassroomsData();
     GetTeacherClassroomsData();
+
+    net::message<CustomMsgTypes> msg;
+    msg.header.id = CustomMsgTypes::ERROR_DATABASE;
+    Update(msg);
 }
 
 void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
 {
+    ClientSubscriberGui::Update(msg);
     if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_CLASSROOMS)
     {
         //classrooms_list_as_teacher_model_->Clear();

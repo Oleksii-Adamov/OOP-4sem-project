@@ -67,13 +67,6 @@ void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::SUCCESS_LOGIN_REQUEST)
     {
-//        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
-//        QJsonObject json_doc_obj = json_doc.object();
-//        QJsonObject user_object = json_doc_obj.take("User").toObject();
-//        User user(user_object.take("user_id").toInteger(),
-//                     user_object.take("login").toString().toStdString(),
-//                     user_object.take("user_name").toString().toStdString());
-//        Client::GetInstance()->SetUser(user);
         ID id;
         std::string login = "";
         std::string user_name = "";

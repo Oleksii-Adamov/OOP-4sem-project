@@ -2,13 +2,15 @@
 #define CLIENTSUBSCRIBERGUI_H
 
 #include "clientsubscriber.h"
+#include <QMainWindow>
 
-class ClientSubscriberGui : ClientSubscriber
+class ClientSubscriberGui : public ClientSubscriber, public QMainWindow
 {
+    /*Q_OBJECT*/
 public:
-    ClientSubscriberGui();
+    explicit ClientSubscriberGui(QWidget *parent = nullptr);
     virtual ~ClientSubscriberGui();
-    void Update(net::message<CustomMsgTypes> msg) override;
+    virtual void Update(net::message<CustomMsgTypes> msg) override;
 };
 
 #endif // CLIENTSUBSCRIBERGUI_H
