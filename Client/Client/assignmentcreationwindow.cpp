@@ -17,6 +17,7 @@
 #include "font.h"
 #include <algorithm>
 #include "client.h"
+#include <QMessageBox>
 
 AssignmentCreationWindow::AssignmentCreationWindow(const Assignment& assignment, QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(), ui(new Ui::AssignmentCreationWindow),
@@ -103,6 +104,10 @@ void AssignmentCreationWindow::Update(net::message<CustomMsgTypes> msg)
     {
         FromJSON(QJsonDocumentFromServerMessage(msg));
         //FromJSON(QJsonDocumentFromJsonFile("../../from_teacher_to_server.json"));
+    }
+    if (msg.header.id == CustomMsgTypes::SUCCESS_UPDATE_ASSIGNMENT)
+    {
+        QMessageBox::information(this, "Creation of assignment info", "Saved!");
     }
     /*if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
         {
@@ -229,6 +234,15 @@ QJsonDocument AssignmentCreationWindow::ToJSON()
 
 void AssignmentCreationWindow::OnSaveButtonClicked()
 {
+    if(assignment_.getAssignmentId() == 0) {
+        // create new
+    }
+    else {
+        net::message<CustomMsgTypes> message;
+        message.header.id = CustomMsgTypes::UPDATE_ASSIGNMENT;
+        WriteJsonToMsg(ToJSON(), message);
+        message << Client::GetInstance()->GetUser().getUserId() << assignment_.getAssignmentId();
+    }
     /*if (assignment_name_ == "") {
         EnterAssignmentNameDialog* new_dialog  = new EnterAssignmentNameDialog(this);
         connect(new_dialog, SIGNAL(NameChanged(const QString&)), this, SLOT(NameChanged(const QString&)));

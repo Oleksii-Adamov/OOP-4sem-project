@@ -2,6 +2,8 @@
 #include <QFile>
 #include "client.h"
 #include <cstdint>
+#include "net.h"
+#include "messagetypes.h"
 
 QJsonDocument QJsonDocumentFromServerMessage(net::message<CustomMsgTypes>& message)
 {
@@ -69,7 +71,7 @@ void sendJsonFile(const QJsonDocument& json_doc)
 {
     QString json_string = json_doc.toJson();
     net::message<CustomMsgTypes> message;
-    message.header.id = CustomMsgTypes::ServerMessage;
+    //message.header.id = CustomMsgTypes::ServerMessage;
     std::string json_std_str = json_string.toStdString();
     uint32_t json_c_str_size = uint32_t(json_string.size());
     for (uint32_t i = 0; i < json_c_str_size; i++) {
@@ -77,4 +79,26 @@ void sendJsonFile(const QJsonDocument& json_doc)
     }
     message << uint32_t(json_string.size());
     Client::GetInstance()->Send(message);
+}
+
+void WriteQStringToMsg(const QString& q_string, net::message<CustomMsgTypes>& message)
+{
+    std::string std_str = q_string.toStdString();
+    uint64_t c_str_size = uint64_t(std_str.size());
+    for (uint64_t i = 0; i < c_str_size; i++) {
+        message << std_str[i];
+    }
+    message << c_str_size;
+}
+
+void WriteJsonToMsg(const QJsonDocument& json_doc, net::message<CustomMsgTypes>& message)
+{
+    WriteQStringToMsg(json_doc.toJson(), message);
+//    QString json_string = json_doc.toJson();
+//    std::string json_std_str = json_string.toStdString();
+//    uint32_t json_c_str_size = uint32_t(json_string.size());
+//    for (uint32_t i = 0; i < json_c_str_size; i++) {
+//        message << json_std_str[i];
+//    }
+//    message << uint32_t(json_string.size());
 }

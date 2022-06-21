@@ -101,21 +101,8 @@ void AuthorizationWindow::LogInRequest()
 {
     net::message<CustomMsgTypes> msg;
     msg.header.id = CustomMsgTypes::LOGIN_REQUEST;
-
-    QString password = ui->lineEdit_password->text();
-    for (int i = 0; i < password.size(); i++)
-    {
-        msg << password[i];
-    }
-    msg << password.size();
-
-    QString login = ui->lineEdit_login->text();
-    for (int i = 0; i < login.size(); i++)
-    {
-        msg << login[i];
-    }
-    msg << login.size();
-
+    WriteQStringToMsg(ui->lineEdit_password->text(), msg);
+    WriteQStringToMsg(ui->lineEdit_login->text(), msg);
     Client::GetInstance()->Send(msg);
 }
 

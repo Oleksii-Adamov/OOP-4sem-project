@@ -4,6 +4,7 @@
 #include <QRegularExpression>
 #include "font.h"
 #include "client.h"
+#include "jsonfile.h"
 
 RegisterWindow::RegisterWindow(QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(),
@@ -38,7 +39,7 @@ void RegisterWindow::Update(net::message<CustomMsgTypes> msg)
         QMessageBox::information(this, "Registraion info", "Registraion is successful!");
         this->close();
     }
-    if (msg.header.id == CustomMsgTypes::FAILURE_REGISTRATION_REQUEST)
+    else if (msg.header.id == CustomMsgTypes::FAILURE_REGISTRATION_REQUEST)
     {
         QMessageBox::critical(this, "Registraion error", "Failed to register. User with this login already exists!");
     }
@@ -48,28 +49,9 @@ void RegisterWindow::RegisterRequest()
 {
     net::message<CustomMsgTypes> msg;
     msg.header.id = CustomMsgTypes::REGISTRATION_REQUEST;
-
-    QString user_name = ui->lineEdit_user_name->text();
-    for (int i = 0; i < user_name.size(); i++)
-    {
-        msg << user_name[i];
-    }
-    msg << user_name.size();
-
-    QString password = ui->lineEdit_password->text();
-    for (int i = 0; i < password.size(); i++)
-    {
-        msg << password[i];
-    }
-    msg << password.size();
-
-    QString login = ui->lineEdit_login->text();
-    for (int i = 0; i < login.size(); i++)
-    {
-        msg << login[i];
-    }
-    msg << login.size();
-
+    WriteQStringToMsg(ui->lineEdit_user_name->text(), msg);
+    WriteQStringToMsg(ui->lineEdit_password->text(), msg);
+    WriteQStringToMsg(ui->lineEdit_login->text(), msg);
     Client::GetInstance()->Send(msg);
 }
 
