@@ -22,6 +22,7 @@ private:
     void GetData();
     void FromJSON(const QJsonDocument& json_doc);
     Ui::StudentAssignmentWindow *ui;
+    StudentAssignmentSessionInfo student_assignment_session_info_;
 };
 
 #endif // STUDENTASSIGNMENTWINDOW_H

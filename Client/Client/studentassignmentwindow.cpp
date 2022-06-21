@@ -8,7 +8,7 @@
 
 StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionInfo& student_assignment_session_info, QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(),
-    ui(new Ui::StudentAssignmentWindow)
+    ui(new Ui::StudentAssignmentWindow), student_assignment_session_info_(student_assignment_session_info)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
@@ -17,12 +17,12 @@ StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionI
     this->setWindowTitle(QString::fromStdString(student_assignment_session_info.assignment.getAssignmentName()));
     ui->label_deadline->setText("Deadline: " + QString::fromStdString(student_assignment_session_info.assignment_session.getAssignmentSessionEndDate()));
     GetData();
-    FromJson(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
+    FromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
 }
 
 void StudentAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
 {
-    if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
+    if (msg.header.id == CustomMsgTypes::RETURN_STUDENT_ASSIGNMENT_SESSION_ANSWER)
     {
         FromJSON(QJsonDocumentFromServerMessage(msg));
     }
@@ -36,7 +36,8 @@ StudentAssignmentWindow::~StudentAssignmentWindow()
 void StudentAssignmentWindow::GetData()
 {
     net::message<CustomMsgTypes> message;
-    message.header.id = CustomMsgTypes::GET_TEST_ASSIGNMENT;
+    message.header.id = CustomMsgTypes::GET_STUDENT_ASSIGNMENT_SESSION_ANSWER;
+    message << student_assignment_session_info_.student_assignment_session.getAssignmentSessionId() << Client::GetInstance()->GetUser().getUserId();
     Client::GetInstance()->Send(message);
 }
 
@@ -54,7 +55,7 @@ void StudentAssignmentWindow::FromJSON(const QJsonDocument& json_doc)
 
     AssignmentGUIBuilder assignment_GUI_builder;
     bool is_editable = false;
-    if (student_assignment_session_info.student_assignment_session.getStudentAssignmentSessionStatus() == StudentAssignmentSessionStatus::not_submitted) {
+    if (student_assignment_session_info_.student_assignment_session.getStudentAssignmentSessionStatus() == StudentAssignmentSessionStatus::not_submitted) {
         is_editable = true;
     }
     assignment_GUI_builder.Set(assignment_layout, assignment_container, is_editable);

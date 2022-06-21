@@ -106,7 +106,6 @@ void ClassroomsListWindow::OnTeacherClassroomClicked(const QModelIndex& classroo
 
 ClassroomsListWindow::~ClassroomsListWindow()
 {
-    //Client::GetInstance()->UnSubscribe(this);
     delete ui;
 }
 

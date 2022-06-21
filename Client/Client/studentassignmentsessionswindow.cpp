@@ -2,6 +2,10 @@
 #include "ui_studentassignmentsessionswindow.h"
 #include "font.h"
 #include "teacherassignmentcheckingwindow.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "jsonfile.h"
 
 StudentAssignmentSessionsWindow::StudentAssignmentSessionsWindow(const AssignmentSessionInfo& assignment_session_info, QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(), ui(new Ui::StudentAssignmentSessionsWindow),
@@ -30,9 +34,50 @@ StudentAssignmentSessionsWindow::StudentAssignmentSessionsWindow(const Assignmen
 //    student_assignments_list_model->PushBack(StudentAssignmentSessionInfo(3, StudentAssignmentSessionStatus::not_submitted, "17:59 18.06.2022", "User name3"));
 }
 
-void StudentAssignmentSessionsWindow::Update(net::message<CustomMsgTypes> msg)
+void StudentAssignmentSessionsWindow::GetData()
 {
 
+}
+
+void StudentAssignmentSessionsWindow::Update(net::message<CustomMsgTypes> msg)
+{
+    if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_CLASSROOMS)
+    {
+        //student_assignments_list_model->Clear();
+        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonArray student_assignment_session_infos =  json_doc_obj.take("StudentAssignmentSessionInfosForTeacher").toArray();
+        for (int i = 0; i < student_assignment_session_infos.size(); i++)
+        {
+            QJsonObject student_assignment_session_info_object = student_assignment_session_infos.at(i).toObject();
+            QJsonObject student_assignment_session_object = student_assignment_session_info_object.take("StudentAssignmentSession").toObject();
+            QString student_assignment_session_status_string = student_assignment_session_object.take("student_assignment_session_status").toString();
+            StudentAssignmentSessionStatus student_assignment_session_status = StudentAssignmentSessionStatus::not_submitted;
+            if (student_assignment_session_status_string == "not_submitted")
+            {
+                student_assignment_session_status = StudentAssignmentSessionStatus::not_submitted;
+            }
+            else if (student_assignment_session_status_string == "submitted")
+            {
+                student_assignment_session_status = StudentAssignmentSessionStatus::submitted;
+            }
+            else if (student_assignment_session_status_string == "checked")
+            {
+                student_assignment_session_status = StudentAssignmentSessionStatus::checked;
+            }
+            StudentAssignmentSession student_assignment_session(
+                        student_assignment_session_object.take("student_user_id").toInteger(),
+                        student_assignment_session_object.take("assignment_session_id").toInteger(),
+                        student_assignment_session_status, "",
+                        student_assignment_session_object.take("student_assignment_session_score").toInt(),
+                        student_assignment_session_object.take("student_assignment_session_finish_date").toString().toStdString());
+            QJsonObject student_object = student_assignment_session_info_object.take("User").toObject();
+            User student(student_object.take("user_id").toInteger(),
+                         student_object.take("login").toString().toStdString(),
+                         student_object.take("user_name").toString().toStdString());
+            student_assignments_list_model->PushBack(StudentAssignmentSessionInfoForTeacher(student_assignment_session, student));
+        }
+    }
 }
 
 void StudentAssignmentSessionsWindow::OnStudentAssignmentClicked(const QModelIndex& student_assignment)
