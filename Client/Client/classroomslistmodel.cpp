@@ -47,3 +47,8 @@ ClassroomInfo ClassroomsListModel::GetClassroomInfo(const QModelIndex &index, in
         return list_[std::size_t(index.row())];
     return ClassroomInfo();
 }
+
+void ClassroomsListModel::Clear()
+{
+    list_.clear();
+}

@@ -10,7 +10,7 @@
 
 
 TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAssignmentSessionInfoForTeacher& student_assignment_session_info_for_teacher, const Assignment& assignment, QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent), ClientSubscriber(),
     ui(new Ui::TeacherAssignmentCheckingWindow)
 {
     ui->setupUi(this);
@@ -49,6 +49,11 @@ TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAs
     assignment_GUI_director.set_builder(&assignment_GUI_builder);
     assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("assinment_json_from_student_to_server.json"),
                                           QJsonDocumentFromJsonFile("Assignments/from_teacher_to_server.json"));
+}
+
+void TeacherAssignmentCheckingWindow::Update(net::message<CustomMsgTypes> msg)
+{
+
 }
 
 TeacherAssignmentCheckingWindow::~TeacherAssignmentCheckingWindow()

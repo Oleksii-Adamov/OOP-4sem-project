@@ -47,3 +47,7 @@ Assignment AssignmentsListModel::GetData(const QModelIndex &index, int role) con
     return Assignment();
 }
 
+void AssignmentsListModel::Clear()
+{
+    list_.clear();
+}

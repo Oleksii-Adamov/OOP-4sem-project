@@ -19,6 +19,8 @@ public:
     /// Pushes data to end
     bool PushBack(const Classroom &value, int role = Qt::EditRole);
 
+    void Clear();
+
     Classroom GetClassroom(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
 protected:

@@ -5,7 +5,7 @@
 #include "font.h"
 
 RegisterWindow::RegisterWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent), ClientSubscriber(),
     ui(new Ui::RegisterWindow)
 {
     ui->setupUi(this);
@@ -27,6 +27,12 @@ RegisterWindow::RegisterWindow(const QString& login, const QString& password, QW
 {
     ui->lineEdit_login->setText(login);
     ui->lineEdit_password->setText(password);
+}
+
+
+void RegisterWindow::Update(net::message<CustomMsgTypes> msg)
+{
+
 }
 
 RegisterWindow::~RegisterWindow()

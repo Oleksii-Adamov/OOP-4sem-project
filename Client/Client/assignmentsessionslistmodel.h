@@ -22,6 +22,7 @@ public:
 
     AssignmentSessionInfo GetData(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    void Clear();
 private:
     std::vector<AssignmentSessionInfo> list_;
 

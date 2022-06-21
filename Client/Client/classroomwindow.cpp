@@ -2,11 +2,12 @@
 #include "ui_classroomwindow.h"
 #include "font.h"
 #include <QDebug>
+#include "client.h"
 
 ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom_info, QSharedPointer<ClassroomWindowStrategy> strategy,
                                  QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::ClassroomWindow), strategy_(strategy), classroom_info_(classroom_info)
+    QMainWindow(parent), ClientSubscriber(),
+    ui(new Ui::ClassroomWindow),  strategy_(strategy), classroom_info_(classroom_info)
 {
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
@@ -32,8 +33,10 @@ ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom_info, QSharedPoi
     ui->assignments_list_view->setModel(assignments_list_model.data());
 
     connect(ui->assignments_list_view, SIGNAL(clicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));
-    net::message<CustomMsgTypes> msg;
-    Update(msg);
+
+//    Client::GetInstance()->Subscribe(this);
+      net::message<CustomMsgTypes> msg;
+      Update(msg);
 //    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
@@ -43,12 +46,19 @@ void ClassroomWindow::OnAssignmentClicked(const QModelIndex& index) {
    strategy_->OnAssignmentClicked(index, assignments_list_model);
 }
 
-void ClassroomWindow::Update(net::message<CustomMsgTypes>& msg)
+void ClassroomWindow::Update(net::message<CustomMsgTypes> msg)
 {
     strategy_->Update(msg, assignments_list_model);
 }
 
 ClassroomWindow::~ClassroomWindow()
 {
+//    Client::GetInstance()->UnSubscribe(this);
     delete ui;
 }
+
+void ClassroomWindow::on_actionUpdate_triggered()
+{
+
+}
+

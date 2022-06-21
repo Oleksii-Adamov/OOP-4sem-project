@@ -21,7 +21,7 @@ public:
     bool PushBack(const StudentAssignmentSessionInfo &value, int role = Qt::EditRole);
 
     StudentAssignmentSessionInfo GetData(const QModelIndex &index, int role = Qt::DisplayRole) const;
-
+    void Clear();
 private:
     std::vector<StudentAssignmentSessionInfo> list_;
 };

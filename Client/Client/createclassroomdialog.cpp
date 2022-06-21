@@ -5,7 +5,7 @@
 #include "font.h"
 
 CreateClassroomDialog::CreateClassroomDialog(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent), ClientSubscriber(),
     ui(new Ui::CreateClassroomDialog)
 {
     ui->setupUi(this);
@@ -36,6 +36,11 @@ void CreateClassroomDialog::on_pushButton_create_clicked()
     else {
         this->close();
     }
+}
+
+void CreateClassroomDialog::Update(net::message<CustomMsgTypes> msg)
+{
+
 }
 
 void CreateClassroomDialog::on_pushButton_cancel_clicked()

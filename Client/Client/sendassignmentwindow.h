@@ -4,18 +4,20 @@
 #include <QMainWindow>
 #include "assignmentslistmodel.h"
 #include "classroomsnamelistmodel.h"
+#include "clientsubscriber.h"
 
 namespace Ui {
 class SendAssignmentWindow;
 }
 
-class SendAssignmentWindow : public QMainWindow
+class SendAssignmentWindow : public QMainWindow, ClientSubscriber
 {
     Q_OBJECT
 
 public:
     explicit SendAssignmentWindow(QWidget *parent = nullptr);
     ~SendAssignmentWindow();
+    void Update(net::message<CustomMsgTypes> msg) override;
 
 private:
     Ui::SendAssignmentWindow *ui;
