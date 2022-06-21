@@ -6,6 +6,7 @@
 class AssignmentSession : Entity
 {
     ID assignment_session_id_ = 0;
+    ID classroom_id_ = 0;
     ID assignment_id_ = 0;
     DATETIME assignment_session_start_date_ = "";
     DATETIME assignment_session_end_date_ = "";
@@ -18,6 +19,11 @@ public:
     void setAssignmentSessionId(const ID& assignment_session_id)
     {
         assignment_session_id_ = assignment_session_id;
+    }
+
+    void setClassroomId(const ID& classroom_id)
+    {
+        classroom_id_ = classroom_id;
     }
 
     void setAssignmentId(const ID& assignment_id)
@@ -38,6 +44,11 @@ public:
     ID getAssignmentSessionId() const
     {
         return assignment_session_id_;
+    }
+
+    ID getClassroomId() const
+    {
+        return classroom_id_;
     }
 
     ID getAssignmentId() const
