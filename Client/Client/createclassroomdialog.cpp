@@ -43,6 +43,7 @@ void CreateClassroomDialog::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::SUCCESS_CREATE_CLASSROOM)
     {
+        QMessageBox::information(this, "Create classrom info", "Created classroom succesfully!");
         this->close();
     }
     if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)

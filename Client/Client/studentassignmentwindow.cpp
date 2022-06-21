@@ -4,6 +4,7 @@
 #include <QScrollArea>
 #include "assignmentguidirector.h"
 #include "jsonfile.h"
+#include "client.h"
 
 StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionInfo& student_assignment_session_info, QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(),
@@ -15,7 +16,32 @@ StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionI
     ui->label_deadline->setFont(Font::RegularListViewFont());
     this->setWindowTitle(QString::fromStdString(student_assignment_session_info.assignment.getAssignmentName()));
     ui->label_deadline->setText("Deadline: " + QString::fromStdString(student_assignment_session_info.assignment_session.getAssignmentSessionEndDate()));
+    GetData();
+    FromJson(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
+}
 
+void StudentAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
+{
+    if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
+    {
+        FromJSON(QJsonDocumentFromServerMessage(msg));
+    }
+}
+
+StudentAssignmentWindow::~StudentAssignmentWindow()
+{
+    delete ui;
+}
+
+void StudentAssignmentWindow::GetData()
+{
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_TEST_ASSIGNMENT;
+    Client::GetInstance()->Send(message);
+}
+
+void StudentAssignmentWindow::FromJSON(const QJsonDocument& json_doc)
+{
     QVBoxLayout* layout = new QVBoxLayout(ui->assignment_widget);
 
     auto * scrollArea = new QScrollArea(this);
@@ -34,20 +60,5 @@ StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionI
     assignment_GUI_builder.Set(assignment_layout, assignment_container, is_editable);
     AssignmentGUIDirector assignment_GUI_director;
     assignment_GUI_director.set_builder(&assignment_GUI_builder);
-    assignment_GUI_director.BuildFromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
-}
-
-void StudentAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
-{
-
-}
-
-StudentAssignmentWindow::~StudentAssignmentWindow()
-{
-    delete ui;
-}
-
-void StudentAssignmentWindow::GetData()
-{
-
+    assignment_GUI_director.BuildFromJSON(json_doc);
 }

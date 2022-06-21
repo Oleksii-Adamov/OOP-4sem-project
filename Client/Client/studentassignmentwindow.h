@@ -20,6 +20,7 @@ public:
 
 private:
     void GetData();
+    void FromJSON(const QJsonDocument& json_doc);
     Ui::StudentAssignmentWindow *ui;
 };
 
