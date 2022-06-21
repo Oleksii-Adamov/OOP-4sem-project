@@ -24,6 +24,7 @@ private slots:
 
 private:
     Ui::CreateClassroomDialog *ui;
+    void CreateRequest();
 };
 
 #endif // CREATECLASSROOMDIALOG_H
