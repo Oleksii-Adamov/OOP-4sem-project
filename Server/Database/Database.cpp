@@ -101,6 +101,94 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
     return {true, res};
 }
 
+std::pair<bool, std::vector<StudentAssignmentSessionInfo>> Database::selectAllAssignmentsOfClassroomStudentInfo(ID StudentUserId, ID ClassroomId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT *\n"
+                         "FROM ('Student_AssignmentSession' INNER JOIN 'AssignmentSession' ON "
+                         "(Student_AssignmentSession.AssignmentSessionID = AssignmentSession.AssignmentSessionID))"
+                         "INNER JOIN 'Assignment' ON (AssignmentSession.AssignmentID = Assignment.AssignmentID)\n"
+                         "WHERE (Student_AssignmentSession.StudentUserID = '" + std::to_string(StudentUserId)
+                         + "' and AssignmentSession.ClassroomID = '" + std::to_string(ClassroomId) + "');";
+    auto commandResFull = db->execSelect(script, 17);
+    delete db;
+    if(!commandResFull.first)
+        return {false, {}};
+    const auto& commandRes = commandResFull.second;
+
+    StudentAssignmentSession currRes1;
+    AssignmentSession currRes2;
+    Assignment currRes3;
+    std::vector<StudentAssignmentSessionInfo> res;
+    for(size_t i=0; i<commandRes[0].size(); i++)
+    {
+        currRes1.setStudentUserId(std::stoull(commandRes[0][i]));
+        currRes1.setAssignmentSessionId(std::stoull(commandRes[1][i]));
+        switch(std::stoi(commandRes[2][i]))
+        {
+            case 0: currRes1.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::not_submitted);
+                break;
+            case 1: currRes1.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::submitted);
+                break;
+            case 2: currRes1.setStudentAssignmentSessionStatus(StudentAssignmentSessionStatus::checked);
+                break;
+        }
+        currRes1.setStudentAssignmentSessionScore(std::stoi(commandRes[4][i]));
+        currRes1.setStudentAssignmentSessionFinishDate(commandRes[5][i]);
+
+        currRes2.setAssignmentSessionId(std::stoull(commandRes[6][i]));
+        currRes2.setClassroomId(std::stoull(commandRes[7][i]));
+        currRes2.setAssignmentId(std::stoull(commandRes[8][i]));
+        currRes2.setAssignmentSessionStartDate(commandRes[9][i]);
+        currRes2.setAssignmentSessionEndDate(commandRes[10][i]);
+
+        currRes3.setAssignmentId(std::stoull(commandRes[11][i]));
+        currRes3.setTeacherUserId(std::stoull(commandRes[12][i]));
+        currRes3.setAssignmentName(commandRes[13][i]);
+        currRes3.setAssignmentCreationDate(commandRes[14][i]);
+        currRes3.setAssignmentMaxScore(std::stoi(commandRes[16][i]));
+
+        res.emplace_back(currRes1,currRes2,currRes3);
+    }
+    return {true, res};
+}
+
+std::pair<bool, std::vector<AssignmentSessionInfo>> Database::selectAllAssignmentsOfClassroomTeacherInfo(ID TeacherUserId, ID ClassroomId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT *\n"
+                         "FROM 'AssignmentSession' INNER JOIN 'Assignment' ON "
+                         "(AssignmentSession.AssignmentID = Assignment.AssignmentID)\n"
+                         "WHERE (Assignment.TeacherUserID = '" + std::to_string(TeacherUserId)
+                         + "' and AssignmentSession.ClassroomID = '" + std::to_string(ClassroomId) + "');";
+    auto commandResFull = db->execSelect(script, 11);
+    delete db;
+    if(!commandResFull.first)
+        return {false, {}};
+    const auto& commandRes = commandResFull.second;
+
+    AssignmentSession currRes1;
+    Assignment currRes2;
+    std::vector<AssignmentSessionInfo> res;
+    for(size_t i=0; i<commandRes[0].size(); i++)
+    {
+        currRes1.setAssignmentSessionId(std::stoull(commandRes[0][i]));
+        currRes1.setClassroomId(std::stoull(commandRes[1][i]));
+        currRes1.setAssignmentId(std::stoull(commandRes[2][i]));
+        currRes1.setAssignmentSessionStartDate(commandRes[3][i]);
+        currRes1.setAssignmentSessionEndDate(commandRes[4][i]);
+
+        currRes2.setAssignmentId(std::stoull(commandRes[5][i]));
+        currRes2.setTeacherUserId(std::stoull(commandRes[6][i]));
+        currRes2.setAssignmentName(commandRes[7][i]);
+        currRes2.setAssignmentCreationDate(commandRes[8][i]);
+        currRes2.setAssignmentMaxScore(std::stoi(commandRes[10][i]));
+
+        res.emplace_back(currRes1,currRes2);
+    }
+    return {true, res};
+}
+
 std::pair<bool, std::vector<Assignment>> Database::selectAllAssignmentUserCreated(ID UserId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
