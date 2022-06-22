@@ -68,7 +68,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Deadline (UTC) (yyyy-mm-dd  hh-mm-ss) :</string>
+           <string>Deadline (UTC) (yyyy-mm-dd  hh:mm:ss) :</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>

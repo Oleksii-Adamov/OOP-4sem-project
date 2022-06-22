@@ -33,7 +33,7 @@ ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom_info, QSharedPoi
     ui->assignments_list_view->setModel(assignments_list_model.data());
 
     connect(ui->assignments_list_view, SIGNAL(clicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));
-
+    strategy_->GetData(classroom_info_);
 //    Client::GetInstance()->Subscribe(this);
  //     net::message<CustomMsgTypes> msg;
 //      Update(msg);
@@ -64,6 +64,6 @@ ClassroomWindow::~ClassroomWindow()
 
 void ClassroomWindow::on_actionUpdate_triggered()
 {
-
+    GetData();
 }
 

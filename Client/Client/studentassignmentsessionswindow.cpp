@@ -48,7 +48,7 @@ void StudentAssignmentSessionsWindow::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::RETURN_ALL_STUDENT_ASSIGNMENT_SESSION_ANSWERS)
     {
-        //student_assignments_list_model->Clear();
+        student_assignments_list_model->Clear();
         QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
         QJsonObject json_doc_obj = json_doc.object();
         QJsonArray student_assignment_session_infos =  json_doc_obj.take("StudentAssignmentSessionInfosForTeacher").toArray();
