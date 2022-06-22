@@ -4,6 +4,7 @@
 #include "../../common_src/Entities/Entities.h"
 #include "../../common_src/studentassignmentsessioninfo.h"
 #include "../../common_src/studentassignmentsessioninfoforteacher.h"
+#include "../../common_src/assignmentsessioninfo.h"
 #include <string>
 #include <vector>
 
@@ -25,11 +26,16 @@ public:
     //! Returns all the User's Classrooms in which he is a teacher
     static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsTeacher(ID UserId);
 
-    //!
-    //
+    /*!
+     * Returns all Assignments (without Assignment data), Assignment Sessions, Student Assignment Sessions
+     * (without student assignment session answer) information of student in the Classroom
+     */
+    static std::pair<bool, std::vector<StudentAssignmentSessionInfo>> selectAllAssignmentsOfClassroomStudentInfo(ID StudentUserId, ID ClassroomId);
 
-    //!
-    //
+    /*!
+     * Returns all Assignments (without Assignment data), Assignment Sessions information of teacher in the Classroom
+     */
+    static std::pair<bool, std::vector<AssignmentSessionInfo>> selectAllAssignmentsOfClassroomTeacherInfo(ID TeacherUserId, ID ClassroomId);
 
     //! Returns all Assignments created by the User
     static std::pair<bool, std::vector<Assignment>> selectAllAssignmentUserCreated(ID UserId);
