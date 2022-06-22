@@ -101,26 +101,34 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
     return {true, res};
 }
 
-std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIsStudent(ID UserId)
+std::pair<bool, std::vector<ClassroomInfo>> Database::selectAllClassroomsWhereUserIsStudent(ID UserId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
-    std::string script = "SELECT Classroom.ClassroomID, Classroom.TeacherUserID, Classroom.ClassroomName\n"
-                         "FROM 'Classroom' INNER JOIN 'Student_Classroom' ON (Classroom.ClassroomID = Student_Classroom.ClassroomID)\n"
+    std::string script = "SELECT Classroom.ClassroomID, Classroom.TeacherUserID, Classroom.ClassroomName, User.UserID, User.Login, User.UserName\n"
+                         "FROM ('Classroom' INNER JOIN 'Student_Classroom' ON (Classroom.ClassroomID = Student_Classroom.ClassroomID))"
+                         "INNER JOIN 'User' ON (Classroom.TeacherUserID = User.UserID)"
                          "WHERE (Student_Classroom.StudentUserID = '" + std::to_string(UserId) + "');";
-    auto commandResFull = db->execSelect(script, 3);
+    auto commandResFull = db->execSelect(script, 6);
     delete db;
     if(!commandResFull.first)
         return {false, {}};
     const auto& commandRes = commandResFull.second;
 
-    std::vector<Classroom> res;
+    User currRes1;
+    Classroom currRes2;
+    std::vector<ClassroomInfo> res;
     Classroom currRes;
     for(size_t i=0; i<commandRes[0].size(); i++)
     {
-        currRes.setClassroomId(std::stoull(commandRes[0][i]));
-        currRes.setTeacherUserId(std::stoull(commandRes[1][i]));
-        currRes.setName(commandRes[2][i]);
-        res.push_back(currRes);
+        currRes2.setClassroomId(std::stoull(commandRes[0][i]));
+        currRes2.setTeacherUserId(std::stoull(commandRes[1][i]));
+        currRes2.setName(commandRes[2][i]);
+
+        currRes1.setUserId(std::stoull(commandRes[3][i]));
+        currRes1.setLogin(commandRes[4][i]);
+        currRes1.setUserName(commandRes[5][i]);
+
+        res.emplace_back(currRes2, currRes1);
     }
     return {true, res};
 }
