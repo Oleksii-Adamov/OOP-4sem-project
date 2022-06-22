@@ -555,7 +555,36 @@ void GetAllAssignmentsOfClassroomStudentInfo(
 void GetAllAssignmentsOfClassroomTeacherInfo(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, std::vector<AssignmentSessionInfo>>
+//	selectAllAssignmentsOfClassroomTeacherInfo(ID TeacherUserId, ID ClassroomId);
+	ID TeacherUserId;
+	ID ClassroomId;
 	
+	msg >> TeacherUserId;
+	msg >> ClassroomId;
+	
+	std::pair<bool, std::vector<AssignmentSessionInfo>>
+		AssignmentsOfClassroomTeacherInfo;
+	AssignmentsOfClassroomTeacherInfo =
+		Database::selectAllAssignmentsOfClassroomTeacherInfo(TeacherUserId,
+																												 ClassroomId);
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (AssignmentsOfClassroomTeacherInfo.first) {
+		std::string text = ParseToJson(AssignmentsOfClassroomTeacherInfo.second);
+		uint64_t size = text.size();
+		
+		OutgoingMsg.header.id =
+			CustomMsgTypes::RETURN_ALL_ASSIGNMENTS_OF_CLASSROOM_TEACHER_INFO;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'SELECT_ALL_ASSIGNMENTS_OF_CLASSROOM_TEACHER_INFO' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
 }
 
 
