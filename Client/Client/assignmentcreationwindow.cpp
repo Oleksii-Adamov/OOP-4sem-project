@@ -94,6 +94,7 @@ void AssignmentCreationWindow::GetData()
     net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::GET_CREATED_ASSIGNMENT;
     message << assignment_.getAssignmentId();
+    Client::GetInstance()->Send(message);
     /*message.header.id = CustomMsgTypes::GET_TEST_ASSIGNMENT;
     Client::GetInstance()->Send(message);*/
 }

@@ -31,7 +31,8 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
 
     ui->comboBox_classroom->setFont(Font::RegularFont());
     ui->comboBox_classroom->setModel(classrooms_list_model.data());
-
+    GetClassroomsData();
+    GetAssignmentsData();
 //    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));
@@ -114,5 +115,13 @@ void SendAssignmentWindow::on_pushButton_send_clicked()
                 << assignments_list_model->GetData(assignments_list_model->index(ui->comboBox_assignment->currentIndex())).getAssignmentId();
         Client::GetInstance()->Send(message);
     }
+}
+
+
+
+void SendAssignmentWindow::on_actionUpdate_triggered()
+{
+    GetClassroomsData();
+    GetAssignmentsData();
 }
 

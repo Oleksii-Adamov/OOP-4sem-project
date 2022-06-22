@@ -143,5 +143,6 @@ void StudentAssignmentWindow::on_pushButton_submit_clicked()
     msg.header.id = CustomMsgTypes::SUBMIT_STUDENT_ASSIGNMENT;
     WriteJsonToMsg(ToJSON(), msg);
     msg << student_assignment_session_info_.student_assignment_session.getAssignmentSessionId() << student_assignment_session_info_.student_assignment_session.getStudentUserId();
+    Client::GetInstance()->Send(msg);
 }
 

@@ -27,6 +27,8 @@ TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAs
     ui->label_max_score->setText("Max score: " + QString::number(assignment.getAssignmentMaxScore()));
     this->setWindowTitle(QString::fromStdString(student_assignment_session_info_for_teacher.student.getUserName()) + " " +
                          QString::fromStdString(assignment.getAssignmentName()));
+    GetStudentAnswer();
+    GetAssignmentAnswer();
 }
 
 void TeacherAssignmentCheckingWindow::Update(net::message<CustomMsgTypes> msg)
@@ -63,6 +65,7 @@ void TeacherAssignmentCheckingWindow::on_pushButton_rate_clicked()
     net::message<CustomMsgTypes> msg;
     msg.header.id = CustomMsgTypes::EVALUATE_STUDENT_ASSIGNMENT;
     msg << (int32_t) ui->spinBox_final_score->value() << student_assignment_session_info_for_teacher_.student_assignment_session.getAssignmentSessionId() << student_assignment_session_info_for_teacher_.student.getUserId();
+    Client::GetInstance()->Send(msg);
 }
 
 void TeacherAssignmentCheckingWindow::GetStudentAnswer()
