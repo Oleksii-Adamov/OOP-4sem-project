@@ -101,6 +101,30 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
     return {true, res};
 }
 
+std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIsStudent(ID UserId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT ClassroomID, TeacherUserID, ClassroomName\n"
+                         "FROM 'Classroom' INNER JOIN 'Student_Classroom' ON (Classroom.ClassroomID = Student_Classroom.ClassroomID)\n"
+                         "WHERE (Student_Classroom.StudentUserID = '" + std::to_string(UserId) + "');";
+    auto commandResFull = db->execSelect(script, 3);
+    delete db;
+    if(!commandResFull.first)
+        return {false, {}};
+    const auto& commandRes = commandResFull.second;
+
+    std::vector<Classroom> res;
+    Classroom currRes;
+    for(size_t i=0; i<commandRes[0].size(); i++)
+    {
+        currRes.setClassroomId(std::stoull(commandRes[0][i]));
+        currRes.setTeacherUserId(std::stoull(commandRes[1][i]));
+        currRes.setName(commandRes[2][i]);
+        res.push_back(currRes);
+    }
+    return {true, res};
+}
+
 std::pair<bool, std::vector<StudentAssignmentSessionInfo>> Database::selectAllAssignmentsOfClassroomStudentInfo(ID StudentUserId, ID ClassroomId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
