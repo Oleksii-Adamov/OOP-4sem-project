@@ -219,11 +219,49 @@ std::pair<bool, std::vector<Assignment>> Database::selectAllAssignmentUserCreate
 bool Database::joinUserToClassroom(ID UserId, ID ClassroomId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
-    auto flag = db->execInsert("Student_Classroom", {"ClassroomID", "StudentUserID"},
-                                         {std::to_string(ClassroomId), std::to_string(UserId)});
-    delete db;
-    if(!flag)
+    std::string script1 = "SELECT Student_Classroom.ClassroomId\n"
+                          "FROM 'Student_Classroom'\n"
+                          "WHERE (StudentUserID = '" + std::to_string(UserId)
+                          + "' and ClassroomID = '" + std::to_string(ClassroomId) + "');";
+    auto commandResFull1 = db->execSelect(script1, 1);
+    if(!commandResFull1.first)
+    {
+        delete db;
         return false;
+    }
+    if(!commandResFull1.second[0].empty())
+    {
+        delete db;
+        return true;
+    }
+    auto flag = db->execInsert("Student_Classroom", {"ClassroomID", "StudentUserID"},
+                               {std::to_string(ClassroomId), std::to_string(UserId)});
+    if(!flag)
+    {
+        delete db;
+        return false;
+    }
+
+    std::string script2 = "SELECT AssignmentSession.AssignmentSessionID\n"
+                          "FROM 'AssignmentSession'\n"
+                          "WHERE (ClassroomID = '" + std::to_string(ClassroomId) + "');";
+    auto commandResFull2 = db->execSelect(script2, 1);
+    if(!commandResFull2.first)
+    {
+        delete db;
+        return false;
+    }
+    for(auto& currAssignmentSessionID : commandResFull2.second[0])
+    {
+        if(!db->execInsert("Student_AssignmentSession", {"StudentUserID", "AssignmentSessionID", "StudentAssignmentSessionStatus",
+                                     "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore", "StudentAssignmentSessionFinishDate"},
+                           {std::to_string(UserId), currAssignmentSessionID, "0", "", "0", "0"}))
+        {
+            delete db;
+            return false;
+        }
+    }
+    delete db;
     return true;
 }
 
