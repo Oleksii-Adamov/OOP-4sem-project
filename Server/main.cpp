@@ -491,6 +491,46 @@ void CreateNewAssignmentRequest(
 	client->Send(OutgoingMsg);
 }
 
+void SendAssignmentToClassroomRequest(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+	ID AssignmentId;
+	ID ClassroomId;
+	uint64_t sizeEndDate;
+	std::string EndDate;
+	
+	msg >> AssignmentId;
+	msg >> ClassroomId;
+	
+	msg >> sizeEndDate;
+	for (uint64_t i = 0; i < sizeEndDate; i++) {
+		char c;
+		msg >> c;
+		EndDate = c + EndDate;
+	}
+	
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (Database::sendAssignmentToClassroom(AssignmentId, ClassroomId, EndDate))
+		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_SEND_ASSIGNMENT_TO_CLASSROOM;
+	else
+		OutgoingMsg.header.id = CustomMsgTypes::FAILURE_SEND_ASSIGNMENT_TO_CLASSROOM;
+	
+	client->Send(OutgoingMsg);
+}
+
+void GetAllAssignmentsOfClassroomStudentInfo(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+	
+}
+
+void GetAllAssignmentsOfClassroomTeacherInfo(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+	
+}
+
+
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
 	CustomServer(uint16_t nPort) : net::server_interface<CustomMsgTypes>(nPort) {
@@ -599,6 +639,16 @@ protected:
 				
 			case CustomMsgTypes::CREATE_NEW_ASSIGNMENT_REQUEST:
 				CreateNewAssignmentRequest(client, msg);
+				break;
+				
+			case CustomMsgTypes::SEND_ASSIGNMENT_TO_CLASSROOM_REQUEST:
+				SendAssignmentToClassroomRequest(client, msg);
+				break;
+				
+			case CustomMsgTypes::GET_ALL_ASSIGNMENTS_OF_CLASSROOM_STUDENT_INFO:
+				break;
+			
+			case CustomMsgTypes::GET_ALL_ASSIGNMENTS_OF_CLASSROOM_TEACHER_INFO:
 				break;
 		}
 	}
