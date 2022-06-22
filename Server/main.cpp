@@ -236,6 +236,7 @@ void RegistrationRequest(
 void LoginRequest(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
+	std::cout << "Point0" << std::endl;
 	uint64_t sizeLogin;
 	std::string login;
 	uint64_t sizePassword;
@@ -255,11 +256,14 @@ void LoginRequest(
 		msg >> c;
 		password = c + password;
 	}
-	
+	std::cout << "Point1" << std::endl;
 	checkLogIn = Database::checkLogIn(login, password);
+	std::cout << "Point2" << std::endl;
 	if (checkLogIn.first) {
+		std::cout << "Point3" << std::endl;
 		net::message<CustomMsgTypes> OutgoingMsg;
 		if (checkLogIn.second.getUserId()) {
+			std::cout << "Point4.1" << std::endl;
 			OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_LOGIN_REQUEST;
 			ID UserId = checkLogIn.second.getUserId();
 			std::string UserLogin = checkLogIn.second.getLogin();
@@ -279,6 +283,7 @@ void LoginRequest(
 			
 			client->Send(OutgoingMsg);
 		} else {
+			std::cout << "Point4.2" << std::endl;
 			OutgoingMsg.header.id = CustomMsgTypes::FAILURE_LOGIN_REQUEST;
 			client->Send(OutgoingMsg);
 		}
@@ -432,7 +437,48 @@ void CreateNewAssignmentRequest(
 //	static std::pair<bool, Assignment> createNewAssignment(const Assignment& NewAssignment);
 	ID TeacherUserId;
 	uint64_t sizeAssignmentName;
+	std::string AssignmentName;
+	uint64_t sizeAssignmentData;
+	std::string AssignmentData;
 	
+	Assignment NewAssignment;
+	std::pair<bool, Assignment> assignment;
+	
+	msg >> TeacherUserId;
+	
+	msg >> sizeAssignmentName;
+	for (uint64_t i = 0; i < sizeAssignmentName; i++) {
+		char c;
+		msg >> c;
+		AssignmentName = c + AssignmentName;
+	}
+	
+	msg >> sizeAssignmentData;
+	for (uint64_t i = 0; i < sizeAssignmentData; i++) {
+		char c;
+		msg >> c;
+		AssignmentData = c + AssignmentData;
+	}
+	
+	NewAssignment.setTeacherUserId(TeacherUserId);
+	NewAssignment.setAssignmentName(AssignmentName);
+	NewAssignment.setAssignmentData(AssignmentData);
+	
+	assignment = Database::createNewAssignment(NewAssignment);
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (assignment.first) {
+		std::string text = ParseToJson(assignment.second);
+		uint64_t size = text.size();
+		
+		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_CREATE_NEW_ASSIGNMENT;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+	} else {	
+		OutgoingMsg.header.id = CustomMsgTypes::FAILURE_CREATE_NEW_ASSIGNMENT;
+	}
+	
+	client->Send(OutgoingMsg);
 }
 
 class CustomServer : public net::server_interface<CustomMsgTypes> {
