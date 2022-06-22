@@ -38,7 +38,7 @@ bool SQLiteAdapter::exec(const std::string& command) const
         if(flag)
         {
             DatabaseLog::error("Execution failure: " + std::string(sqlite3_errmsg(db)));
-            DatabaseLog::error("Script: " + command);
+            DatabaseLog::error("Script: \n" + command);
         }
         sqlite3_free(error);
         SQLiteAdapter::closeDatabase(&db);
