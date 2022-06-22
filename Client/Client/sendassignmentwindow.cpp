@@ -110,8 +110,8 @@ void SendAssignmentWindow::on_pushButton_send_clicked()
         net::message<CustomMsgTypes> message;
         message.header.id = CustomMsgTypes::SEND_ASSIGNMENT_TO_CLASSROOM_REQUEST;
         WriteQStringToMsg(ui->lineEdit_deadline->text(), message);
-        message << classrooms_list_model->GetClassroom(classrooms_list_model->index(ui->comboBox_classroom->currentIndex()))
-                << assignments_list_model->GetData(assignments_list_model->index(ui->comboBox_assignment->currentIndex()));
+        message << classrooms_list_model->GetClassroom(classrooms_list_model->index(ui->comboBox_classroom->currentIndex())).getClassroomId()
+                << assignments_list_model->GetData(assignments_list_model->index(ui->comboBox_assignment->currentIndex())).getAssignmentId();
         Client::GetInstance()->Send(message);
     }
 }

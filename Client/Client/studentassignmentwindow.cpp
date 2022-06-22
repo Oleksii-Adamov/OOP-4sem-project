@@ -26,7 +26,7 @@ StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionI
     this->setWindowTitle(QString::fromStdString(student_assignment_session_info.assignment.getAssignmentName()));
     ui->label_deadline->setText("Deadline: " + QString::fromStdString(student_assignment_session_info.assignment_session.getAssignmentSessionEndDate()));
     GetData();
-    FromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
+    //FromJSON(QJsonDocumentFromJsonFile("../../assinment_json_from_server_to_student.json"));
 }
 
 void StudentAssignmentWindow::Update(net::message<CustomMsgTypes> msg)

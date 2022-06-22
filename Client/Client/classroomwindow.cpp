@@ -35,8 +35,8 @@ ClassroomWindow::ClassroomWindow(const ClassroomInfo& classroom_info, QSharedPoi
     connect(ui->assignments_list_view, SIGNAL(clicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));
 
 //    Client::GetInstance()->Subscribe(this);
-      net::message<CustomMsgTypes> msg;
-      Update(msg);
+ //     net::message<CustomMsgTypes> msg;
+//      Update(msg);
 //    assignments_list_model->Push(AssignmentInfo(1, "A1", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(2, "A2", "12:01 14.06.2022"));
 //    assignments_list_model->Push(AssignmentInfo(3, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "12:01 14.06.2022"));

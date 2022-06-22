@@ -77,3 +77,9 @@ void CreatedAssignmentsWindow::on_pushButton_create_new_clicked()
     new_window->show();
 }
 
+
+void CreatedAssignmentsWindow::on_actionUpdate_triggered()
+{
+    GetData();
+}
+

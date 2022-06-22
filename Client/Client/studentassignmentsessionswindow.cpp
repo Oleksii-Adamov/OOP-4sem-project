@@ -96,3 +96,9 @@ StudentAssignmentSessionsWindow::~StudentAssignmentSessionsWindow()
 {
     delete ui;
 }
+
+void StudentAssignmentSessionsWindow::on_actionUpdate_triggered()
+{
+    GetData();
+}
+
