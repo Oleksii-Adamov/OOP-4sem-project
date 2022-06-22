@@ -13,7 +13,7 @@ class Client : public QObject, public net::client_interface<CustomMsgTypes>
     Q_OBJECT
 private:
     std::vector<ClientSubscriber*> subscribers_;
-    User user_ = User(1,"login","user_name");
+    User user_;
     QApplication* app_ = nullptr;
     Client();
     void NotifySubscribers(net::message<CustomMsgTypes>& msg);

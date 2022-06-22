@@ -7,6 +7,7 @@
 #include <QScrollArea>
 #include "assignmentguibuilder.h"
 #include "assignmentguidirector.h"
+#include <QMessageBox>
 
 
 TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAssignmentSessionInfoForTeacher& student_assignment_session_info_for_teacher, const Assignment& assignment, QWidget *parent) :
@@ -53,7 +54,10 @@ TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAs
 
 void TeacherAssignmentCheckingWindow::Update(net::message<CustomMsgTypes> msg)
 {  
-
+    if (msg.header.id == CustomMsgTypes::SUCCESS_EVALUATE_STUDENT_ASSIGNMENT) {
+        QMessageBox::information(this, "Evaluation info", "Successfully rated!");
+        this->close();
+    }
 }
 
 TeacherAssignmentCheckingWindow::~TeacherAssignmentCheckingWindow()

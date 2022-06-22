@@ -12,6 +12,7 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include "font.h"
+#include <QMessageBox>
 
 StudentAssignmentWindow::StudentAssignmentWindow(const StudentAssignmentSessionInfo& student_assignment_session_info, QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(),
@@ -33,6 +34,11 @@ void StudentAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
     if (msg.header.id == CustomMsgTypes::RETURN_STUDENT_ASSIGNMENT_SESSION_ANSWER)
     {
         FromJSON(QJsonDocumentFromServerMessage(msg));
+    }
+    if (msg.header.id == CustomMsgTypes::SUCCESS_SUBMIT_STUDENT_ASSIGNMENT)
+    {
+        QMessageBox::information(this, "Submition info", "Submitted!");
+        this->close();
     }
 }
 
