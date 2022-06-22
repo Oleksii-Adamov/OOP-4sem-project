@@ -5,6 +5,7 @@
 #include "../../common_src/studentassignmentsessioninfo.h"
 #include "../../common_src/studentassignmentsessioninfoforteacher.h"
 #include "../../common_src/assignmentsessioninfo.h"
+#include "../../common_src/classroominfo.h"
 #include <string>
 #include <vector>
 
@@ -27,7 +28,7 @@ public:
     static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsTeacher(ID UserId);
 
     //! Returns all the User's Classrooms in which he is a student
-    static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsStudent(ID UserId);
+    static std::pair<bool, std::vector<ClassroomInfo>> selectAllClassroomsWhereUserIsStudent(ID UserId);
 
     /*!
      * Returns all Assignments (without Assignment data), Assignment Sessions, Student Assignment Sessions

@@ -7,6 +7,8 @@
 void GetTeacherClassrooms(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes> &msg) {
+	std::cout << " [ " << client->GetID() << " ] "
+						<< "GET_TEACHER_CLASSROOMS(START)" << std::endl;
 	ID UserId;
 	// Get user id
 	msg >> UserId;
@@ -14,33 +16,35 @@ void GetTeacherClassrooms(
 	std::pair<bool, std::vector<Classroom>> classrooms =
 		Database::selectAllClassroomsWhereUserIsTeacher(UserId);
 	// If request is success -> parse vector of classrooms in text json
+	net::message<CustomMsgTypes> OutgoingMsg;
 	if (classrooms.first) {
 		// Parsing vector of classrooms in text json
 		std::string text = ParseToJson(classrooms.second);
 		uint64_t size = text.size();
 		
 		// Writing text json in outgoing message
-		net::message<CustomMsgTypes> OutgoingMsg;
 		OutgoingMsg.header.id = CustomMsgTypes::RETURN_TEACHER_CLASSROOMS;
 		for (char c : text)
 			OutgoingMsg << c;
 		OutgoingMsg << size;
 		
-		// Send to client
-		client->Send(OutgoingMsg);
 	} else {
-		net::message<CustomMsgTypes> OutgoingMsg;
 		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
 		DatabaseLog::error(
 		"SQL REQUEST 'SELECT_ALL_CLASSROOMS_WHERE_USER_IS_TEACHER' RETURNS FALSE");
-		
-		client->Send(OutgoingMsg);
 	}
+	
+	std::cout << " [ " << client->GetID() << " ] "
+						<< "GET_TEACHER_CLASSROOMS(FINISH)" << std::endl;
+	
+	client->Send(OutgoingMsg);
 }
 
 void GetTeacherAssignments(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes> &msg) {
+	std::cout << " [ " << client->GetID() << " ] "
+						<< "GET_TEACHER_ASSIGNMENTS(START)" << std::endl;
 	ID UserId;
 	// Get user id
 	msg >> UserId;
@@ -68,6 +72,9 @@ void GetTeacherAssignments(
 		
 		client->Send(OutgoingMsg);
 	}
+	
+	std::cout << " [ " << client->GetID() << " ] "
+						<< "GET_TEACHER_ASSIGNMENTS(FINISH)" << std::endl;
 }
 
 void JoinClassroomRequest(
@@ -451,6 +458,8 @@ void CreateNewAssignmentRequest(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
 //	static std::pair<bool, Assignment> createNewAssignment(const Assignment& NewAssignment);
+	std::cout << " [ " << client->GetID() << " ] "
+						<< "CREATE_NEW_ASSIGNMENT_REQUEST(START)" << std::endl;
 	ID TeacherUserId;
 	uint64_t sizeAssignmentName;
 	std::string AssignmentName;
@@ -490,6 +499,8 @@ void CreateNewAssignmentRequest(
 		std::string text = ParseToJson(assignment.second);
 		uint64_t size = text.size();
 		
+		std::cout << text << std::endl;
+		
 		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_CREATE_NEW_ASSIGNMENT;
 		for (char c : text)
 			OutgoingMsg << c;
@@ -497,6 +508,9 @@ void CreateNewAssignmentRequest(
 	} else {
 		OutgoingMsg.header.id = CustomMsgTypes::FAILURE_CREATE_NEW_ASSIGNMENT;
 	}
+	
+	std::cout << " [ " << client->GetID() << " ] "
+						<< "CREATE_NEW_ASSIGNMENT_REQUEST(FINISH)" << std::endl;
 	
 	client->Send(OutgoingMsg);
 }
@@ -605,12 +619,12 @@ void GetStudentClassrooms(
 	
 	msg >> UserId;
 	
-	std::pair<bool, std::vector<Classroom>> classrooms;
-	classrooms = Database::selectAllClassroomsWhereUserIsStudent(UserId);
+	std::pair<bool, std::vector<ClassroomInfo>> ClassroomsInfos;
+	ClassroomsInfos = Database::selectAllClassroomsWhereUserIsStudent(UserId);
 	
 	net::message<CustomMsgTypes> OutgoingMsg;
-	if (classrooms.first) {
-		std::string text = ParseToJson(classrooms.second);
+	if (ClassroomsInfos.first) {
+		std::string text = ParseToJson(ClassroomsInfos.second);
 		uint64_t size = text.size();
 		
 		OutgoingMsg.header.id = CustomMsgTypes::RETURN_STUDENT_CLASSROOMS;

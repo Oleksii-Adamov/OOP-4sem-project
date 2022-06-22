@@ -197,15 +197,16 @@ bool SQLiteAdapter::execUpdate(const std::string& table_name, const std::vector<
     if(columns.size() != column_values.size())
         DatabaseLog::error("UPDATE script failure (different vector sizes)");
 
-    std::vector<std::string> pairs;
+    std::string resString;
     for(size_t i=0; i<columns.size(); i++)
     {
-        pairs.push_back(columns[i] + " = '" + column_values[i] + "'");
+        resString += columns[i] + " = '" + column_values[i] + "'";
+        if(i != columns.size()-1)
+            resString += ", ";
     }
-    std::string setString = SQLiteService::commasList(pairs);
 
     std::string command = "UPDATE '" + table_name + "'\n"
-                        + "SET " + setString + "\n"
+                        + "SET " + resString + "\n"
                         + "WHERE " + where_expression + ";";
     return exec(command);
 }
