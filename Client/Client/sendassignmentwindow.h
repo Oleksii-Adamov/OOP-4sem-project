@@ -19,6 +19,9 @@ public:
     ~SendAssignmentWindow();
     void Update(net::message<CustomMsgTypes> msg) override;
 
+private slots:
+    void on_pushButton_send_clicked();
+
 private:
     Ui::SendAssignmentWindow *ui;
     QSharedPointer<AssignmentsListModel> assignments_list_model;

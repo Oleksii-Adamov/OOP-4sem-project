@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-
+#include <QMessageBox>
 SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(),
     ui(new Ui::SendAssignmentWindow)
@@ -68,6 +68,15 @@ void SendAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
             assignment_object.take("assignment_max_score").toString().toInt()));
         }
     }
+    if (msg.header.id == CustomMsgTypes::FAILURE_SEND_ASSIGNMENT_TO_CLASSROOM)
+    {
+        QMessageBox::critical(this, "Send assignment error", "Unable to send!");
+    }
+    if (msg.header.id == CustomMsgTypes::SUCCESS_SEND_ASSIGNMENT_TO_CLASSROOM)
+    {
+        QMessageBox::information(this, "Send assignment info", "Sent!");
+        this->close();
+    }
 }
 
 void SendAssignmentWindow::GetClassroomsData()
@@ -89,3 +98,21 @@ SendAssignmentWindow::~SendAssignmentWindow()
 {
     delete ui;
 }
+
+void SendAssignmentWindow::on_pushButton_send_clicked()
+{
+    QRegularExpression rx("^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$");
+    if (!rx.match(ui->lineEdit_deadline->text()).hasMatch())
+    {
+        QMessageBox::critical(this, "Send assignment error", "Deadline is in wrong format");
+    }
+    else {
+        net::message<CustomMsgTypes> message;
+        message.header.id = CustomMsgTypes::SEND_ASSIGNMENT_TO_CLASSROOM_REQUEST;
+        WriteQStringToMsg(ui->lineEdit_deadline->text(), message);
+        message << classrooms_list_model->GetClassroom(classrooms_list_model->index(ui->comboBox_classroom->currentIndex()))
+                << assignments_list_model->GetData(assignments_list_model->index(ui->comboBox_assignment->currentIndex()));
+        Client::GetInstance()->Send(message);
+    }
+}
+

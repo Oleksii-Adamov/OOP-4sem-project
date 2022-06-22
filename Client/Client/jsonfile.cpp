@@ -86,13 +86,52 @@ void WriteJsonToMsg(const QJsonDocument& json_doc, net::message<CustomMsgTypes>&
 
 Assignment GetAssignmentFromJson(const QJsonDocument& json_doc)
 {
-    QJsonObject json_doc_obj = json_doc.object();
-    QJsonObject assignment_obj =  json_doc_obj.take("Assignment").toObject();
-    return Assignment(assignment_obj.take("assignment_id").toString().toULongLong(), assignment_obj.take("teacher_user_id").toString().toUInt(),
+   GetAssignmentFromJson(json_doc.object());
+}
+
+Assignment GetAssignmentFromJson(QJsonObject& json_obj)
+{
+    QJsonObject assignment_obj =  json_obj.take("Assignment").toObject();
+    return Assignment(assignment_obj.take("assignment_id").toString().toULongLong(), assignment_obj.take("teacher_user_id").toString().toULongLong(),
                       assignment_obj.take("assignment_name").toString().toStdString(),
                       assignment_obj.take("assignment_creation_date").toString().toStdString(),
                       assignment_obj.take("assignment_data").toString().toStdString(),
                       assignment_obj.take("assignment_max_score").toString().toULongLong());
+}
+
+AssignmentSession GetAssignmentSessionFromJson(QJsonObject& json_obj)
+{
+    QJsonObject assignment_obj =  json_obj.take("AssignmentSession").toObject();
+    return AssignmentSession(assignment_obj.take("assignment_session_id").toString().toULongLong(), assignment_obj.take("classroom_id").toString().toULongLong(),
+                      assignment_obj.take("assignment_id").toString().toStdString().toULongLong(),
+                      assignment_obj.take("assignment_session_start_date").toString().toStdString(),
+                      assignment_obj.take("assignment_session_end_date").toString().toStdString());
+}
+
+StudentAssignmentSession GetStudentAssignmentSessionFromJson(QJsonObject& json_obj)
+{
+    QJsonObject student_assignment_session_object = json_obj.take("StudentAssignmentSession").toObject();
+    QString student_assignment_session_status_string = student_assignment_session_object.take("student_assignment_session_status").toString();
+    StudentAssignmentSessionStatus student_assignment_session_status = StudentAssignmentSessionStatus::not_submitted;
+    if (student_assignment_session_status_string == "not_submitted")
+    {
+        student_assignment_session_status = StudentAssignmentSessionStatus::not_submitted;
+    }
+    else if (student_assignment_session_status_string == "submitted")
+    {
+        student_assignment_session_status = StudentAssignmentSessionStatus::submitted;
+    }
+    else if (student_assignment_session_status_string == "checked")
+    {
+        student_assignment_session_status = StudentAssignmentSessionStatus::checked;
+    }
+    StudentAssignmentSession student_assignment_session(
+                student_assignment_session_object.take("student_user_id").toString().toULongLong(),
+                student_assignment_session_object.take("assignment_session_id").toString().toULongLong(),
+                student_assignment_session_status, "",
+                student_assignment_session_object.take("student_assignment_session_score").toString().toInt(),
+                student_assignment_session_object.take("student_assignment_session_finish_date").toString().toStdString());
+    return student_assignment_session;
 }
 
 std::string GetStringFromMsg(net::message<CustomMsgTypes>& message)

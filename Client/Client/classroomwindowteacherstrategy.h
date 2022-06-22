@@ -10,6 +10,7 @@ public:
     void OnAssignmentClicked(const QModelIndex& index, QSharedPointer<QAbstractListModel>& model, QWidget* parent = nullptr) override;
     void SetModel(QSharedPointer<QAbstractListModel>& model) override;
     void Update(net::message<CustomMsgTypes>& msg, QSharedPointer<QAbstractListModel>& model) override;
+    void GetData() override;
 };
 
 #endif // CLASSROOMWINDOWTEACHERSTRATEGY_H

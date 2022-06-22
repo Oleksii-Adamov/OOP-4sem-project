@@ -1,6 +1,10 @@
 #include "classroomwindowstudentstrategy.h"
 #include "studentassignmentsessionslistmodel.h"
 #include "studentassignmentwindow.h"
+#include "jsonfile.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 ClassroomWindowStudentStrategy::ClassroomWindowStudentStrategy()
 {
@@ -21,7 +25,25 @@ void ClassroomWindowStudentStrategy::SetModel(QSharedPointer<QAbstractListModel>
 
 void ClassroomWindowStudentStrategy::Update(net::message<CustomMsgTypes>& msg, QSharedPointer<QAbstractListModel>& model)
 {
+    if (1) {
     StudentAssignmentSessionsListModel* student_assignment_sessions_model = qobject_cast<StudentAssignmentSessionsListModel*>(model.data());
-    student_assignment_sessions_model->PushBack(StudentAssignmentSessionInfo(StudentAssignmentSession(1,1,StudentAssignmentSessionStatus::not_submitted, "", 0, ""),
-                                                                             AssignmentSession(1,1,"19.06.2022 21:42","19.06.2022 21:42"), Assignment(1,1,"name","","",5)));
+    //student_assignment_sessions_model->PushBack(StudentAssignmentSessionInfo(StudentAssignmentSession(1,1,StudentAssignmentSessionStatus::not_submitted, "", 0, ""),
+     student_assignment_sessions_model->Clear();
+     QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+     QJsonObject json_doc_obj = json_doc.object();
+     QJsonArray infos =  json_doc_obj.take("StudentAssignmentSessionInfos").toArray();
+     for (int i = 0; i < infos.size(); i++)
+     {
+         QJsonObject info_object = infos.at(i).toObject();
+         QJsonObject student_assignment_session_object = info_object.take("StudentAssignmentSession").toObject();
+         QJsonObject assignment_session_obj = info_object.take("AssignmentSession").toObject();
+         QJsonObject assignment_obj = info_object.take("Assignment").toObject();
+          Assignment assignment = GetAssignmentFromJson(assignment_obj);
+     }
+    }
+}
+
+void ClassroomWindowStudentStrategy::GetData()
+{
+
 }

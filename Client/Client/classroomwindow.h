@@ -32,6 +32,7 @@ private:
     QSharedPointer<QAbstractListModel> assignments_list_model;
     QSharedPointer<ClassroomWindowStrategy> strategy_;
     ClassroomInfo classroom_info_;
+    void GetData();
 };
 
 #endif // CLASSROOMWINDOW_H
