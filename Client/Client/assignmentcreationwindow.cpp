@@ -263,6 +263,8 @@ void AssignmentCreationWindow::NameChanged(const QString& name)
         RenameFile(QString::fromStdString(GetAssignmentPath(prev_name.toStdString())),
                     QString::fromStdString(GetAssignmentPath(assignment_name_.toStdString())));
     }*/
+    this->setWindowTitle(QString::fromStdString(assignment_.getAssignmentName()));
+
 }
 void AssignmentCreationWindow::FromJSON(const QJsonDocument& json_doc)
 {

@@ -57,9 +57,9 @@ void AuthorizationWindow::on_pushButtonLogIn_clicked()
         QMessageBox::critical(this, "Log in error", "Password has forbidden symbols! Only digits, latin letters of any case, _,^,- allowed");
     }
     else {
-        //LogInRequest();
-        is_succesuful_ = true;
-        this->close();
+        LogInRequest();
+        //is_succesuful_ = true;
+        //this->close();
     }
 }
 
@@ -71,7 +71,9 @@ void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
         std::string login = "";
         std::string user_name = "";
         msg >> id;
-        uint32_t login_size;
+        login = GetStringFromMsg(msg);
+        user_name = GetStringFromMsg(msg);
+        /*uint32_t login_size;
         msg >> login_size;
         for (uint32_t i = 0; i < login_size; i++)
         {
@@ -86,7 +88,7 @@ void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
             char c;
             msg >> c;
             user_name = c + user_name;
-        }
+        }*/
         Client::GetInstance()->SetUser(User(id,login,user_name));
         is_succesuful_ = true;
         this->close();

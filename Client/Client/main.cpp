@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     check_client_thread->start();*/
     QTimer* timer = new QTimer;
     QObject::connect(timer, &QTimer::timeout, client, &Client::Update);
-    timer->start(50);
+    timer->start(150);
 
     MainMenuWindow w;
     w.show();

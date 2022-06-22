@@ -74,7 +74,7 @@ void WriteQStringToMsg(const QString& q_string, net::message<CustomMsgTypes>& me
     std::string std_str = q_string.toStdString();
     uint64_t c_str_size = uint64_t(std_str.size());
     for (uint64_t i = 0; i < c_str_size; i++) {
-        message << std_str[i];
+        message << (char) std_str[i];
     }
     message << c_str_size;
 }
@@ -93,4 +93,17 @@ Assignment GetAssignmentFromJson(const QJsonDocument& json_doc)
                       assignment_obj.take("assignment_creation_date").toString().toStdString(),
                       assignment_obj.take("assignment_data").toString().toStdString(),
                       assignment_obj.take("assignment_max_score").toString().toInt());
+}
+
+std::string GetStringFromMsg(net::message<CustomMsgTypes>& message)
+{
+    std::string ret = "";
+    uint64_t size;
+    message >> size;
+    for (uint64_t i = 0; i < size; i++)
+    {
+        char c;
+        message >> c;
+        ret = c + ret;
+    }
 }
