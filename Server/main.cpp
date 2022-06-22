@@ -78,13 +78,23 @@ void JoinClassroomRequest(
 	// Get user and classroom id
 	msg >> UserId;
 	msg >> ClassroomId;
+	
+	std::pair<bool, bool> JoinUserToClassroomRequest =
+		Database::joinUserToClassroom(UserId, ClassroomId);
 	// if request is success -> send success message
 	// else -> failure
 	net::message<CustomMsgTypes> OutgoingMsg;
-	if (Database::joinUserToClassroom(UserId, ClassroomId))
-		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_JOIN_CLASSROOM;
-	else
-		OutgoingMsg.header.id = CustomMsgTypes::FAILURE_JOIN_CLASSROOM;
+	if (JoinUserToClassroomRequest.first) {
+		if (JoinUserToClassroomRequest.second)
+			OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_JOIN_CLASSROOM;
+		else
+			OutgoingMsg.header.id = CustomMsgTypes::FAILURE_JOIN_CLASSROOM;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'JOIN_USER_TO_CLASSROOM' RETURNS FALSE");
+	}
+	
 	
 	client->Send(OutgoingMsg);
 }
