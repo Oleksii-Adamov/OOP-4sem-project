@@ -26,6 +26,9 @@ public:
     //! Returns all the User's Classrooms in which he is a teacher
     static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsTeacher(ID UserId);
 
+    //! Returns all the User's Classrooms in which he is a student
+    static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsStudent(ID UserId);
+
     /*!
      * Returns all Assignments (without Assignment data), Assignment Sessions, Student Assignment Sessions
      * (without student assignment session answer) information of student in the Classroom
