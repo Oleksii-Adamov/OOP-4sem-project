@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include "font.h"
 #include "client.h"
+#include "jsonfile.h"
 
 CreateClassroomDialog::CreateClassroomDialog(QWidget *parent) :
     QDialog(parent), ClientSubscriber(),
@@ -56,12 +57,9 @@ void CreateClassroomDialog::CreateRequest()
 {
     net::message<CustomMsgTypes> msg;
     msg.header.id = CustomMsgTypes::CREATE_CLASSROOM_REQUEST;
+    WriteQStringToMsg(ui->lineEdit_classroom_name->text(), msg);
     QString classroom_name = ui->lineEdit_classroom_name->text();
-    for (int i = 0; i < classroom_name.size(); i++)
-    {
-        msg << classroom_name[i];
-    }
-    msg << classroom_name.size() << Client::GetInstance()->GetUser().getUserId();
+    msg << (ID) Client::GetInstance()->GetUser().getUserId();
     Client::GetInstance()->Send(msg);
 }
 

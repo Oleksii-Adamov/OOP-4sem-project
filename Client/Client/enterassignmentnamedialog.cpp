@@ -30,11 +30,11 @@ EnterAssignmentNameDialog::~EnterAssignmentNameDialog()
 
 void EnterAssignmentNameDialog::on_pushButton_Save_clicked()
 {
-    QFile file(QString::fromStdString(GetAssignmentPath(ui->lineEdit_name->text().toStdString())));
+    /*QFile file(QString::fromStdString(GetAssignmentPath(ui->lineEdit_name->text().toStdString())));
     if (file.exists()) {
         QMessageBox::critical(this, "Error", "Assignment with this name already exists!");
         return;
-    }
+    }*/
     emit NameChanged(ui->lineEdit_name->text());
     this->close();
 }

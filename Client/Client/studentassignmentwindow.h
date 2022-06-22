@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "studentassignmentsessioninfo.h"
 #include "clientsubscriber.h"
-
+#include <QVBoxLayout>
 namespace Ui {
 class StudentAssignmentWindow;
 }
@@ -21,11 +21,16 @@ public:
 private slots:
     void on_actionUpdate_triggered();
 
+    void on_pushButton_submit_clicked();
+
 private:
     void GetData();
     void FromJSON(const QJsonDocument& json_doc);
+    QJsonDocument ToJSON();
     Ui::StudentAssignmentWindow *ui;
     StudentAssignmentSessionInfo student_assignment_session_info_;
+    QWidget* assignment_container_;
+    QVBoxLayout* assignment_layout_;
 };
 
 #endif // STUDENTASSIGNMENTWINDOW_H

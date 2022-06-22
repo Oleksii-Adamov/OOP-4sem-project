@@ -107,6 +107,7 @@ void AssignmentCreationWindow::Update(net::message<CustomMsgTypes> msg)
     }
     if (msg.header.id == CustomMsgTypes::SUCCESS_UPDATE_ASSIGNMENT)
     {
+        assignment_ =  GetAssignmentFromJson(QJsonDocumentFromServerMessage(msg));
         QMessageBox::information(this, "Creation of assignment info", "Saved!");
     }
     /*if (msg.header.id == CustomMsgTypes::RETURN_TEST_ASSIGMENT)
@@ -235,23 +236,18 @@ QJsonDocument AssignmentCreationWindow::ToJSON()
 void AssignmentCreationWindow::OnSaveButtonClicked()
 {
     if(assignment_.getAssignmentId() == 0) {
-        // create new
-    }
-    else {
-        net::message<CustomMsgTypes> message;
-        message.header.id = CustomMsgTypes::UPDATE_ASSIGNMENT;
-        WriteJsonToMsg(ToJSON(), message);
-        message << Client::GetInstance()->GetUser().getUserId() << assignment_.getAssignmentId();
-    }
-    /*if (assignment_name_ == "") {
         EnterAssignmentNameDialog* new_dialog  = new EnterAssignmentNameDialog(this);
         connect(new_dialog, SIGNAL(NameChanged(const QString&)), this, SLOT(NameChanged(const QString&)));
         new_dialog->setModal(true);
         new_dialog->show();
     }
     else {
-        execute_command(new SaveEditableAssignmentCommand(ToJSON(), assignment_name_));
-    }*/
+        net::message<CustomMsgTypes> message;
+        message.header.id = CustomMsgTypes::UPDATE_ASSIGNMENT;
+        message << (int) ui->spinBox_max_score->value();
+        WriteJsonToMsg(ToJSON(), message);
+        message << Client::GetInstance()->GetUser().getUserId() << assignment_.getAssignmentId();
+    }
 }
 
 void AssignmentCreationWindow::NameChanged(const QString& name)

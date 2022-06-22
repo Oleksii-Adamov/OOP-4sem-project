@@ -89,6 +89,6 @@ void AssignmentGUIDirector::BuildFromJSON(const QJsonDocument& json_document,
         }
     }
     if (builder_->IsEditable()) {
-        builder_->ProduceSubmitButton();
+        //builder_->ProduceSubmitButton();
     }
 }

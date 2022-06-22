@@ -61,7 +61,7 @@ void JoinClassroomDialog::JoinRequest()
 {
     net::message<CustomMsgTypes> msg;
     msg.header.id = CustomMsgTypes::JOIN_CLASSROOM_REQUEST;
-    msg << ui->lineEdit_classroom_id->text().toInt() << Client::GetInstance()->GetUser().getUserId();
+    msg << (ID) ui->lineEdit_classroom_id->text().toInt() << (ID) Client::GetInstance()->GetUser().getUserId();
     Client::GetInstance()->Send(msg);
 }
 
