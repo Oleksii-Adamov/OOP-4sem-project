@@ -7,6 +7,7 @@
 #include "../../common_src/Entities/Entities.h"
 #include "../../common_src/studentassignmentsessioninfo.h"
 #include "../../common_src/studentassignmentsessioninfoforteacher.h"
+#include "../../common_src/assignmentsessioninfo.h"
 
 namespace bpt = boost::property_tree;
 
@@ -112,7 +113,7 @@ std::string ParseToJson(
 	std::stringstream text;
 	bpt::ptree json;
 	bpt::ptree array;
-	for (StudentAssignmentSessionInfo object : objects) {
+	for (const StudentAssignmentSessionInfo& object : objects) {
 		bpt::ptree element;
 		auto r =
 			object.student_assignment_session.getStudentAssignmentSessionStatus();
@@ -164,6 +165,46 @@ std::string ParseToJson(
 		array.push_back(bpt::ptree::value_type("", element));
 	}
 	json.put_child("StudentAssignmentSessionInfos", array);
+	bpt::write_json(text, json);
+	
+	return text.str();
+}
+
+std::string ParseToJson(
+	const std::vector<AssignmentSessionInfo>& objects) {
+	std::stringstream text;
+	bpt::ptree json;
+	bpt::ptree array;
+	for (AssignmentSessionInfo object : objects) {
+		bpt::ptree element;
+		
+		element.put("AssignmentSession.assignment_session_id",
+								object.assignment_session.getAssignmentSessionId());
+		element.put("AssignmentSession.classroom_id",
+								object.assignment_session.getClassroomId());
+		element.put("AssignmentSession.assignment_id",
+								object.assignment_session.getAssignmentId());
+		element.put("AssignmentSession.assignment_session_start_date",
+								object.assignment_session.getAssignmentSessionStartDate());
+		element.put("AssignmentSession.assignment_session_end_date",
+								object.assignment_session.getAssignmentSessionEndDate());
+		
+		element.put("Assignment.assignment_id",
+								object.assignment.getAssignmentId());
+		element.put("Assignment.teacher_user_id",
+								object.assignment.getTeacherUserId());
+		element.put("Assignment.assignment_name",
+								object.assignment.getAssignmentName());
+		element.put("Assignment.assignment_creation_date",
+								object.assignment.getAssignmentCreationDate());
+		element.put("Assignment.assignment_data",
+								object.assignment.getAssignmentData());
+		element.put("Assignment.assignment_max_score",
+								object.assignment.getAssignmentMaxScore());
+		
+		array.push_back(bpt::ptree::value_type("", element));
+	}
+	json.put_child("AssignmentSessionInfos", array);
 	bpt::write_json(text, json);
 	
 	return text.str();

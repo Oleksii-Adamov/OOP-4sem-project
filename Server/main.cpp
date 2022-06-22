@@ -78,13 +78,23 @@ void JoinClassroomRequest(
 	// Get user and classroom id
 	msg >> UserId;
 	msg >> ClassroomId;
+	
+	std::pair<bool, bool> JoinUserToClassroomRequest =
+		Database::joinUserToClassroom(UserId, ClassroomId);
 	// if request is success -> send success message
 	// else -> failure
 	net::message<CustomMsgTypes> OutgoingMsg;
-	if (Database::joinUserToClassroom(UserId, ClassroomId))
-		OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_JOIN_CLASSROOM;
-	else
-		OutgoingMsg.header.id = CustomMsgTypes::FAILURE_JOIN_CLASSROOM;
+	if (JoinUserToClassroomRequest.first) {
+		if (JoinUserToClassroomRequest.second)
+			OutgoingMsg.header.id = CustomMsgTypes::SUCCESS_JOIN_CLASSROOM;
+		else
+			OutgoingMsg.header.id = CustomMsgTypes::FAILURE_JOIN_CLASSROOM;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'JOIN_USER_TO_CLASSROOM' RETURNS FALSE");
+	}
+	
 	
 	client->Send(OutgoingMsg);
 }
@@ -555,7 +565,36 @@ void GetAllAssignmentsOfClassroomStudentInfo(
 void GetAllAssignmentsOfClassroomTeacherInfo(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, std::vector<AssignmentSessionInfo>>
+//	selectAllAssignmentsOfClassroomTeacherInfo(ID TeacherUserId, ID ClassroomId);
+	ID TeacherUserId;
+	ID ClassroomId;
 	
+	msg >> TeacherUserId;
+	msg >> ClassroomId;
+	
+	std::pair<bool, std::vector<AssignmentSessionInfo>>
+		AssignmentsOfClassroomTeacherInfo;
+	AssignmentsOfClassroomTeacherInfo =
+		Database::selectAllAssignmentsOfClassroomTeacherInfo(TeacherUserId,
+																												 ClassroomId);
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (AssignmentsOfClassroomTeacherInfo.first) {
+		std::string text = ParseToJson(AssignmentsOfClassroomTeacherInfo.second);
+		uint64_t size = text.size();
+		
+		OutgoingMsg.header.id =
+			CustomMsgTypes::RETURN_ALL_ASSIGNMENTS_OF_CLASSROOM_TEACHER_INFO;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'SELECT_ALL_ASSIGNMENTS_OF_CLASSROOM_TEACHER_INFO' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
 }
 
 

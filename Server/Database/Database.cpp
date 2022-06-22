@@ -101,6 +101,30 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
     return {true, res};
 }
 
+std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIsStudent(ID UserId)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    std::string script = "SELECT ClassroomID, TeacherUserID, ClassroomName\n"
+                         "FROM 'Classroom' INNER JOIN 'Student_Classroom' ON (Classroom.ClassroomID = Student_Classroom.ClassroomID)\n"
+                         "WHERE (Student_Classroom.StudentUserID = '" + std::to_string(UserId) + "');";
+    auto commandResFull = db->execSelect(script, 3);
+    delete db;
+    if(!commandResFull.first)
+        return {false, {}};
+    const auto& commandRes = commandResFull.second;
+
+    std::vector<Classroom> res;
+    Classroom currRes;
+    for(size_t i=0; i<commandRes[0].size(); i++)
+    {
+        currRes.setClassroomId(std::stoull(commandRes[0][i]));
+        currRes.setTeacherUserId(std::stoull(commandRes[1][i]));
+        currRes.setName(commandRes[2][i]);
+        res.push_back(currRes);
+    }
+    return {true, res};
+}
+
 std::pair<bool, std::vector<StudentAssignmentSessionInfo>> Database::selectAllAssignmentsOfClassroomStudentInfo(ID StudentUserId, ID ClassroomId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
@@ -216,7 +240,7 @@ std::pair<bool, std::vector<Assignment>> Database::selectAllAssignmentUserCreate
     return {true, res};
 }
 
-bool Database::joinUserToClassroom(ID UserId, ID ClassroomId)
+std::pair<bool, bool> Database::joinUserToClassroom(ID UserId, ID ClassroomId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
     std::string script1 = "SELECT Student_Classroom.ClassroomId\n"
@@ -227,42 +251,59 @@ bool Database::joinUserToClassroom(ID UserId, ID ClassroomId)
     if(!commandResFull1.first)
     {
         delete db;
-        return false;
+        return {false, false};
     }
     if(!commandResFull1.second[0].empty())
     {
         delete db;
-        return true;
+        return {true, false};
     }
+
+    std::string script2 = "SELECT Classroom.ClassroomId\n"
+                          "FROM 'Classroom'\n"
+                          "WHERE (TeacherUserID = '" + std::to_string(UserId)
+                          + "' and ClassroomID = '" + std::to_string(ClassroomId) + "');";
+    auto commandResFull2 = db->execSelect(script2, 1);
+    if(!commandResFull2.first)
+    {
+        delete db;
+        return {false, false};
+    }
+    if(!commandResFull2.second[0].empty())
+    {
+        delete db;
+        return {true, false};
+    }
+
     auto flag = db->execInsert("Student_Classroom", {"ClassroomID", "StudentUserID"},
                                {std::to_string(ClassroomId), std::to_string(UserId)});
     if(!flag)
     {
         delete db;
-        return false;
+        return {false, false};
     }
 
-    std::string script2 = "SELECT AssignmentSession.AssignmentSessionID\n"
+    std::string script3 = "SELECT AssignmentSession.AssignmentSessionID\n"
                           "FROM 'AssignmentSession'\n"
                           "WHERE (ClassroomID = '" + std::to_string(ClassroomId) + "');";
-    auto commandResFull2 = db->execSelect(script2, 1);
-    if(!commandResFull2.first)
+    auto commandResFull3 = db->execSelect(script3, 1);
+    if(!commandResFull3.first)
     {
         delete db;
-        return false;
+        return {false, false};
     }
-    for(auto& currAssignmentSessionID : commandResFull2.second[0])
+    for(auto& currAssignmentSessionID : commandResFull3.second[0])
     {
         if(!db->execInsert("Student_AssignmentSession", {"StudentUserID", "AssignmentSessionID", "StudentAssignmentSessionStatus",
-                                     "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore", "StudentAssignmentSessionFinishDate"},
+                                 "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore", "StudentAssignmentSessionFinishDate"},
                            {std::to_string(UserId), currAssignmentSessionID, "0", "", "0", "0"}))
         {
             delete db;
-            return false;
+            return {false, false};
         }
     }
     delete db;
-    return true;
+    return {true, true};
 }
 
 bool Database::createNewClassroom(ID TeacherUserId, const std::string& ClassroomName)
@@ -475,7 +516,7 @@ bool Database::sendAssignmentToClassroom(ID AssignmentId, ID ClassroomId, const 
     for(auto& student : commandRes[0])
     {
         if(!db->execInsert("Student_AssignmentSession", {"StudentUserID", "AssignmentSessionID", "StudentAssignmentSessionStatus",
-                                     "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore", "StudentAssignmentSessionFinishDate"},
+                                                         "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore", "StudentAssignmentSessionFinishDate"},
                            {student, std::to_string(lastIdResult.second), "0", "", "0", "0"}))
         {
             delete db;
