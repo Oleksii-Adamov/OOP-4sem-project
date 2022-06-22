@@ -21,6 +21,9 @@ public:
 public slots:
     void OnStudentAssignmentClicked(const QModelIndex& student_assignment);
     void Update(net::message<CustomMsgTypes> msg) override;
+private slots:
+    void on_actionUpdate_triggered();
+
 private:
     Ui::StudentAssignmentSessionsWindow *ui;
     QSharedPointer<StudentAssignmentSessionsForTeacherListModel> student_assignments_list_model;

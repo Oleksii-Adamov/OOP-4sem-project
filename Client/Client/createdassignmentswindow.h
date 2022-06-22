@@ -24,6 +24,8 @@ public slots:
 private slots:
     void on_pushButton_create_new_clicked();
 
+    void on_actionUpdate_triggered();
+
 private:
     Ui::CreatedAssignmentsWindow *ui;
     QSharedPointer<AssignmentsListModel> assignments_list_model;

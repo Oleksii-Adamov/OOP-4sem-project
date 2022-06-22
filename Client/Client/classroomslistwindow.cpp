@@ -90,6 +90,7 @@ void ClassroomsListWindow::GetStudentClassroomsData()
 {
     net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::GET_STUDENT_CLASSROOMS;
+    message << Client::GetInstance()->GetUser().getUserId();
     Client::GetInstance()->Send(message);
 }
 void ClassroomsListWindow::GetTeacherClassroomsData()

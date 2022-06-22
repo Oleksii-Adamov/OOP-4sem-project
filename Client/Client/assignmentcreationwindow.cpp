@@ -247,6 +247,7 @@ void AssignmentCreationWindow::OnSaveButtonClicked()
         message << (int32_t) ui->spinBox_max_score->value();
         WriteJsonToMsg(ToJSON(), message);
         message << Client::GetInstance()->GetUser().getUserId() << assignment_.getAssignmentId();
+        Client::GetInstance()->Send(message);
     }
 }
 
@@ -270,7 +271,7 @@ void AssignmentCreationWindow::NameChanged(const QString& name)
     WriteJsonToMsg(ToJSON(), message);
     WriteQStringToMsg(name, message);
     message << Client::GetInstance()->GetUser().getUserId();
-
+    Client::GetInstance()->Send(message);
 }
 void AssignmentCreationWindow::FromJSON(const QJsonDocument& json_doc)
 {
