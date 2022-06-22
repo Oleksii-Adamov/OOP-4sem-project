@@ -73,22 +73,6 @@ void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
         msg >> id;
         login = GetStringFromMsg(msg);
         user_name = GetStringFromMsg(msg);
-        /*uint32_t login_size;
-        msg >> login_size;
-        for (uint32_t i = 0; i < login_size; i++)
-        {
-            char c;
-            msg >> c;
-            login = c + login;
-        }
-        uint32_t user_name_size;
-        msg >> user_name_size;
-        for (uint32_t i = 0; i < user_name_size; i++)
-        {
-            char c;
-            msg >> c;
-            user_name = c + user_name;
-        }*/
         Client::GetInstance()->SetUser(User(id,login,user_name));
         is_succesuful_ = true;
         this->close();
