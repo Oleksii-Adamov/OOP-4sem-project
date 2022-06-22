@@ -47,7 +47,7 @@ bool Database::createNewUser(const User& NewUser, const std::string& password)
 std::pair<bool, User> Database::checkLogIn(const std::string& login, const std::string& password)
 {
     DatabaseOperation* db = new SQLiteAdapter();
-    std::string script1 = "SELECT (User.UserID, User.Login, User.UserName)\n"
+    std::string script1 = "SELECT User.UserID, User.Login, User.UserName\n"
                           "FROM 'User'\n"
                           "WHERE (User.Login = '" + login + "');";
     auto commandResFull1 = db->execSelect(script1, 3);
@@ -216,7 +216,7 @@ std::pair<bool, Assignment> Database::getAssignmentWithoutData(ID AssignmentId)
                          "Assignment.AssignmentCreationDate, Assignment.AssignmentMaxScore\n"
                          "FROM 'Assignment'\n"
                          "WHERE (Assignment.AssignmentID = '" + std::to_string(AssignmentId) + "');";
-    auto commandResFull = db->execSelect(script, 1);
+    auto commandResFull = db->execSelect(script, 5);
     delete db;
     if(!commandResFull.first)
         return {false, Assignment()};
@@ -323,4 +323,39 @@ std::pair<bool, Assignment> Database::updateAssignment(const Assignment& Updated
     }
     // There are assignment sessions, can't be updated - cloning
     return Database::createNewAssignment(UpdatedInfo);
+}
+
+bool Database::sendAssignmentToClassroom(ID AssignmentId, ID ClassroomId, const std::string& EndDate)
+{
+    DatabaseOperation* db = new SQLiteAdapter();
+    auto flag = db->execInsert("AssignmentSession", {"ClassroomID", "AssignmentID", "AssignmentSessionFinishDate"},
+                               {std::to_string(ClassroomId), std::to_string(AssignmentId), EndDate});
+    auto lastIdResult = db->getLastTableID("AssignmentSession", "AssignmentSessionID");
+    if(!flag || !lastIdResult.first)
+    {
+        delete db;
+        return false;
+    }
+    std::string script = "SELECT StudentUserID\n"
+                         "FROM 'Student_Classroom'\n"
+                         "WHERE (Student_Classroom.ClassroomID = '" + std::to_string(ClassroomId) + "');";
+    auto commandResFull = db->execSelect(script, 1);
+    if(!commandResFull.first)
+    {
+        delete db;
+        return false;
+    }
+    const auto& commandRes = commandResFull.second;
+    for(auto& student : commandRes[0])
+    {
+        if(!db->execInsert("Student_AssignmentSession", {"StudentUserID", "AssignmentSessionID", "StudentAssignmentSessionStatus",
+                                     "StudentAssignmentSessionAnswer", "StudentAssignmentSessionScore", "StudentAssignmentSessionFinishDate"},
+                           {student, std::to_string(lastIdResult.second), "0", "", "0", "0"}))
+        {
+            delete db;
+            return false;
+        }
+    }
+    delete db;
+    return true;
 }

@@ -34,7 +34,7 @@ public:
     //! Returns all Assignments created by the User
     static std::pair<bool, std::vector<Assignment>> selectAllAssignmentUserCreated(ID UserId);
 
-    //! Joins User to Classroom as a student
+    //!? Joins User to Classroom as a student
     static bool joinUserToClassroom(ID UserId, ID ClassroomId);
 
     //! Creates a new Classroom with a specific name
@@ -90,6 +90,9 @@ public:
      * Returns inserted Assignment without assignment_data_ (equals "") as the second parameter of pair
      */
     static std::pair<bool, Assignment> updateAssignment(const Assignment& UpdatedInfo);
+
+    //! Sends Assignment to the Classroom
+    static bool sendAssignmentToClassroom(ID AssignmentId, ID ClassroomId, const std::string& EndDate);
 };
 
 
