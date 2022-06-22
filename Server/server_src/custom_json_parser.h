@@ -8,6 +8,7 @@
 #include "../../common_src/studentassignmentsessioninfo.h"
 #include "../../common_src/studentassignmentsessioninfoforteacher.h"
 #include "../../common_src/assignmentsessioninfo.h"
+#include "../../common_src/classroominfo.h"
 
 namespace bpt = boost::property_tree;
 
@@ -175,7 +176,7 @@ std::string ParseToJson(
 	std::stringstream text;
 	bpt::ptree json;
 	bpt::ptree array;
-	for (AssignmentSessionInfo object : objects) {
+	for (const AssignmentSessionInfo& object : objects) {
 		bpt::ptree element;
 		
 		element.put("AssignmentSession.assignment_session_id",
@@ -205,6 +206,32 @@ std::string ParseToJson(
 		array.push_back(bpt::ptree::value_type("", element));
 	}
 	json.put_child("AssignmentSessionInfos", array);
+	bpt::write_json(text, json);
+	
+	return text.str();
+}
+
+std::string ParseToJson(const std::vector<ClassroomInfo>& ClassroomsInfos) {
+	std::stringstream text;
+	bpt::ptree json;
+	bpt::ptree array;
+	for (const ClassroomInfo& ClassroomInfo : ClassroomsInfos) {
+		bpt::ptree element;
+		
+		element.put("Classroom.classroom_id",
+								ClassroomInfo.classroom.getClassroomId());
+		element.put("Classroom.teacher_user_id",
+								ClassroomInfo.classroom.getTeacherUserId());
+		element.put("Classroom.name",
+								ClassroomInfo.classroom.getName());
+
+		element.put("User.user_id", ClassroomInfo.teacher.getUserId());
+		element.put("User.login", ClassroomInfo.teacher.getLogin());
+		element.put("User.user_name", ClassroomInfo.teacher.getUserName());
+		
+		array.push_back(bpt::ptree::value_type("", element));
+	}
+	json.put_child("ClassroomInfos", array);
 	bpt::write_json(text, json);
 	
 	return text.str();
