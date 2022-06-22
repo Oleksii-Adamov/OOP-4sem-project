@@ -106,3 +106,65 @@ std::string ParseToJson(const Assignment& assignment) {
 	bpt::write_json(text, json);
 	return text.str();
 }
+
+std::string ParseToJson(
+	const std::vector<StudentAssignmentSessionInfo>& objects) {
+	std::stringstream text;
+	bpt::ptree json;
+	bpt::ptree array;
+	for (StudentAssignmentSessionInfo object : objects) {
+		bpt::ptree element;
+		auto r =
+			object.student_assignment_session.getStudentAssignmentSessionStatus();
+		std::string status;
+		if (r == StudentAssignmentSessionStatus::checked)
+			status = "checked";
+		else if (r == StudentAssignmentSessionStatus::not_submitted)
+			status = "not_submitted";
+		else if (r == StudentAssignmentSessionStatus::submitted)
+			status = "submitted";
+		
+		element.put("StudentAssignmentSession.student_user_id",
+								object.student_assignment_session.getStudentUserId());
+		element.put("StudentAssignmentSession.assignment_session_id",
+								object.student_assignment_session.getAssignmentSessionId());
+		element.put("StudentAssignmentSession.student_assignment_session_status",
+								status);
+		element.put("StudentAssignmentSession.student_assignment_session_answer",
+				object.student_assignment_session.getStudentAssignmentSessionAnswer());
+		element.put("StudentAssignmentSession.student_assignment_session_score",
+					object.student_assignment_session.getStudentAssignmentSessionScore());
+		element.put("StudentAssignmentSession.student_assignment_session_finish_date",
+		object.student_assignment_session.getStudentAssignmentSessionFinishDate());
+		
+		element.put("AssignmentSession.assignment_session_id",
+								object.assignment_session.getAssignmentSessionId());
+		element.put("AssignmentSession.classroom_id",
+								object.assignment_session.getClassroomId());
+		element.put("AssignmentSession.assignment_id",
+								object.assignment_session.getAssignmentId());
+		element.put("AssignmentSession.assignment_session_start_date",
+								object.assignment_session.getAssignmentSessionStartDate());
+		element.put("AssignmentSession.assignment_session_end_date",
+								object.assignment_session.getAssignmentSessionEndDate());
+		
+		element.put("Assignment.assignment_id",
+								object.assignment.getAssignmentId());
+		element.put("Assignment.teacher_user_id",
+								object.assignment.getTeacherUserId());
+		element.put("Assignment.assignment_name",
+								object.assignment.getAssignmentName());
+		element.put("Assignment.assignment_creation_date",
+								object.assignment.getAssignmentCreationDate());
+		element.put("Assignment.assignment_data",
+								object.assignment.getAssignmentData());
+		element.put("Assignment.assignment_max_score",
+								object.assignment.getAssignmentMaxScore());
+		
+		array.push_back(bpt::ptree::value_type("", element));
+	}
+	json.put_child("StudentAssignmentSessionInfos", array);
+	bpt::write_json(text, json);
+	
+	return text.str();
+}
