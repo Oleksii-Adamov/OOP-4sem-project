@@ -766,6 +766,7 @@ protected:
 				break;
 			
 			case CustomMsgTypes::GET_ALL_ASSIGNMENTS_OF_CLASSROOM_TEACHER_INFO:
+				GetAllAssignmentsOfClassroomTeacherInfo(client, msg);
 				break;
 		}
 	}
