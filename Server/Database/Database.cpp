@@ -104,7 +104,7 @@ std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIs
 std::pair<bool, std::vector<Classroom>> Database::selectAllClassroomsWhereUserIsStudent(ID UserId)
 {
     DatabaseOperation* db = new SQLiteAdapter();
-    std::string script = "SELECT ClassroomID, TeacherUserID, ClassroomName\n"
+    std::string script = "SELECT Classroom.ClassroomID, Classroom.TeacherUserID, Classroom.ClassroomName\n"
                          "FROM 'Classroom' INNER JOIN 'Student_Classroom' ON (Classroom.ClassroomID = Student_Classroom.ClassroomID)\n"
                          "WHERE (Student_Classroom.StudentUserID = '" + std::to_string(UserId) + "');";
     auto commandResFull = db->execSelect(script, 3);
