@@ -59,32 +59,38 @@ void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
         for (int i = 0; i < classrooms.size(); i++)
         {
             QJsonObject classroom_object = classrooms.at(i).toObject();
-            classrooms_list_as_teacher_model_->PushBack(Classroom(classroom_object.take("classroom_id").toInt(),
-                                         classroom_object.take("teacher_user_id").toInt(),
+            classrooms_list_as_teacher_model_->PushBack(Classroom(classroom_object.take("classroom_id").toString().toULongLong(),
+                                         classroom_object.take("teacher_user_id").toString().toULongLong(),
                                          classroom_object.take("name").toString().toStdString()));
         }
     }
     if (msg.header.id == CustomMsgTypes::RETURN_STUDENT_CLASSROOMS)
     {
-        //classrooms_list_as_student_model_->Clear();
-        /*QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        classrooms_list_as_student_model_->Clear();
+        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
         QJsonObject json_doc_obj = json_doc.object();
-        QJsonArray classrooms =  json_doc_obj.take("Classrooms").toArray();
-        for (int i = 0; i < classrooms.size(); i++)
+        QJsonArray classroominfos =  json_doc_obj.take("ClassroomInfos").toArray();
+        for (int i = 0; i < classroominfos.size(); i++)
         {
-            QJsonObject classroom_object = classrooms.at(i).toObject();
-            classrooms_list_as_teacher_model_->PushBack(Classroom(classroom_object.take("classroom_id").toInt(),
-                                         classroom_object.take("teacher_user_id").toInt(),
-                                         classroom_object.take("name").toString().toStdString()));
-        }*/
+            QJsonObject classroominfos_object = classroominfos.at(i).toObject();
+            QJsonObject classroom_object = classroominfos_object.take("Classroom").toObject();
+            Classroom classroom(classroom_object.take("classroom_id").toString().toULongLong(),
+                                classroom_object.take("teacher_user_id").toString().toULongLong(),
+                                classroom_object.take("name").toString().toStdString());
+            QJsonObject teacher_object = classroominfos_object.take("Teacher").toObject();
+            User teacher(teacher_object.take("user_id").toString().toULongLong(),
+                         teacher_object.take("login").toString().toStdString(),
+                         teacher_object.take("user_name").toString().toStdString());
+            classrooms_list_as_student_model_->PushBack(ClassroomInfo(classroom, teacher));
+        }
     }
 }
 
 void ClassroomsListWindow::GetStudentClassroomsData()
 {
-/*    net::message<CustomMsgTypes> message;
+    net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::GET_STUDENT_CLASSROOMS;
-    Client::GetInstance()->Send(message);*/
+    Client::GetInstance()->Send(message);
 }
 void ClassroomsListWindow::GetTeacherClassroomsData()
 {

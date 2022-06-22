@@ -24,3 +24,8 @@ void ClassroomWindowTeacherStrategy::Update(net::message<CustomMsgTypes>& msg, Q
     AssignmentSessionsListModel* student_assignment_sessions_model = qobject_cast<AssignmentSessionsListModel*>(model.data());
     student_assignment_sessions_model->PushBack(AssignmentSessionInfo(AssignmentSession(1,1,"19.06.2022 21:42","19.06.2022 21:42"), Assignment(1,1,"name","","",5)));
 }
+
+void ClassroomWindowTeacherStrategy::GetData()
+{
+
+}

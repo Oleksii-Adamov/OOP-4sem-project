@@ -88,11 +88,11 @@ Assignment GetAssignmentFromJson(const QJsonDocument& json_doc)
 {
     QJsonObject json_doc_obj = json_doc.object();
     QJsonObject assignment_obj =  json_doc_obj.take("Assignment").toObject();
-    return Assignment(assignment_obj.take("assignment_id").toInt(), assignment_obj.take("teacher_user_id").toInt(),
+    return Assignment(assignment_obj.take("assignment_id").toString().toULongLong(), assignment_obj.take("teacher_user_id").toString().toUInt(),
                       assignment_obj.take("assignment_name").toString().toStdString(),
                       assignment_obj.take("assignment_creation_date").toString().toStdString(),
                       assignment_obj.take("assignment_data").toString().toStdString(),
-                      assignment_obj.take("assignment_max_score").toString().toInt());
+                      assignment_obj.take("assignment_max_score").toString().toULongLong());
 }
 
 std::string GetStringFromMsg(net::message<CustomMsgTypes>& message)

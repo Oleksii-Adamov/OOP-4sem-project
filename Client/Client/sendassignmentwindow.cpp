@@ -1,6 +1,11 @@
 #include "sendassignmentwindow.h"
 #include "ui_sendassignmentwindow.h"
 #include "font.h"
+#include "client.h"
+#include "jsonfile.h"
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
     QMainWindow(parent), ClientSubscriber(),
@@ -34,7 +39,50 @@ SendAssignmentWindow::SendAssignmentWindow(QWidget *parent) :
 
 void SendAssignmentWindow::Update(net::message<CustomMsgTypes> msg)
 {
+    if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_CLASSROOMS)
+    {
+        classrooms_list_model->Clear();
+        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonArray classrooms =  json_doc_obj.take("Classrooms").toArray();
+        for (int i = 0; i < classrooms.size(); i++)
+        {
+            QJsonObject classroom_object = classrooms.at(i).toObject();
+            classrooms_list_model->PushBack(Classroom(classroom_object.take("classroom_id").toString().toULongLong(),
+                                         classroom_object.take("teacher_user_id").toString().toULongLong(),
+                                         classroom_object.take("name").toString().toStdString()));
+        }
+    }
+    if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_ASSIGNMENTS)
+    {
+        assignments_list_model->Clear();
+        QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
+        QJsonObject json_doc_obj = json_doc.object();
+        QJsonArray assignments =  json_doc_obj.take("Assignments").toArray();
+        for (int i = 0; i < assignments.size(); i++)
+        {
+            QJsonObject assignment_object = assignments.at(i).toObject();
+            assignments_list_model->PushBack(Assignment(assignment_object.take("assignment_id").toString().toULongLong(),
+            assignment_object.take("teacher_user_id").toString().toULongLong(), assignment_object.take("assignment_name").toString().toStdString(),
+            assignment_object.take("assignment_creation_date").toString().toStdString(), "",
+            assignment_object.take("assignment_max_score").toString().toInt()));
+        }
+    }
+}
 
+void SendAssignmentWindow::GetClassroomsData()
+{
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_TEACHER_CLASSROOMS;
+    message << Client::GetInstance()->GetUser().getUserId();
+    Client::GetInstance()->Send(message);
+}
+void SendAssignmentWindow::GetAssignmentsData()
+{
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_TEACHER_ASSIGNMENTS;
+    message << Client::GetInstance()->GetUser().getUserId();
+    Client::GetInstance()->Send(message);
 }
 
 SendAssignmentWindow::~SendAssignmentWindow()

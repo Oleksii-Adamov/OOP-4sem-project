@@ -23,6 +23,8 @@ private:
     Ui::SendAssignmentWindow *ui;
     QSharedPointer<AssignmentsListModel> assignments_list_model;
     QSharedPointer<ClassroomsNameListModel> classrooms_list_model;
+    void GetClassroomsData();
+    void GetAssignmentsData();
 };
 
 #endif // SENDASSIGNMENTWINDOW_H

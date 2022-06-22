@@ -44,10 +44,10 @@ void CreatedAssignmentsWindow::Update(net::message<CustomMsgTypes> msg)
         for (int i = 0; i < assignments.size(); i++)
         {
             QJsonObject assignment_object = assignments.at(i).toObject();
-            assignments_list_model->PushBack(Assignment(assignment_object.take("assignment_id").toInt(),
-            assignment_object.take("teacher_user_id").toInt(), assignment_object.take("assignment_name").toString().toStdString(),
+            assignments_list_model->PushBack(Assignment(assignment_object.take("assignment_id").toString().toULongLong(),
+            assignment_object.take("teacher_user_id").toString().toULongLong(), assignment_object.take("assignment_name").toString().toStdString(),
             assignment_object.take("assignment_creation_date").toString().toStdString(), "",
-            assignment_object.take("assignment_max_score").toInt()));
+            assignment_object.take("assignment_max_score").toString().toInt()));
         }
     }
 }

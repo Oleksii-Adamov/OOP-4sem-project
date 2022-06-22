@@ -71,13 +71,13 @@ void StudentAssignmentSessionsWindow::Update(net::message<CustomMsgTypes> msg)
                 student_assignment_session_status = StudentAssignmentSessionStatus::checked;
             }
             StudentAssignmentSession student_assignment_session(
-                        student_assignment_session_object.take("student_user_id").toInteger(),
-                        student_assignment_session_object.take("assignment_session_id").toInteger(),
+                        student_assignment_session_object.take("student_user_id").toString().toULongLong(),
+                        student_assignment_session_object.take("assignment_session_id").toString().toULongLong(),
                         student_assignment_session_status, "",
-                        student_assignment_session_object.take("student_assignment_session_score").toInt(),
+                        student_assignment_session_object.take("student_assignment_session_score").toString().toInt(),
                         student_assignment_session_object.take("student_assignment_session_finish_date").toString().toStdString());
             QJsonObject student_object = student_assignment_session_info_object.take("User").toObject();
-            User student(student_object.take("user_id").toInteger(),
+            User student(student_object.take("user_id").toString().toULongLong(),
                          student_object.take("login").toString().toStdString(),
                          student_object.take("user_name").toString().toStdString());
             student_assignments_list_model->PushBack(StudentAssignmentSessionInfoForTeacher(student_assignment_session, student));

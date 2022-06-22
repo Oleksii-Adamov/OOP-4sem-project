@@ -51,6 +51,11 @@ void ClassroomWindow::Update(net::message<CustomMsgTypes> msg)
     strategy_->Update(msg, assignments_list_model);
 }
 
+void ClassroomWindow::GetData()
+{
+    strategy_->GetData();
+}
+
 ClassroomWindow::~ClassroomWindow()
 {
 //    Client::GetInstance()->UnSubscribe(this);
