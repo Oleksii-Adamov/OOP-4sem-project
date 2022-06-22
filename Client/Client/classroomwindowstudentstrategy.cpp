@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "client.h"
 
 ClassroomWindowStudentStrategy::ClassroomWindowStudentStrategy()
 {
@@ -25,7 +26,7 @@ void ClassroomWindowStudentStrategy::SetModel(QSharedPointer<QAbstractListModel>
 
 void ClassroomWindowStudentStrategy::Update(net::message<CustomMsgTypes>& msg, QSharedPointer<QAbstractListModel>& model)
 {
-    if (1) {
+    if (msg.header.id == CustomMsgTypes::RETURN_ALL_ASSIGNMENTS_OF_CLASSROOM_STUDENT_INFO) {
     StudentAssignmentSessionsListModel* student_assignment_sessions_model = qobject_cast<StudentAssignmentSessionsListModel*>(model.data());
     //student_assignment_sessions_model->PushBack(StudentAssignmentSessionInfo(StudentAssignmentSession(1,1,StudentAssignmentSessionStatus::not_submitted, "", 0, ""),
      student_assignment_sessions_model->Clear();
@@ -38,12 +39,18 @@ void ClassroomWindowStudentStrategy::Update(net::message<CustomMsgTypes>& msg, Q
          QJsonObject student_assignment_session_object = info_object.take("StudentAssignmentSession").toObject();
          QJsonObject assignment_session_obj = info_object.take("AssignmentSession").toObject();
          QJsonObject assignment_obj = info_object.take("Assignment").toObject();
-          Assignment assignment = GetAssignmentFromJson(assignment_obj);
+         Assignment assignment = GetAssignmentFromJson(assignment_obj);
+         AssignmentSession assignment_session = GetAssignmentSessionFromJson(assignment_session_obj);
+         StudentAssignmentSession student_assignment_session = GetStudentAssignmentSessionFromJson(student_assignment_session_object);
+        student_assignment_sessions_model->PushBack(StudentAssignmentSessionInfo(student_assignment_session,assignment_session, assignment));
      }
     }
 }
 
-void ClassroomWindowStudentStrategy::GetData()
+void ClassroomWindowStudentStrategy::GetData(const ClassroomInfo& classroom_info)
 {
-
+    net::message<CustomMsgTypes> message;
+    message.header.id = CustomMsgTypes::GET_ALL_ASSIGNMENTS_OF_CLASSROOM_STUDENT_INFO;
+    message << classroom_info.classroom.getClassroomId() << Client::GetInstance()->GetUser().getUserId();
+    Client::GetInstance()->Send(message);
 }

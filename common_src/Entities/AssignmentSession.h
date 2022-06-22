@@ -12,9 +12,9 @@ class AssignmentSession : Entity
     DATETIME assignment_session_end_date_ = "";
 public:
     AssignmentSession(){};
-    AssignmentSession(const ID& assignment_session_id, const ID& assignment_id,
+    AssignmentSession(const ID& assignment_session_id, const ID& classroom_id, const ID& assignment_id,
                       const DATETIME& assignment_session_start_date, const DATETIME& assignment_session_end_date) :
-                                  assignment_session_id_(assignment_session_id), assignment_id_(assignment_id),
+                                  assignment_session_id_(assignment_session_id), classroom_id_(classroom_id), assignment_id_(assignment_id),
                                   assignment_session_start_date_(assignment_session_start_date), assignment_session_end_date_(assignment_session_end_date) {};
     void setAssignmentSessionId(const ID& assignment_session_id)
     {

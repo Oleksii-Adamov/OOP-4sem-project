@@ -53,7 +53,7 @@ void ClassroomWindow::Update(net::message<CustomMsgTypes> msg)
 
 void ClassroomWindow::GetData()
 {
-    strategy_->GetData();
+    strategy_->GetData(classroom_info_);
 }
 
 ClassroomWindow::~ClassroomWindow()

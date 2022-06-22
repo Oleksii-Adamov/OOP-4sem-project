@@ -84,9 +84,10 @@ void WriteJsonToMsg(const QJsonDocument& json_doc, net::message<CustomMsgTypes>&
     WriteQStringToMsg(json_doc.toJson(), message);
 }
 
-Assignment GetAssignmentFromJson(const QJsonDocument& json_doc)
+Assignment GetAssignmentFromJson(QJsonDocument json_doc)
 {
-   GetAssignmentFromJson(json_doc.object());
+   QJsonObject obj = json_doc.object();
+   GetAssignmentFromJson(obj);
 }
 
 Assignment GetAssignmentFromJson(QJsonObject& json_obj)
@@ -103,7 +104,7 @@ AssignmentSession GetAssignmentSessionFromJson(QJsonObject& json_obj)
 {
     QJsonObject assignment_obj =  json_obj.take("AssignmentSession").toObject();
     return AssignmentSession(assignment_obj.take("assignment_session_id").toString().toULongLong(), assignment_obj.take("classroom_id").toString().toULongLong(),
-                      assignment_obj.take("assignment_id").toString().toStdString().toULongLong(),
+                      assignment_obj.take("assignment_id").toString().toULongLong(),
                       assignment_obj.take("assignment_session_start_date").toString().toStdString(),
                       assignment_obj.take("assignment_session_end_date").toString().toStdString());
 }
