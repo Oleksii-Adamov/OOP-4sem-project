@@ -597,6 +597,35 @@ void GetAllAssignmentsOfClassroomTeacherInfo(
 	client->Send(OutgoingMsg);
 }
 
+void GetStudentClassrooms(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, std::vector<Classroom>> selectAllClassroomsWhereUserIsStudent(ID UserId);
+	ID UserId;
+	
+	msg >> UserId;
+	
+	std::pair<bool, std::vector<Classroom>> classrooms;
+	classrooms = Database::selectAllClassroomsWhereUserIsStudent(UserId);
+	
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (classrooms.first) {
+		std::string text = ParseToJson(classrooms.second);
+		uint64_t size = text.size();
+		
+		OutgoingMsg.header.id = CustomMsgTypes::RETURN_STUDENT_CLASSROOMS;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'SELECT_ALL_CLASSROOMS_WHERE_USER_IS_STUDENT' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
+}
+
 
 
 
@@ -660,6 +689,10 @@ protected:
 			
 			case CustomMsgTypes::GET_TEACHER_CLASSROOMS:
 				GetTeacherClassrooms(client, msg);
+				break;
+				
+			case CustomMsgTypes::GET_STUDENT_CLASSROOMS:
+				GetStudentClassrooms(client, msg);
 				break;
 				
 			case CustomMsgTypes::GET_TEACHER_ASSIGNMENTS:
