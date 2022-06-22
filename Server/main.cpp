@@ -334,6 +334,7 @@ void SubmitStudentAssignment(
 	
 	msg >> StudentUserId;
 	msg >> AssignmentSessionId;
+	
 	msg >> sizeStudentAssignmentSessionAnswer;
 	for (uint64_t i = 0; i < sizeStudentAssignmentSessionAnswer; i++) {
 		char c;
@@ -363,7 +364,7 @@ void EvaluateStudentAssignment(
 //	static bool evaluateStudentAssignmentSession(const StudentAssignmentSession& UpdatedInfo);
 	ID StudentUserId;
 	ID AssignmentSessionId;
-	int StudentAssignmentSessionScore;
+	int32_t StudentAssignmentSessionScore;
 	
 	StudentAssignmentSession UpdatedInfo;
 	
@@ -395,12 +396,14 @@ void UpdateAssignment(
 	ID TeacherUserId;
 	uint64_t sizeAssignmentData;
 	std::string AssignmentData;
+	int32_t AssignmentMaxScore;
 	
 	Assignment UpdatedInfo;
 	std::pair<bool, Assignment> assignment;
 	
 	msg >> AssignmentId;
 	msg >> TeacherUserId;
+	
 	msg >> sizeAssignmentData;
 	for (uint64_t i = 0; i < sizeAssignmentData; i++) {
 		char c;
@@ -408,9 +411,12 @@ void UpdateAssignment(
 		AssignmentData = c + AssignmentData;
 	}
 	
+	msg >> AssignmentMaxScore;
+	
 	UpdatedInfo.setAssignmentId(AssignmentId);
 	UpdatedInfo.setTeacherUserId(TeacherUserId);
 	UpdatedInfo.setAssignmentData(AssignmentData);
+	UpdatedInfo.setAssignmentMaxScore(AssignmentMaxScore);
 	
 	assignment = Database::updateAssignment(UpdatedInfo);
 	
@@ -440,6 +446,7 @@ void CreateNewAssignmentRequest(
 	std::string AssignmentName;
 	uint64_t sizeAssignmentData;
 	std::string AssignmentData;
+	int32_t AssignmentMaxScore;
 	
 	Assignment NewAssignment;
 	std::pair<bool, Assignment> assignment;
@@ -460,9 +467,12 @@ void CreateNewAssignmentRequest(
 		AssignmentData = c + AssignmentData;
 	}
 	
+	msg >> AssignmentMaxScore;
+	
 	NewAssignment.setTeacherUserId(TeacherUserId);
 	NewAssignment.setAssignmentName(AssignmentName);
 	NewAssignment.setAssignmentData(AssignmentData);
+	NewAssignment.setAssignmentMaxScore(AssignmentMaxScore);
 	
 	assignment = Database::createNewAssignment(NewAssignment);
 	net::message<CustomMsgTypes> OutgoingMsg;
@@ -474,7 +484,7 @@ void CreateNewAssignmentRequest(
 		for (char c : text)
 			OutgoingMsg << c;
 		OutgoingMsg << size;
-	} else {	
+	} else {
 		OutgoingMsg.header.id = CustomMsgTypes::FAILURE_CREATE_NEW_ASSIGNMENT;
 	}
 	
