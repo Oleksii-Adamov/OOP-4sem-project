@@ -521,7 +521,35 @@ void SendAssignmentToClassroomRequest(
 void GetAllAssignmentsOfClassroomStudentInfo(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
+	ID StudentUserId;
+	ID ClassroomId;
+//	static std::pair<bool, std::vector<StudentAssignmentSessionInfo>>
+//	selectAllAssignmentsOfClassroomStudentInfo(ID StudentUserId, ID ClassroomId);
+	msg >> StudentUserId;
+	msg >> ClassroomId;
 	
+	std::pair<bool, std::vector<StudentAssignmentSessionInfo>>
+		AssignmentsOfClassroomStudentInfo;
+	AssignmentsOfClassroomStudentInfo =
+		Database::selectAllAssignmentsOfClassroomStudentInfo(StudentUserId,
+																												 ClassroomId);
+	net::message<CustomMsgTypes> OutgoingMsg;
+	if (AssignmentsOfClassroomStudentInfo.first) {
+		std::string text = ParseToJson(AssignmentsOfClassroomStudentInfo.second);
+		uint64_t size = text.size();
+		
+		OutgoingMsg.header.id =
+			CustomMsgTypes::RETURN_ALL_ASSIGNMENTS_OF_CLASSROOM_STUDENT_INFO;
+		for (char c : text)
+			OutgoingMsg << c;
+		OutgoingMsg << size;
+	} else {
+		OutgoingMsg.header.id = CustomMsgTypes::ERROR_DATABASE;
+		DatabaseLog::error(
+		"SQL REQUEST 'SELECT_ALL_ASSIGNMENTS_OF_CLASSROOM_STUDENT_INFO' RETURNS FALSE");
+	}
+	
+	client->Send(OutgoingMsg);
 }
 
 void GetAllAssignmentsOfClassroomTeacherInfo(
@@ -529,6 +557,8 @@ void GetAllAssignmentsOfClassroomTeacherInfo(
 	net::message<CustomMsgTypes>& msg) {
 	
 }
+
+
 
 
 class CustomServer : public net::server_interface<CustomMsgTypes> {
@@ -646,6 +676,7 @@ protected:
 				break;
 				
 			case CustomMsgTypes::GET_ALL_ASSIGNMENTS_OF_CLASSROOM_STUDENT_INFO:
+				GetAllAssignmentsOfClassroomStudentInfo(client, msg);
 				break;
 			
 			case CustomMsgTypes::GET_ALL_ASSIGNMENTS_OF_CLASSROOM_TEACHER_INFO:
