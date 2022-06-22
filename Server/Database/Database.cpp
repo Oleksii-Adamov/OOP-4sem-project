@@ -70,8 +70,8 @@ std::pair<bool, User> Database::checkLogIn(const std::string& login, const std::
     {
         User result;
         result.setUserId(std::stoull(commandResFull1.second[0][0]));
-        result.setLogin(commandResFull1.second[0][1]);
-        result.setUserName(commandResFull1.second[0][2]);
+        result.setLogin(commandResFull1.second[1][0]);
+        result.setUserName(commandResFull1.second[2][0]);
         return {true, result};
     }
     return {true, User{0,"",""}};
