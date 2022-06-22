@@ -19,8 +19,12 @@ public:
     ~TeacherAssignmentCheckingWindow();
     void Update(net::message<CustomMsgTypes> msg) override;
 
+private slots:
+    void on_pushButton_rate_clicked();
+
 private:
     Ui::TeacherAssignmentCheckingWindow *ui;
+    StudentAssignmentSessionInfoForTeacher student_assignment_session_info_for_teacher_;
 };
 
 #endif // TEACHERASSIGNMENTCHECKINGWINDOW_H

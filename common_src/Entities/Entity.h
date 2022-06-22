@@ -9,8 +9,10 @@
 
 class Entity
 {
+public:
+    Entity() {}
 protected:
-    virtual ~Entity() {};
+    virtual ~Entity() {}
 };
 
 

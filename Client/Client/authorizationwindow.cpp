@@ -77,9 +77,9 @@ void AuthorizationWindow::Update(net::message<CustomMsgTypes> msg)
         is_succesuful_ = true;
         this->close();
     }
-    if (msg.header.id == CustomMsgTypes::FAILURE_CREATE_CLASSROOM)
+    if (msg.header.id == CustomMsgTypes::FAILURE_LOGIN_REQUEST)
     {
-        QMessageBox::critical(this, "Registraion error", "Failed to register. User with this login already exists!");
+        QMessageBox::critical(this, "Login error", "Failed to Log In!");
     }
 }
 

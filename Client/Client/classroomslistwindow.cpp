@@ -37,8 +37,8 @@ ClassroomsListWindow::ClassroomsListWindow(QWidget *parent) :
     connect(ui->classromms_list_view_as_student, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnStudentClassroomClicked(QModelIndex)));
     connect(ui->classromms_list_view_as_teacher, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTeacherClassroomClicked(QModelIndex)));
 
-    classrooms_list_as_student_model_->PushBack(ClassroomInfo(Classroom(2,2,"Probability theory"), User(2, "rozora", "Rozora")));
-    classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
+    //classrooms_list_as_student_model_->PushBack(ClassroomInfo(Classroom(2,2,"Probability theory"), User(2, "rozora", "Rozora")));
+    //classrooms_list_as_teacher_model_->PushBack(Classroom(1, 1, "General algebra"));
     GetStudentClassroomsData();
     GetTeacherClassroomsData();
 
@@ -52,7 +52,7 @@ void ClassroomsListWindow::Update(net::message<CustomMsgTypes> msg)
     ClientSubscriberGui::Update(msg);
     if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_CLASSROOMS)
     {
-        //classrooms_list_as_teacher_model_->Clear();
+        classrooms_list_as_teacher_model_->Clear();
         QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
         QJsonObject json_doc_obj = json_doc.object();
         QJsonArray classrooms =  json_doc_obj.take("Classrooms").toArray();

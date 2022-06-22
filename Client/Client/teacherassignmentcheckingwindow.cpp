@@ -10,7 +10,7 @@
 
 
 TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAssignmentSessionInfoForTeacher& student_assignment_session_info_for_teacher, const Assignment& assignment, QWidget *parent) :
-    QMainWindow(parent), ClientSubscriber(),
+    QMainWindow(parent), ClientSubscriber(), student_assignment_session_info_for_teacher_(student_assignment_session_info_for_teacher),
     ui(new Ui::TeacherAssignmentCheckingWindow)
 {
     ui->setupUi(this);
@@ -52,7 +52,7 @@ TeacherAssignmentCheckingWindow::TeacherAssignmentCheckingWindow(const StudentAs
 }
 
 void TeacherAssignmentCheckingWindow::Update(net::message<CustomMsgTypes> msg)
-{
+{  
 
 }
 
@@ -60,3 +60,11 @@ TeacherAssignmentCheckingWindow::~TeacherAssignmentCheckingWindow()
 {
     delete ui;
 }
+
+void TeacherAssignmentCheckingWindow::on_pushButton_rate_clicked()
+{
+    net::message<CustomMsgTypes> msg;
+    msg.header.id = CustomMsgTypes::EVALUATE_STUDENT_ASSIGNMENT;
+    msg << (int32_t) ui->spinBox_final_score->value() << student_assignment_session_info_for_teacher_.student_assignment_session.getAssignmentSessionId() << student_assignment_session_info_for_teacher_.student.getUserId();
+}
+

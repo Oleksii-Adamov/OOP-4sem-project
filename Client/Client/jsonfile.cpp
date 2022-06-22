@@ -106,4 +106,5 @@ std::string GetStringFromMsg(net::message<CustomMsgTypes>& message)
         message >> c;
         ret = c + ret;
     }
+    return ret;
 }

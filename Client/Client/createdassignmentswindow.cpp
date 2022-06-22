@@ -28,7 +28,7 @@ CreatedAssignmentsWindow::CreatedAssignmentsWindow(QWidget *parent) :
 
     connect(ui->assignments_list_view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnAssignmentClicked(QModelIndex)));
 
-    assignments_list_model->PushBack(Assignment(1,1,"Name","12321","",5));
+    //assignments_list_model->PushBack(Assignment(1,1,"Name","12321","",5));
 
     GetData();
 }
@@ -37,7 +37,7 @@ void CreatedAssignmentsWindow::Update(net::message<CustomMsgTypes> msg)
 {
     if (msg.header.id == CustomMsgTypes::RETURN_TEACHER_ASSIGNMENTS)
     {
-        //assignments_list_model->Clear();
+        assignments_list_model->Clear();
         QJsonDocument json_doc = QJsonDocumentFromServerMessage(msg);
         QJsonObject json_doc_obj = json_doc.object();
         QJsonArray assignments =  json_doc_obj.take("Assignments").toArray();

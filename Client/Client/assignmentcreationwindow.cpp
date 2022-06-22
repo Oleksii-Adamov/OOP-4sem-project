@@ -266,8 +266,8 @@ void AssignmentCreationWindow::NameChanged(const QString& name)
     this->setWindowTitle(QString::fromStdString(assignment_.getAssignmentName()));
     net::message<CustomMsgTypes> message;
     message.header.id = CustomMsgTypes::CREATE_NEW_ASSIGNMENT_REQUEST;
-    WriteJsonToMsg(ToJSON(), message);
     message << (int32_t) ui->spinBox_max_score->value();
+    WriteJsonToMsg(ToJSON(), message);
     WriteQStringToMsg(name, message);
     message << Client::GetInstance()->GetUser().getUserId();
 

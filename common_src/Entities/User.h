@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 
-class User : Entity
+class User/* : Entity*/
 {
     ID user_id_ = 0;
     std::string login_ = "";
