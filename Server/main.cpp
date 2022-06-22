@@ -182,6 +182,8 @@ void GetAllStudentAssignmentSessionAnswers(
 void RegistrationRequest(
 	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
 	net::message<CustomMsgTypes>& msg) {
+	std::cout << " [ " << client->GetID() << " ] "
+						<< "REGISTRATION_REQUEST" << std::endl;
 	uint64_t sizeLogin;
 	std::string login;
 	std::pair<bool, bool> UniqueLogin;
@@ -424,6 +426,15 @@ void UpdateAssignment(
 	client->Send(OutgoingMsg);
 }
 
+void CreateNewAssignmentRequest(
+	const std::shared_ptr<net::connection<CustomMsgTypes>>& client,
+	net::message<CustomMsgTypes>& msg) {
+//	static std::pair<bool, Assignment> createNewAssignment(const Assignment& NewAssignment);
+	ID TeacherUserId;
+	uint64_t sizeAssignmentName;
+	
+}
+
 class CustomServer : public net::server_interface<CustomMsgTypes> {
 public:
 	CustomServer(uint16_t nPort) : net::server_interface<CustomMsgTypes>(nPort) {
@@ -528,6 +539,10 @@ protected:
 				
 			case CustomMsgTypes::UPDATE_ASSIGNMENT:
 				UpdateAssignment(client, msg);
+				break;
+				
+			case CustomMsgTypes::CREATE_NEW_ASSIGNMENT_REQUEST:
+				CreateNewAssignmentRequest(client, msg);
 				break;
 		}
 	}
